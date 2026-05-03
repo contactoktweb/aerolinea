@@ -51,7 +51,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-cormorant), serif;
+  --font-sans: var(--font-montserrat), sans-serif;
   --font-serif: var(--font-cormorant), serif;
   --font-mono: var(--font-cormorant), serif;
   --color-background: var(--background);
@@ -105,7 +105,10 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground leading-relaxed font-serif text-lg md:text-xl font-medium;
+    @apply bg-background text-foreground leading-relaxed font-sans text-base md:text-[1.05rem];
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 
