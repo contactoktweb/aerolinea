@@ -13,8 +13,6 @@ const cormorant = Cormorant_Garamond({
   style: ['italic', 'normal'],
 })
 
-})
-
 export const metadata: Metadata = {
   title: {
     default: 'Aerolínea Santander | Vuelos Privados de Lujo',
