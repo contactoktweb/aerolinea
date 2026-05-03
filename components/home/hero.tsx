@@ -59,7 +59,7 @@ export function Hero() {
           {/* Description */}
           <motion.p 
             variants={slideUp}
-            className="text-pearl/50 text-base md:text-lg max-w-md leading-relaxed font-light mb-12"
+            className="text-pearl/60 text-xl md:text-2xl max-w-lg leading-relaxed mb-12"
           >
             Mas de 25 anos redefiniendo la aviacion ejecutiva con 
             servicios personalizados que superan todas las expectativas.
@@ -69,14 +69,14 @@ export function Hero() {
           <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/reserva"
-              className="group inline-flex items-center justify-center gap-3 bg-champagne text-burgundy-black px-8 py-4 text-sm uppercase tracking-widest font-medium hover:bg-champagne-light transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-3 bg-champagne text-burgundy-black px-10 py-5 text-base uppercase tracking-widest font-semibold hover:bg-champagne-light transition-all duration-300"
             >
               <span>Solicitar Vuelo</span>
-              <Icon icon="ph:arrow-right-light" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Icon icon="ph:arrow-right-light" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/flota"
-              className="group inline-flex items-center justify-center gap-3 border border-pearl/20 text-pearl px-8 py-4 text-sm uppercase tracking-widest font-medium hover:border-champagne/50 hover:text-champagne transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-3 border border-pearl/20 text-pearl px-10 py-5 text-base uppercase tracking-widest font-semibold hover:border-champagne/50 hover:text-champagne transition-all duration-300"
             >
               <span>Nuestra Flota</span>
             </Link>

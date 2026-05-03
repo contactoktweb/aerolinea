@@ -101,7 +101,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
                     className="w-4 h-4 text-champagne"
                   />
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-muted-foreground/90 text-lg leading-relaxed">
                   {service.description}
                 </p>
               </div>
