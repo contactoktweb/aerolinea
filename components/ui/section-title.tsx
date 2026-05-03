@@ -44,7 +44,7 @@ export function SectionTitle({
         {title}
       </h2>
       {description && (
-        <p className="mt-6 text-muted-foreground/80 max-w-2xl mx-auto text-pretty leading-relaxed text-lg md:text-xl">
+        <p className="mt-4 text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
           {description}
         </p>
       )}

@@ -65,7 +65,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'relative text-base font-medium tracking-wide transition-colors animated-underline',
+                    'relative text-sm font-medium tracking-wide transition-colors animated-underline',
                     pathname === link.href
                       ? 'text-champagne'
                       : 'text-pearl/80 hover:text-pearl'
