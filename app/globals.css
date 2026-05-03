@@ -51,7 +51,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-montserrat), sans-serif;
+  --font-sans: var(--font-cormorant), serif;
   --font-serif: var(--font-cormorant), serif;
   --font-mono: var(--font-cormorant), serif;
   --color-background: var(--background);

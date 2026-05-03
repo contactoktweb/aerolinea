@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Montserrat, Playfair_Display } from 'next/font/google'
+import { Cormorant_Garamond } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
@@ -13,19 +13,6 @@ const cormorant = Cormorant_Garamond({
   style: ['italic', 'normal'],
 })
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-montserrat',
-  display: 'swap',
-})
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-playfair',
-  display: 'swap',
-  style: ['italic', 'normal'],
 })
 
 export const metadata: Metadata = {
@@ -71,7 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${cormorant.variable} ${montserrat.variable} bg-background`}
+      className={`${cormorant.variable} bg-background`}
     >
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <Header />
