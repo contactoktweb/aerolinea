@@ -51,9 +51,9 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-bodoni), serif;
-  --font-serif: var(--font-bodoni), serif;
-  --font-mono: var(--font-playfair), serif;
+  --font-sans: var(--font-montserrat), sans-serif;
+  --font-serif: var(--font-cormorant), serif;
+  --font-mono: var(--font-cormorant), serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -105,7 +105,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground leading-relaxed;
+    @apply bg-background text-foreground leading-relaxed font-serif;
   }
 }
 
