@@ -131,6 +131,7 @@ export function BlogContent() {
                       {featuredArticle.excerpt}
                     </p>
                     <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                      <span className="flex items-center gap-2">
                         <Icon icon="ph:calendar-blank-light" className="w-4 h-4" />
                         {featuredArticle.date}
                       </span>
