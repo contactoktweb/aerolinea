@@ -40,7 +40,7 @@ export function SectionTitle({
           {subtitle}
         </span>
       )}
-      <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-pearl text-balance leading-tight">
+      <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-pearl text-balance leading-[1.1] tracking-tight">
         {title}
       </h2>
       {description && (
