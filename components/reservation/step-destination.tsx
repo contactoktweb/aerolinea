@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import { ReservationData } from './reservation-form'
@@ -73,32 +74,36 @@ export function StepDestination({
 
       {/* Trip Type */}
       <div className="flex justify-center gap-4">
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => updateData({ tripType: 'one-way' })}
           className={cn(
-            'px-6 py-3 rounded-full text-sm font-medium transition-all',
+            'px-6 py-3 rounded-full text-sm font-medium transition-all duration-300',
             data.tripType === 'one-way'
-              ? 'bg-champagne text-background'
+              ? 'bg-champagne text-background shadow-[0_0_15px_rgba(212,196,131,0.3)]'
               : 'glass-card text-pearl/70 hover:text-pearl'
           )}
         >
           Solo Ida
-        </button>
-        <button
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => updateData({ tripType: 'round-trip' })}
           className={cn(
-            'px-6 py-3 rounded-full text-sm font-medium transition-all',
+            'px-6 py-3 rounded-full text-sm font-medium transition-all duration-300',
             data.tripType === 'round-trip'
-              ? 'bg-champagne text-background'
+              ? 'bg-champagne text-background shadow-[0_0_15px_rgba(212,196,131,0.3)]'
               : 'glass-card text-pearl/70 hover:text-pearl'
           )}
         >
           Ida y Vuelta
-        </button>
+        </motion.button>
       </div>
 
       {/* Location Inputs */}
-      <GlassCard hover={false} className="p-8">
+      <GlassCard hover={false} className="p-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-4">
           {/* Origin */}
           <div className="flex-1 w-full relative">

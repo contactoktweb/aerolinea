@@ -20,7 +20,7 @@ export function ProgressBar({ currentStep, totalSteps, steps }: ProgressBarProps
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100
 
   return (
-    <div className="fixed top-[72px] left-0 right-0 z-30 bg-background/80 backdrop-blur-xl border-b border-pearl/5">
+    <div className="w-full bg-background/80 backdrop-blur-xl border-b border-pearl/5">
       {/* Thin Progress Line */}
       <div className="h-1 bg-muted relative">
         <motion.div

@@ -103,7 +103,7 @@ const articles = [
     image: '/images/blog/sustainability.jpg',
     featured: false,
     content: `
-      <p>En Aerolínea Santander, entendemos que el futuro de la aviación debe ser sostenible. Por ello, hemos lanzado nuestro programa "Cielos Verdes", una iniciativa integral para reducir nuestra huella ambiental.</p>
+      <p>En Aerolíneas Santander, entendemos que el futuro de la aviación debe ser sostenible. Por ello, hemos lanzado nuestro programa "Cielos Verdes", una iniciativa integral para reducir nuestra huella ambiental.</p>
       
       <h2>Inversión en SAF</h2>
       <p>Estamos incrementando gradualmente el uso de Sustainable Aviation Fuel (SAF) en todas nuestras operaciones, lo que puede reducir las emisiones de ciclo de vida hasta en un 80%.</p>

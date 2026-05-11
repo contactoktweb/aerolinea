@@ -38,9 +38,9 @@ export function Header() {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+          'fixed top-0 left-0 right-0 z-[100] transition-all duration-500',
           isScrolled
-            ? 'bg-background/80 backdrop-blur-xl border-b border-pearl/10 py-3'
+            ? 'bg-background/80 backdrop-blur-xl border-b border-pearl/10 py-0'
             : 'bg-transparent py-6'
         )}
       >
@@ -50,10 +50,10 @@ export function Header() {
             <Link href="/" className="flex items-center group">
               <Image 
                 src="/logo.png" 
-                alt="Aerolínea Santander" 
-                width={180} 
-                height={50} 
-                className="h-10 w-auto object-contain"
+                alt="Aerolíneas Santander" 
+                width={350} 
+                height={100} 
+                className="h-20 md:h-28 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
                 priority
               />
             </Link>

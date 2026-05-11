@@ -1,16 +1,15 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Montserrat } from 'next/font/google'
+import { Cinzel, Montserrat } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import './globals.css'
 
-const cormorant = Cormorant_Garamond({
+const cinzel = Cinzel({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-cormorant',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-cinzel',
   display: 'swap',
-  style: ['italic', 'normal'],
 })
 
 const montserrat = Montserrat({
@@ -22,35 +21,41 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Aerolínea Santander | Vuelos Privados de Lujo',
-    template: '%s | Aerolínea Santander',
+    default: 'Aerolíneas Santander | Vuelos Privados de Lujo',
+    template: '%s | Aerolíneas Santander',
   },
   description:
-    'Servicios de aviación privada VIP en jets de lujo. Vuelos chárter, ambulancia aérea y carga. Experiencia 100% VIP desde Lima, Perú.',
+    'Aerolíneas Santander. Elevando la experiencia de vuelo a través del diseño y la distinción. Líderes en aviación ejecutiva, experiencias de lujo y logística crítica.',
   keywords: [
     'vuelos privados',
     'jets de lujo',
-    'aviación privada',
+    'aviación ejecutiva',
     'vuelos charter',
-    'Lima Perú',
-    'VIP',
-    'ambulancia aérea',
+    'logística de alta fidelidad',
+    'exclusividad',
+    'prestigio',
+    'celeridad'
   ],
-  authors: [{ name: 'Aerolínea Santander' }],
-  creator: 'Aerolínea Santander',
+  authors: [{ name: 'Aerolíneas Santander' }],
+  creator: 'Aerolíneas Santander',
   openGraph: {
     type: 'website',
     locale: 'es_PE',
     url: 'https://aerolineasantander.com',
-    siteName: 'Aerolínea Santander',
-    title: 'Aerolínea Santander | Vuelos Privados de Lujo',
+    siteName: 'Aerolíneas Santander',
+    title: 'Aerolíneas Santander | Vuelos Privados de Lujo',
     description:
-      'Servicios de aviación privada VIP en jets de lujo. Experiencia 100% VIP.',
+      'Elevando la experiencia de vuelo a través del diseño y la distinción.',
+  },
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#6B0F2A',
+  themeColor: '#4A0E0E',
   width: 'device-width',
   initialScale: 1,
 }
@@ -63,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${cormorant.variable} ${montserrat.variable} bg-background`}
+      className={`${cinzel.variable} ${montserrat.variable} bg-background`}
     >
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <Header />

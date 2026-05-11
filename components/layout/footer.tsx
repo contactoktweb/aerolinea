@@ -35,7 +35,7 @@ const contactInfo = [
     title: 'Email',
     value: 'vip@aerolineasantander.com',
     href: 'mailto:vip@aerolineasantander.com',
-    subtitle: 'Respuesta en menos de 1 hora',
+    subtitle: 'Respuesta rapida',
   },
   {
     icon: 'ph:map-pin-light',
@@ -55,7 +55,7 @@ const contactInfo = [
 
 export function Footer() {
   return (
-    <footer className="bg-burgundy-black border-t border-pearl/5">
+    <footer className="bg-background border-t border-pearl/5">
       {/* VIP Contact Section */}
       <div className="border-b border-pearl/5">
         <div className="container mx-auto px-4 lg:px-8 py-16 lg:py-20">
@@ -131,44 +131,35 @@ export function Footer() {
             <Link href="/" className="flex items-center mb-6 group">
               <Image 
                 src="/logo.png" 
-                alt="Aerolínea Santander" 
-                width={180} 
-                height={50} 
-                className="h-12 w-auto object-contain brightness-0 invert"
+                alt="Aerolíneas Santander" 
+                width={280} 
+                height={80} 
+                className="h-20 w-auto object-contain brightness-0 invert transition-transform duration-500 group-hover:scale-105"
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-              Mas de 25 anos brindando servicios de aviacion privada de lujo.
-              Experiencia premium en cada vuelo.
+              Líderes en aviación ejecutiva desde 2008. 
+              Experiencia premium en cada vuelo con los más altos estándares de seguridad.
             </p>
-            <div className="flex items-center gap-3">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-pearl/50 hover:bg-champagne/20 hover:text-champagne transition-all"
-                aria-label="Facebook"
-              >
-                <Icon icon="ph:facebook-logo-light" className="w-5 h-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-pearl/50 hover:bg-champagne/20 hover:text-champagne transition-all"
-                aria-label="Instagram"
-              >
-                <Icon icon="ph:instagram-logo-light" className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-pearl/50 hover:bg-champagne/20 hover:text-champagne transition-all"
-                aria-label="LinkedIn"
-              >
-                <Icon icon="ph:linkedin-logo-light" className="w-5 h-5" />
-              </a>
+            <div className="flex items-center gap-4">
+              {[
+                { icon: 'ph:facebook-logo-light', href: 'https://facebook.com', label: 'Facebook' },
+                { icon: 'ph:instagram-logo-light', href: 'https://instagram.com', label: 'Instagram' },
+                { icon: 'ph:linkedin-logo-light', href: 'https://linkedin.com', label: 'LinkedIn' },
+              ].map((social) => (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="w-12 h-12 rounded-xl bg-champagne/10 border border-champagne/20 flex items-center justify-center text-champagne hover:bg-champagne hover:text-background transition-all duration-300 shadow-lg shadow-champagne/5"
+                  aria-label={social.label}
+                >
+                  <Icon icon={social.icon} className="w-6 h-6" />
+                </motion.a>
+              ))}
             </div>
           </motion.div>
 
@@ -224,11 +215,11 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-pearl/5 bg-burgundy-black">
+      <div className="border-t border-pearl/5 bg-background">
         <div className="container mx-auto px-4 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Aerolinea Santander. Todos los
+              © {new Date().getFullYear()} Aerolíneas Santander. Todos los
               derechos reservados.
             </p>
             <Link 
@@ -237,7 +228,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-pearl transition-colors flex items-center gap-1"
             >
-              Desarrollado por K&T <span className="text-white">❤️</span>
+              Desarrollado por K&T <span className="text-white">🤍</span>
             </Link>
           </div>
         </div>

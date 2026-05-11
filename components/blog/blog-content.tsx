@@ -88,7 +88,7 @@ export function BlogContent() {
   const regularArticles = articles.filter((a) => !a.featured)
 
   return (
-    <article className="pt-32 pb-24 lg:pb-32">
+    <article className="pt-48 lg:pt-56 pb-24 lg:pb-32">
       <div className="container mx-auto px-4 lg:px-8">
         <SectionTitle
           subtitle="Blog"

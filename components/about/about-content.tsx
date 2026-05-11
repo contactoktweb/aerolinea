@@ -15,7 +15,7 @@ import {
 } from '@/lib/animations'
 
 const stats = [
-  { value: 25, suffix: '+', label: 'Años de Experiencia' },
+  { value: 18, suffix: '+', label: 'Años de Experiencia' },
   { value: 15000, suffix: '+', label: 'Vuelos Realizados' },
   { value: 50, suffix: '+', label: 'Destinos Globales' },
   { value: 98, suffix: '%', label: 'Satisfacción' },
@@ -29,7 +29,7 @@ const values = [
       'La seguridad de nuestros pasajeros es nuestra máxima prioridad. Cumplimos con los más altos estándares internacionales de aviación.',
   },
   {
-    icon: 'ph:award-light',
+    icon: 'ph:medal-light',
     title: 'Excelencia',
     description:
       'Cada detalle de nuestro servicio está diseñado para superar las expectativas más exigentes de nuestros clientes VIP.',
@@ -70,11 +70,11 @@ export function AboutContent() {
   return (
     <article>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 lg:pb-32 overflow-hidden">
+      <section className="relative pt-48 lg:pt-56 pb-24 lg:pb-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/about-hero.jpg"
-            alt="Historia de Aerolínea Santander"
+            alt="Historia de Aerolíneas Santander"
             fill
             className="object-cover"
             priority
@@ -105,7 +105,7 @@ export function AboutContent() {
               variants={fadeInUp}
               className="text-lg text-pearl/80 leading-relaxed"
             >
-              Desde 1998, Aerolínea Santander ha sido sinónimo de excelencia en
+              Desde 2008, Aerolíneas Santander ha sido sinónimo de excelencia en
               aviación privada. Fundada con la visión de ofrecer servicios de
               vuelo que superen todas las expectativas.
             </motion.p>
@@ -149,12 +149,12 @@ export function AboutContent() {
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
                   Fundada por Carlos Santander Sr., piloto con más de 30 años de
-                  experiencia en aviación comercial y militar, Aerolínea
+                  experiencia en aviación comercial y militar, Aerolíneas
                   Santander nació con el compromiso de ofrecer servicios de
                   aviación privada sin igual en Latinoamérica.
                 </p>
                 <p>
-                  A lo largo de más de dos décadas, hemos transportado a líderes
+                  A lo largo de casi dos décadas, hemos transportado a líderes
                   empresariales, celebridades internacionales y familias
                   distinguidas, siempre manteniendo nuestro compromiso con la
                   seguridad, discreción y el servicio excepcional.
@@ -180,7 +180,7 @@ export function AboutContent() {
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/about-legacy.jpg"
-                  alt="Legado de Aerolínea Santander"
+                  alt="Legado de Aerolíneas Santander"
                   fill
                   className="object-cover"
                 />
@@ -193,12 +193,13 @@ export function AboutContent() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 lg:py-28 bg-card/30">
+      <section className="py-20 lg:py-28 bg-champagne text-background">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionTitle
             subtitle="Nuestros Valores"
             title="Lo Que Nos Define"
             description="Cada vuelo es una oportunidad de demostrar nuestro compromiso con la excelencia y el servicio personalizado."
+            theme="light"
           />
 
           <motion.div
@@ -210,21 +211,21 @@ export function AboutContent() {
           >
             {values.map((value) => (
               <motion.div key={value.title} variants={fadeInUp}>
-                <GlassCard className="h-full">
+                <div className="h-full rounded-2xl p-8 bg-background/5 border border-transparent hover:border-background/20 transition-all duration-300">
                   <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-champagne/10 flex items-center justify-center shrink-0">
-                      <Icon icon={value.icon} className="w-6 h-6 text-champagne" />
+                    <div className="w-14 h-14 rounded-xl bg-background/10 flex items-center justify-center shrink-0">
+                      <Icon icon={value.icon} className="w-6 h-6 text-background" />
                     </div>
                     <div>
-                      <h3 className="font-serif text-xl text-pearl mb-2">
+                      <h3 className="font-serif text-xl text-background font-bold mb-2">
                         {value.title}
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-background/80 font-medium leading-relaxed">
                         {value.description}
                       </p>
                     </div>
                   </div>
-                </GlassCard>
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -284,7 +285,7 @@ export function AboutContent() {
             </h2>
             <p className="text-muted-foreground mb-8">
               Descubra por qué las personas más exigentes de Latinoamérica
-              confían en Aerolínea Santander para sus viajes privados.
+              confían en Aerolíneas Santander para sus viajes privados.
             </p>
             <GoldButton href="/reserva" size="lg">
               Solicitar Cotización

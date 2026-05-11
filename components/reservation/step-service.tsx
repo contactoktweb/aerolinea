@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { ReservationData } from './reservation-form'
 import { GoldButton } from '@/components/ui/gold-button'
@@ -82,26 +83,28 @@ export function StepService({
       {/* Service Selection */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {services.map((service) => (
-          <button
+          <motion.button
             key={service.id}
+            whileHover={{ y: -4, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => updateData({ serviceType: service.id })}
-            className="text-left"
+            className="text-left h-full"
           >
             <GlassCard
               hover={false}
               className={cn(
                 'h-full transition-all duration-300',
                 data.serviceType === service.id
-                  ? 'ring-2 ring-champagne bg-card/60'
-                  : 'hover:bg-card/50'
+                  ? 'ring-2 ring-champagne bg-card/80 shadow-[0_0_20px_rgba(212,196,131,0.2)]'
+                  : 'hover:bg-card/40'
               )}
             >
               <div className="flex items-start gap-4">
                 <div
                   className={cn(
-                    'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors',
+                    'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300',
                     data.serviceType === service.id
-                      ? 'bg-champagne'
+                      ? 'bg-champagne scale-110'
                       : 'bg-champagne/10'
                   )}
                 >
@@ -117,23 +120,32 @@ export function StepService({
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-serif text-lg text-pearl">
+                    <h3 className="font-serif text-lg text-pearl font-bold">
                       {service.title}
                     </h3>
                     {data.serviceType === service.id && (
-                      <div className="w-6 h-6 rounded-full bg-champagne flex items-center justify-center">
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="w-6 h-6 rounded-full bg-champagne flex items-center justify-center"
+                      >
                         <Icon icon="ph:check-light" className="w-4 h-4 text-background" />
-                      </div>
+                      </motion.div>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground mb-3">
+                  <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
                     {service.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {service.features.map((feature) => (
                       <span
                         key={feature}
-                        className="px-2 py-1 rounded-full text-xs bg-muted text-pearl/70"
+                        className={cn(
+                          "px-2 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold transition-colors",
+                          data.serviceType === service.id
+                            ? "bg-background/20 text-background"
+                            : "bg-muted text-pearl/50"
+                        )}
                       >
                         {feature}
                       </span>
@@ -142,7 +154,7 @@ export function StepService({
                 </div>
               </div>
             </GlassCard>
-          </button>
+          </motion.button>
         ))}
       </div>
 
@@ -153,11 +165,13 @@ export function StepService({
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {aircraftOptions.map((option) => (
-            <button
+            <motion.button
               key={option.id}
+              whileHover={{ y: -2, scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => updateData({ aircraftPreference: option.id })}
               className={cn(
-                'p-4 rounded-xl text-left transition-all',
+                'p-4 rounded-xl text-left transition-all duration-300 shadow-lg',
                 data.aircraftPreference === option.id
                   ? 'bg-champagne text-background'
                   : 'bg-muted hover:bg-muted/80'
@@ -165,7 +179,7 @@ export function StepService({
             >
               <p
                 className={cn(
-                  'font-medium text-sm',
+                  'font-bold text-sm',
                   data.aircraftPreference === option.id
                     ? 'text-background'
                     : 'text-pearl'
@@ -175,15 +189,15 @@ export function StepService({
               </p>
               <p
                 className={cn(
-                  'text-xs mt-1',
+                  'text-[11px] mt-1 leading-tight',
                   data.aircraftPreference === option.id
-                    ? 'text-background/70'
+                    ? 'text-background/80'
                     : 'text-muted-foreground'
                 )}
               >
                 {option.description}
               </p>
-            </button>
+            </motion.button>
           ))}
         </div>
       </GlassCard>

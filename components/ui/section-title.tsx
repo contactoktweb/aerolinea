@@ -10,6 +10,7 @@ interface SectionTitleProps {
   description?: string
   align?: 'left' | 'center' | 'right'
   className?: string
+  theme?: 'dark' | 'light'
 }
 
 export function SectionTitle({
@@ -18,6 +19,7 @@ export function SectionTitle({
   description,
   align = 'center',
   className,
+  theme = 'dark',
 }: SectionTitleProps) {
   return (
     <motion.div
@@ -36,15 +38,25 @@ export function SectionTitle({
       )}
     >
       {subtitle && (
-        <span className="inline-block text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4">
+        <span className={cn(
+          "inline-block text-sm font-medium tracking-[0.2em] uppercase mb-4",
+          theme === 'dark' ? "text-champagne" : "text-background/80"
+        )}>
           {subtitle}
         </span>
       )}
-      <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-pearl text-balance leading-[1.1] tracking-tight">
+      <h2 className={cn(
+        "font-serif text-3xl md:text-4xl lg:text-5xl text-balance leading-[1.1] tracking-tight",
+        theme === 'dark' ? "text-pearl" : "text-background font-bold"
+      )}>
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
+        <p className={cn(
+          "mt-4 max-w-2xl text-pretty leading-relaxed",
+          align === 'center' ? "mx-auto" : "",
+          theme === 'dark' ? "text-muted-foreground" : "text-background/70 font-medium"
+        )}>
           {description}
         </p>
       )}

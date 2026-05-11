@@ -21,7 +21,7 @@ const stagger = {
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen bg-burgundy-black overflow-hidden">
+    <section className="relative min-h-screen bg-background overflow-hidden">
       {/* Background subtle texture */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
         backgroundImage: `radial-gradient(circle at 1px 1px, var(--champagne) 1px, transparent 0)`,
@@ -36,72 +36,86 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 py-32 lg:py-20"
+          className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 pt-48 pb-20 lg:pt-56 lg:pb-20"
         >
          
 
           {/* Main headline - Large elegant typography */}
           <motion.h1 
             variants={slideUp}
-            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-8xl text-pearl leading-[0.95] mb-8"
+            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-8xl text-pearl leading-[0.95] mb-8 drop-shadow-[0_0_15px_rgba(212,196,131,0.1)]"
           >
-            <span className="block">Excelencia</span>
-            <span className="block mt-2">en cada</span>
-            <span className="block mt-2 text-champagne italic">vuelo</span>
+            <span className="block">Aerolíneas</span>
+            <span className="block mt-2 text-champagne relative">
+              Santander
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ delay: 1, duration: 1.5 }}
+                className="absolute -bottom-2 left-0 h-px bg-gradient-to-r from-champagne/60 via-champagne/20 to-transparent"
+              />
+            </span>
           </motion.h1>
 
           {/* Elegant divider */}
-          <motion.div variants={slideUp} className="flex items-center gap-6 mb-8">
+          <motion.div variants={slideUp} className="flex items-center gap-6 mb-8 mt-4">
             <div className="w-16 h-px bg-gradient-to-r from-champagne/60 to-transparent" />
-            <div className="w-1.5 h-1.5 rounded-full bg-champagne/40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-champagne/40 animate-pulse" />
           </motion.div>
 
           {/* Description */}
           <motion.p 
             variants={slideUp}
-            className="text-pearl/50 text-base md:text-lg max-w-md leading-relaxed font-light mb-12"
+            className="text-pearl/80 text-lg md:text-xl max-w-lg leading-relaxed font-light mb-12 italic"
           >
-            Mas de 25 anos redefiniendo la aviacion ejecutiva con 
-            servicios personalizados que superan todas las expectativas.
+            "Elevando la experiencia de vuelo a través del diseño y la distinción."
           </motion.p>
 
           {/* CTAs */}
-          <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-4">
+          <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-6">
             <Link
               href="/reserva"
-              className="group inline-flex items-center justify-center gap-3 bg-champagne text-burgundy-black px-8 py-4 text-sm uppercase tracking-widest font-medium hover:bg-champagne-light transition-all duration-300"
+              className="group relative inline-flex items-center justify-center gap-3 bg-champagne text-burgundy-black px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium transition-all duration-500 hover:shadow-[0_0_30px_rgba(212,196,131,0.3)] hover:-translate-y-1"
             >
               <span>Solicitar Vuelo</span>
               <Icon icon="ph:arrow-right-light" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/flota"
-              className="group inline-flex items-center justify-center gap-3 border border-pearl/20 text-pearl px-8 py-4 text-sm uppercase tracking-widest font-medium hover:border-champagne/50 hover:text-champagne transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-3 border border-pearl/20 text-pearl px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium hover:bg-pearl/5 transition-all duration-300"
             >
               <span>Nuestra Flota</span>
             </Link>
           </motion.div>
 
-          {/* Bottom stats */}
+          {/* Bottom content: Esencia & Historia */}
           <motion.div 
             variants={slideUp}
-            className="mt-20 pt-10 border-t border-pearl/10"
+            className="mt-16 relative"
           >
-            <div className="grid grid-cols-3 gap-8">
-              {[
-                { value: '25+', label: 'Anos' },
-                { value: '5K+', label: 'Vuelos' },
-                { value: '50+', label: 'Destinos' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center sm:text-left">
-                  <div className="font-serif text-3xl md:text-4xl text-champagne mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-[10px] md:text-xs text-pearl/30 uppercase tracking-[0.2em]">
-                    {stat.label}
-                  </div>
+            <div className="bg-champagne rounded-2xl p-8 lg:p-10 grid grid-cols-1 md:grid-cols-2 gap-12 shadow-2xl">
+              <div className="relative flex gap-5">
+                <div className="w-14 h-14 rounded-xl bg-background/10 flex items-center justify-center shrink-0">
+                  <Icon icon="ph:sparkle-light" className="w-6 h-6 text-background" />
                 </div>
-              ))}
+                <div>
+                  <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">Nuestra Esencia</h3>
+                  <p className="text-background/80 text-sm leading-relaxed font-medium">
+                    Elevamos el estándar de la aviación privada mediante exclusividad, seguridad y eficiencia absoluta en cada misión. Diseñamos el tiempo de nuestros clientes para que su única preocupación sea el destino.
+                  </p>
+                </div>
+              </div>
+              <div className="relative flex gap-5">
+                <div className="w-14 h-14 rounded-xl bg-background/10 flex items-center justify-center shrink-0">
+                  <Icon icon="ph:calendar-star-light" className="w-6 h-6 text-background" />
+                </div>
+                <div>
+                  <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">Desde 2008</h3>
+                  <p className="text-background/80 text-sm leading-relaxed font-medium">
+                    Líderes en aviación ejecutiva con presencia global. Casi dos décadas operando bajo los más altos protocolos de seguridad y puntualidad en cada despegue.
+                  </p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -136,8 +150,8 @@ export function Hero() {
                   priority
                 />
                 {/* Subtle overlay */}
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-burgundy-black/30" />
-                <div className="absolute inset-0 bg-burgundy-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/30" />
+                <div className="absolute inset-0 bg-background/10" />
               </div>
             </div>
           </div>
@@ -147,10 +161,10 @@ export function Hero() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-burgundy-black/90 backdrop-blur-sm border border-pearl/10 px-6 py-4"
+            className="absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-background/90 backdrop-blur-sm border border-pearl/10 px-6 py-4"
           >
-            <div className="text-[10px] text-pearl/40 uppercase tracking-[0.3em] mb-1">Experiencia</div>
-            <div className="text-champagne font-serif text-lg">Premium</div>
+            <div className="text-[10px] text-pearl/40 uppercase tracking-[0.3em] mb-1">Privacidad</div>
+            <div className="text-champagne font-serif text-lg">Absoluta</div>
           </motion.div>
         </motion.div>
       </div>
@@ -169,7 +183,7 @@ export function Hero() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-burgundy-black via-burgundy-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
       </motion.div>
 
       {/* Scroll indicator */}

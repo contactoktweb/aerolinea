@@ -33,7 +33,7 @@ export function ClientsCarousel() {
     <motion.section
       ref={sectionRef}
       style={{ opacity }}
-      className="py-20 lg:py-28 border-t border-pearl/5 relative overflow-hidden"
+      className="py-20 lg:py-28 bg-champagne text-background relative overflow-hidden"
     >
       {/* Background Animation */}
       <motion.div
@@ -41,7 +41,7 @@ export function ClientsCarousel() {
         whileInView={{ x: '200%' }}
         viewport={{ once: true }}
         transition={{ duration: 10, ease: 'linear' }}
-        className="absolute top-1/2 left-0 w-20 h-px bg-gradient-to-r from-transparent via-champagne/30 to-transparent pointer-events-none"
+        className="absolute top-1/2 left-0 w-20 h-px bg-gradient-to-r from-transparent via-background/30 to-transparent pointer-events-none"
       />
 
       <div className="container mx-auto px-4 lg:px-8">
@@ -53,11 +53,11 @@ export function ClientsCarousel() {
           style={{ y }}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-champagne/10 text-champagne text-xs uppercase tracking-widest mb-4">
-            Confian en Nosotros
+          <span className="inline-block px-4 py-1.5 rounded-full bg-background/10 text-background font-bold text-xs uppercase tracking-widest mb-4">
+            Confían en Nosotros
           </span>
-          <h3 className="font-serif text-2xl lg:text-3xl text-pearl mt-3">
-            Empresas Lideres de Latinoamerica
+          <h3 className="font-serif text-2xl lg:text-3xl text-background mt-3 font-bold">
+            Empresas Líderes de Latinoamérica
           </h3>
         </motion.div>
       </div>
@@ -65,8 +65,8 @@ export function ClientsCarousel() {
       {/* Infinite Scroll Container */}
       <div className="relative overflow-hidden">
         {/* Gradient Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-champagne to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-champagne to-transparent z-10" />
 
         {/* Scrolling Content */}
         <div className="flex animate-scroll-left">
@@ -77,11 +77,11 @@ export function ClientsCarousel() {
               whileHover={{ scale: 1.05, y: -5 }}
               transition={{ type: 'spring', stiffness: 400 }}
             >
-              <div className="w-36 h-24 rounded-2xl glass-card flex flex-col items-center justify-center gap-2 transition-all duration-300 group-hover:border-champagne/20 border border-transparent">
-                <span className="font-serif text-2xl text-pearl/30 group-hover:text-champagne transition-colors">
+              <div className="w-36 h-24 rounded-2xl bg-background/5 flex flex-col items-center justify-center gap-2 transition-all duration-300 group-hover:border-background/20 border border-transparent">
+                <span className="font-serif text-2xl text-background/50 group-hover:text-background transition-colors font-bold">
                   {client.initials}
                 </span>
-                <span className="text-[10px] text-pearl/20 group-hover:text-pearl/40 transition-colors uppercase tracking-wider">
+                <span className="text-[10px] text-background/40 group-hover:text-background/80 transition-colors uppercase tracking-wider font-bold">
                   {client.name.split(' ')[0]}
                 </span>
               </div>
@@ -112,12 +112,12 @@ export function ClientsCarousel() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 * index }}
               whileHover={{ y: -5 }}
-              className="text-center p-6 rounded-2xl glass-card border border-transparent hover:border-champagne/10 transition-all duration-300"
+              className="text-center p-6 rounded-2xl bg-background/5 border border-transparent hover:border-background/10 transition-all duration-300"
             >
-              <div className="font-serif text-3xl lg:text-4xl text-champagne mb-2">
+              <div className="font-serif text-3xl lg:text-4xl text-background mb-2 font-bold">
                 {stat.value}
               </div>
-              <div className="text-sm text-pearl/50">{stat.label}</div>
+              <div className="text-sm text-background/70 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>

@@ -29,7 +29,7 @@ export function FleetGallery() {
       : aircraftData.filter((a) => a.category === activeCategory)
 
   return (
-    <section className="pt-32 pb-24 lg:pb-32">
+    <section className="pt-48 lg:pt-56 pb-24 lg:pb-32">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Header */}
         <SectionTitle

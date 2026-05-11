@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import { ReservationData } from './reservation-form'
@@ -143,24 +144,26 @@ export function StepLogistics({
                 day < data.returnDate
 
               return (
-                <button
+                <motion.button
                   key={day.toISOString()}
+                  whileHover={!isDisabled ? { scale: 1.1 } : {}}
+                  whileTap={!isDisabled ? { scale: 0.9 } : {}}
                   onClick={() => handleDateClick(day)}
                   disabled={isDisabled}
                   className={cn(
-                    'aspect-square rounded-lg text-sm transition-all',
+                    'aspect-square rounded-lg text-sm transition-all duration-300',
                     isDisabled
                       ? 'text-muted-foreground/30 cursor-not-allowed'
                       : 'hover:bg-muted',
                     isToday(day) && 'ring-1 ring-champagne/50',
-                    isDeparture && 'bg-champagne text-background font-medium',
-                    isReturn && 'bg-champagne text-background font-medium',
+                    isDeparture && 'bg-champagne text-background font-bold shadow-[0_0_10px_rgba(212,196,131,0.3)]',
+                    isReturn && 'bg-champagne text-background font-bold shadow-[0_0_10px_rgba(212,196,131,0.3)]',
                     isInRange && 'bg-champagne/20',
                     !isDeparture && !isReturn && !isDisabled && 'text-pearl'
                   )}
                 >
                   {format(day, 'd')}
-                </button>
+                </motion.button>
               )
             })}
           </div>
@@ -204,18 +207,20 @@ export function StepLogistics({
 
             <div className="grid grid-cols-4 gap-2">
               {timeSlots.map((time) => (
-                <button
+                <motion.button
                   key={time}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => updateData({ departureTime: time })}
                   className={cn(
-                    'py-2 rounded-lg text-sm transition-all',
+                    'py-2 rounded-lg text-sm transition-all duration-300',
                     data.departureTime === time
-                      ? 'bg-champagne text-background font-medium'
+                      ? 'bg-champagne text-background font-bold shadow-[0_0_10px_rgba(212,196,131,0.3)]'
                       : 'bg-muted text-pearl/70 hover:text-pearl hover:bg-muted/80'
                   )}
                 >
                   {time}
-                </button>
+                </motion.button>
               ))}
             </div>
           </GlassCard>
@@ -235,25 +240,34 @@ export function StepLogistics({
             </div>
 
             <div className="flex items-center justify-center gap-6">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() =>
                   updateData({ passengers: Math.max(1, data.passengers - 1) })
                 }
-                className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-colors"
+                className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-all"
               >
                 <Icon icon="ph:minus-light" className="w-5 h-5 text-pearl" />
-              </button>
-              <span className="font-mono text-4xl text-champagne w-16 text-center">
+              </motion.button>
+              <motion.span 
+                key={data.passengers}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="font-mono text-4xl text-champagne w-16 text-center"
+              >
                 {data.passengers}
-              </span>
-              <button
+              </motion.span>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() =>
                   updateData({ passengers: Math.min(19, data.passengers + 1) })
                 }
-                className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-colors"
+                className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-all"
               >
                 <Icon icon="ph:plus-light" className="w-5 h-5 text-pearl" />
-              </button>
+              </motion.button>
             </div>
           </GlassCard>
         </div>

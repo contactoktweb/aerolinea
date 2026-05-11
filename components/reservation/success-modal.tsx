@@ -62,7 +62,7 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                 ¡Solicitud Recibida!
               </h2>
               <p className="text-muted-foreground">
-                Gracias por elegir Aerolínea Santander
+                Gracias por elegir Aerolíneas Santander
               </p>
             </div>
 
