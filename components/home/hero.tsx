@@ -86,15 +86,6 @@ export function Hero() {
           variants={stagger}
           className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 py-20 lg:pt-64 lg:pb-20"
         >
-          {/* Main headline - Large elegant typography */}
-          <motion.h1 
-            variants={slideUp}
-            className="font-serif text-5xl md:text-7xl xl:text-8xl text-burgundy leading-[1.1] mb-8"
-          >
-            La Cima del <br />
-            <span className="text-gradient-gold italic">Viaje Exclusivo</span>
-          </motion.h1>
-
           {/* Description */}
           <motion.p 
             variants={slideUp}
