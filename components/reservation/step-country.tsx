@@ -257,7 +257,15 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
       <div className="relative max-w-md mx-auto">
         <div className="relative">
           <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-            <Icon icon="ph:globe-hemisphere-west-light" className="w-5 h-5 text-burgundy/40" />
+            {data.country ? (
+              <img 
+                src={`https://flagcdn.com/w40/${selectedCountry?.code.toLowerCase()}.png`} 
+                alt={data.country}
+                className="w-5 h-auto rounded-sm"
+              />
+            ) : (
+              <Icon icon="ph:globe-hemisphere-west-light" className="w-5 h-5 text-burgundy/40" />
+            )}
           </div>
           <input
             type="text"
@@ -285,10 +293,15 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
                 <button
                   key={c.code}
                   onClick={() => handleSelect(c.name)}
-                  className="w-full text-left px-6 py-3 hover:bg-burgundy/5 text-burgundy transition-colors flex items-center justify-between group"
+                  className="w-full text-left px-6 py-4 hover:bg-burgundy/5 text-burgundy transition-colors flex items-center gap-4 group"
                 >
-                  <span className="font-medium">{c.name}</span>
-                  <span className="text-[10px] text-burgundy/30 group-hover:text-burgundy/60">{c.code}</span>
+                  <img 
+                    src={`https://flagcdn.com/w40/${c.code.toLowerCase()}.png`} 
+                    alt={c.name}
+                    className="w-6 h-auto rounded-sm shadow-sm"
+                  />
+                  <span className="font-medium flex-1">{c.name}</span>
+                  <span className="text-[10px] text-burgundy/30 group-hover:text-burgundy/60 uppercase">{c.code}</span>
                 </button>
               ))
             ) : (
@@ -304,9 +317,18 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-2xl mx-auto p-8 bg-burgundy/[0.02] border border-burgundy/5 rounded-2xl text-center"
         >
-          <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 rounded-full bg-champagne/10 flex items-center justify-center">
-              <Icon icon="ph:info-light" className="w-6 h-6 text-champagne" />
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="w-16 h-16 rounded-full bg-champagne/10 flex items-center justify-center overflow-hidden">
+                <img 
+                  src={`https://flagcdn.com/w80/${selectedCountry?.code.toLowerCase()}.png`} 
+                  alt={data.country}
+                  className="w-full h-full object-cover scale-150"
+                />
+              </div>
+              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center">
+                <Icon icon="ph:info-fill" className="w-5 h-5 text-champagne" />
+              </div>
             </div>
           </div>
           <h4 className="font-serif text-xl text-champagne mb-3">Vuelos Privados en {data.country}</h4>

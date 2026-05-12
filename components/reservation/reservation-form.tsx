@@ -98,7 +98,7 @@ export function ReservationForm() {
   return (
     <div className="min-h-screen bg-white">
       {/* Fixed/Sticky Navigation Layer */}
-      <div className="fixed top-[112px] md:top-[144px] left-0 right-0 z-[80] pt-6 md:pt-10">
+      <div className="fixed top-[112px] md:top-[144px] left-0 right-0 z-[150] pt-6 md:pt-10 bg-white/80 backdrop-blur-sm">
         <ProgressBar currentStep={currentStep} totalSteps={5} steps={steps} />
       </div>
 
