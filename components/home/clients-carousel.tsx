@@ -27,22 +27,15 @@ export function ClientsCarousel() {
   })
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-  const y = useTransform(scrollYProgress, [0, 0.2], [50, 0])
+
 
   return (
     <motion.section
       ref={sectionRef}
-      style={{ opacity }}
       className="py-20 lg:py-28 bg-white text-background relative overflow-hidden"
     >
-      {/* Background Animation */}
-      <motion.div
-        initial={{ x: '-100%' }}
-        whileInView={{ x: '200%' }}
-        viewport={{ once: true }}
-        transition={{ duration: 10, ease: 'linear' }}
-        className="absolute top-1/2 left-0 w-20 h-px bg-gradient-to-r from-transparent via-background/10 to-transparent pointer-events-none"
-      />
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none" />
 
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div
@@ -50,7 +43,6 @@ export function ClientsCarousel() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          style={{ y }}
           className="text-center mb-12"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-champagne/5 text-champagne font-bold text-[10px] uppercase tracking-widest mb-4 border border-champagne/10">
@@ -77,7 +69,7 @@ export function ClientsCarousel() {
               whileHover={{ scale: 1.05, y: -5 }}
               transition={{ type: 'spring', stiffness: 400 }}
             >
-              <div className="w-36 h-24 rounded-2xl bg-white flex flex-col items-center justify-center gap-2 transition-all duration-300 group-hover:border-burgundy/20 border border-burgundy/5 shadow-sm hover:shadow-md">
+              <div className="w-36 h-24 rounded-2xl bg-white flex flex-col items-center justify-center gap-2 transition-all duration-300 group-hover:border-burgundy/20 border border-burgundy/5">
                 <span className="font-serif text-2xl text-burgundy/30 group-hover:text-burgundy transition-colors font-bold">
                   {client.initials}
                 </span>

@@ -10,6 +10,7 @@ interface GlassCardProps {
   className?: string
   hover?: boolean
   as?: 'div' | 'article' | 'section'
+  variant?: 'dark' | 'light'
 }
 
 export function GlassCard({
@@ -17,6 +18,7 @@ export function GlassCard({
   className,
   hover = true,
   as = 'div',
+  variant = 'dark',
 }: GlassCardProps) {
   const Component = motion[as]
 
@@ -24,7 +26,8 @@ export function GlassCard({
     return (
       <Component
         className={cn(
-          'glass-card rounded-2xl p-6',
+          variant === 'light' ? 'glass-card-light' : 'glass-card',
+          'rounded-2xl p-6',
           className
         )}
       >
@@ -39,7 +42,8 @@ export function GlassCard({
       whileHover="hover"
       variants={cardHover}
       className={cn(
-        'glass-card rounded-2xl p-6 cursor-pointer',
+        variant === 'light' ? 'glass-card-light' : 'glass-card',
+        'rounded-2xl p-6 cursor-pointer',
         className
       )}
     >

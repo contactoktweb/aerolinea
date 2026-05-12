@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { StepCountry } from './step-country'
 import { StepDestination } from './step-destination'
 import { StepLogistics } from './step-logistics'
 import { StepService } from './step-service'
@@ -10,22 +11,25 @@ import { ProgressBar } from './progress-bar'
 import { SuccessModal } from './success-modal'
 
 export interface ReservationData {
-  // Step 1: Destination
+  // Step 1: Country
+  country: string
+
+  // Step 2: Destination
   origin: string
   destination: string
   tripType: 'one-way' | 'round-trip'
   
-  // Step 2: Logistics
+  // Step 3: Logistics
   departureDate: Date | null
   returnDate: Date | null
   departureTime: string
   passengers: number
   
-  // Step 3: Service
+  // Step 4: Service
   serviceType: string
   aircraftPreference: string
   
-  // Step 4: Contact
+  // Step 5: Contact
   fullName: string
   email: string
   phone: string
@@ -34,6 +38,7 @@ export interface ReservationData {
 }
 
 const initialData: ReservationData = {
+  country: '',
   origin: '',
   destination: '',
   tripType: 'one-way',
@@ -51,10 +56,11 @@ const initialData: ReservationData = {
 }
 
 const steps = [
-  { id: 1, title: 'Destino', description: 'Origen y destino' },
-  { id: 2, title: 'Logística', description: 'Fecha y pasajeros' },
-  { id: 3, title: 'Servicio', description: 'Tipo de vuelo' },
-  { id: 4, title: 'Contacto', description: 'Sus datos' },
+  { id: 1, title: 'País', description: 'Selección de origen' },
+  { id: 2, title: 'Destino', description: 'Origen y destino' },
+  { id: 3, title: 'Logística', description: 'Fecha y pasajeros' },
+  { id: 4, title: 'Servicio', description: 'Tipo de vuelo' },
+  { id: 5, title: 'Contacto', description: 'Sus datos' },
 ]
 
 export function ReservationForm() {
@@ -67,7 +73,7 @@ export function ReservationForm() {
   }
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 5) {
       setCurrentStep((prev) => prev + 1)
     }
   }
@@ -92,15 +98,31 @@ export function ReservationForm() {
   return (
     <div className="min-h-screen bg-white">
       {/* Fixed/Sticky Navigation Layer */}
-      <div className="fixed top-[112px] md:top-[144px] left-0 right-0 z-[80]">
-        <ProgressBar currentStep={currentStep} totalSteps={4} steps={steps} />
+      <div className="fixed top-[112px] md:top-[144px] left-0 right-0 z-[80] pt-6 md:pt-10">
+        <ProgressBar currentStep={currentStep} totalSteps={5} steps={steps} />
       </div>
 
       {/* Form Content */}
-      <div className="container mx-auto px-4 lg:px-8 pt-52 lg:pt-64 pb-20">
-        <div className="max-w-3xl mx-auto">
+      <div className="flex flex-col items-center justify-center min-h-screen pt-[220px] md:pt-[280px] pb-20 px-4 lg:px-8">
+        <div className="w-full max-w-3xl mx-auto">
           <AnimatePresence mode="wait">
-            {currentStep === 1 && (
+             {currentStep === 1 && (
+              <motion.div
+                key="step0"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <StepCountry
+                  data={data}
+                  updateData={updateData}
+                  onNext={nextStep}
+                />
+              </motion.div>
+            )}
+
+            {currentStep === 2 && (
               <motion.div
                 key="step1"
                 initial={{ opacity: 0, x: 20 }}
@@ -112,11 +134,12 @@ export function ReservationForm() {
                   data={data}
                   updateData={updateData}
                   onNext={nextStep}
+                  onBack={prevStep}
                 />
               </motion.div>
             )}
 
-            {currentStep === 2 && (
+            {currentStep === 3 && (
               <motion.div
                 key="step2"
                 initial={{ opacity: 0, x: 20 }}
@@ -133,7 +156,7 @@ export function ReservationForm() {
               </motion.div>
             )}
 
-            {currentStep === 3 && (
+            {currentStep === 4 && (
               <motion.div
                 key="step3"
                 initial={{ opacity: 0, x: 20 }}
@@ -150,7 +173,7 @@ export function ReservationForm() {
               </motion.div>
             )}
 
-            {currentStep === 4 && (
+            {currentStep === 5 && (
               <motion.div
                 key="step4"
                 initial={{ opacity: 0, x: 20 }}

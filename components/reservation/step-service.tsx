@@ -69,8 +69,8 @@ export function StepService({
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
-          Paso 3 de 4
+        <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
+          Paso 4 de 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           Tipo de Servicio
@@ -91,6 +91,7 @@ export function StepService({
             className="text-left h-full"
           >
             <GlassCard
+              variant="light"
               hover={false}
               className={cn(
                 'h-full transition-all duration-300',
@@ -159,7 +160,7 @@ export function StepService({
       </div>
 
       {/* Aircraft Preference */}
-      <GlassCard hover={false} className="p-6">
+      <GlassCard variant="light" hover={false} className="p-6">
         <h3 className="font-serif text-xl text-champagne mb-4">
           Preferencia de Aeronave
         </h3>

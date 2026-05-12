@@ -134,7 +134,7 @@ export function Footer() {
                 alt="Logo" 
                 width={400} 
                 height={120} 
-                className="h-32 w-auto object-contain brightness-0 invert transition-transform duration-500 group-hover:scale-105"
+                className="h-32 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">

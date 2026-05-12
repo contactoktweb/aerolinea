@@ -12,6 +12,7 @@ interface StepDestinationProps {
   data: ReservationData
   updateData: (updates: Partial<ReservationData>) => void
   onNext: () => void
+  onBack: () => void
 }
 
 const popularCities = [
@@ -29,6 +30,7 @@ export function StepDestination({
   data,
   updateData,
   onNext,
+  onBack,
 }: StepDestinationProps) {
   const [originSearch, setOriginSearch] = useState(data.origin)
   const [destSearch, setDestSearch] = useState(data.destination)
@@ -60,8 +62,8 @@ export function StepDestination({
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
-          Paso 1 de 4
+        <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
+          Paso 2 de 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           ¿A Dónde Desea Volar?
@@ -103,7 +105,7 @@ export function StepDestination({
       </div>
 
       {/* Location Inputs */}
-      <GlassCard hover={false} className="p-8 relative z-10">
+      <GlassCard variant="light" hover={false} className="p-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-4">
           {/* Origin */}
           <div className="flex-1 w-full relative">
@@ -200,7 +202,13 @@ export function StepDestination({
       </GlassCard>
 
       {/* Navigation */}
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center pt-4">
+        <button
+          onClick={onBack}
+          className="text-burgundy/40 hover:text-burgundy text-sm uppercase tracking-[0.2em] font-bold transition-colors"
+        >
+          Volver
+        </button>
         <GoldButton onClick={onNext} disabled={!isValid} size="lg">
           Continuar
         </GoldButton>

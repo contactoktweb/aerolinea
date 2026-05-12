@@ -64,8 +64,8 @@ export function StepContact({
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
-          Paso 4 de 4
+        <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
+          Paso 5 de 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           Información de Contacto
@@ -77,7 +77,7 @@ export function StepContact({
       </div>
 
       {/* Contact Form */}
-      <GlassCard hover={false} className="p-8">
+      <GlassCard variant="light" hover={false} className="p-8">
         <div className="space-y-6">
           {/* Full Name */}
           <div>

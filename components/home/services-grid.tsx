@@ -61,12 +61,11 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   return (
     <motion.div
       ref={cardRef}
-      style={{ y: index % 2 === 0 ? y : undefined, opacity, scale }}
       variants={fadeInUp}
       custom={index}
     >
       <Link href={service.href} className="block h-full">
-        <div className="h-full group relative overflow-hidden bg-white rounded-2xl p-8 border border-burgundy/5 shadow-[0_20px_50px_rgba(74,14,14,0.08)] hover:shadow-[0_30px_70px_rgba(74,14,14,0.12)] transition-all duration-500">
+        <div className="h-full group relative overflow-hidden bg-white rounded-2xl p-8 border border-burgundy/10 transition-all duration-500">
           {/* Gradient Background */}
           <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
           
@@ -81,7 +80,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             <div className="flex items-start gap-4 mb-6">
               <motion.div
                 whileHover={{ rotate: 10, scale: 1.1 }}
-                className="w-16 h-16 rounded-2xl bg-burgundy/5 flex items-center justify-center shrink-0 group-hover:bg-burgundy/10 transition-colors duration-500 shadow-sm"
+                className="w-16 h-16 rounded-2xl bg-burgundy/5 flex items-center justify-center shrink-0 group-hover:bg-burgundy/10 transition-colors duration-500"
               >
                 <div className="text-burgundy">{service.icon}</div>
               </motion.div>
@@ -127,18 +126,12 @@ export function ServicesGrid() {
     offset: ['start end', 'end start'],
   })
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
+
 
   return (
     <section ref={sectionRef} className="py-24 lg:py-32 relative overflow-hidden bg-white">
-      {/* Animated Background */}
-      <motion.div
-        style={{ y: backgroundY }}
-        className="absolute inset-0 pointer-events-none"
-      >
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-champagne/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-burgundy-light/10 rounded-full blur-3xl" />
-      </motion.div>
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none" />
 
       {/* Flying Plane Animation for Services Section */}
       <motion.div

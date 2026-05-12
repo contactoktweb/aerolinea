@@ -76,8 +76,8 @@ export function StepLogistics({
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
-          Paso 2 de 4
+        <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
+          Paso 3 de 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           Detalles del Vuelo
@@ -89,7 +89,7 @@ export function StepLogistics({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Calendar */}
-        <GlassCard hover={false} className="p-6">
+        <GlassCard variant="light" hover={false} className="p-6">
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -192,7 +192,7 @@ export function StepLogistics({
         {/* Time and Passengers */}
         <div className="space-y-6">
           {/* Time Selection */}
-          <GlassCard hover={false} className="p-6">
+          <GlassCard variant="light" hover={false} className="p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-burgundy/10 flex items-center justify-center">
                 <Icon icon="ph:clock-light" className="w-5 h-5 text-burgundy" />
@@ -226,7 +226,7 @@ export function StepLogistics({
           </GlassCard>
 
           {/* Passengers */}
-          <GlassCard hover={false} className="p-6">
+          <GlassCard variant="light" hover={false} className="p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-burgundy/10 flex items-center justify-center">
                 <Icon icon="ph:users-light" className="w-5 h-5 text-burgundy" />
