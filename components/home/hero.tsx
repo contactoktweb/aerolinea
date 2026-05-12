@@ -31,18 +31,69 @@ export function Hero() {
       {/* Main content grid */}
       <div className="relative min-h-screen grid lg:grid-cols-2">
         
-        {/* Left side - Content */}
+        {/* Right side - Image (Now first on mobile) */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="relative h-[50vh] lg:h-auto lg:order-last"
+        >
+          {/* Image container with elegant framing (Desktop) */}
+          <div className="absolute inset-0 lg:inset-8 xl:inset-12">
+            <div className="relative w-full h-full">
+              {/* Gold accent lines - Desktop only */}
+              <div className="hidden lg:block absolute -top-4 -left-4 w-24 h-24">
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-champagne/40 to-transparent" />
+                <div className="absolute top-0 left-0 h-full w-px bg-gradient-to-b from-champagne/40 to-transparent" />
+              </div>
+              <div className="hidden lg:block absolute -bottom-4 -right-4 w-24 h-24">
+                <div className="absolute bottom-0 right-0 w-full h-px bg-gradient-to-l from-champagne/40 to-transparent" />
+                <div className="absolute bottom-0 right-0 h-full w-px bg-gradient-to-t from-champagne/40 to-transparent" />
+              </div>
+
+              {/* Main image */}
+              <div className="relative w-full h-full overflow-hidden">
+                <Image
+                  src="/images/hero-jet.jpg"
+                  alt="Interior lujoso de jet privado"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                {/* Subtle overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-transparent via-transparent to-white/30" />
+                <div className="absolute inset-0 bg-white/5 lg:bg-white/10" />
+              </div>
+            </div>
+          </div>
+
+          {/* Floating label - Desktop only */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="hidden lg:block absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-white/90 backdrop-blur-sm border border-burgundy/10 px-6 py-4 shadow-xl"
+          >
+            <div className="text-[10px] text-burgundy/40 uppercase tracking-[0.3em] mb-1">Privacidad</div>
+            <div className="text-champagne font-serif text-lg">Absoluta</div>
+          </motion.div>
+        </motion.div>
+
+        {/* Left side - Content (Now second on mobile) */}
         <motion.div 
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 pt-48 pb-20 lg:pt-64 lg:pb-20"
+          className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 py-20 lg:pt-64 lg:pb-20"
         >
-         
-
           {/* Main headline - Large elegant typography */}
-          {/* Logo/Brand placeholder removed as requested */}
-         
+          <motion.h1 
+            variants={slideUp}
+            className="font-serif text-5xl md:text-7xl xl:text-8xl text-burgundy leading-[1.1] mb-8"
+          >
+            La Cima del <br />
+            <span className="text-gradient-gold italic">Viaje Exclusivo</span>
+          </motion.h1>
 
           {/* Description */}
           <motion.p 
@@ -56,7 +107,7 @@ export function Hero() {
           <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-6">
             <Link
               href="/reserva"
-              className="group relative inline-flex items-center justify-center gap-3 bg-champagne text-burgundy-black px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium transition-all duration-500 hover:shadow-[0_0_30px_rgba(212,196,131,0.3)] hover:-translate-y-1"
+              className="group relative inline-flex items-center justify-center gap-3 bg-burgundy text-white px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium transition-all duration-500 hover:shadow-[0_0_30px_rgba(74,14,14,0.3)] hover:-translate-y-1"
             >
               <span>Solicitar Vuelo</span>
               <Icon icon="ph:arrow-right-light" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -100,72 +151,7 @@ export function Hero() {
             </div>
           </motion.div>
         </motion.div>
-
-        {/* Right side - Image */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative hidden lg:block"
-        >
-          {/* Image container with elegant framing */}
-          <div className="absolute inset-8 xl:inset-12">
-            <div className="relative w-full h-full">
-              {/* Gold accent lines */}
-              <div className="absolute -top-4 -left-4 w-24 h-24">
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-champagne/40 to-transparent" />
-                <div className="absolute top-0 left-0 h-full w-px bg-gradient-to-b from-champagne/40 to-transparent" />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24">
-                <div className="absolute bottom-0 right-0 w-full h-px bg-gradient-to-l from-champagne/40 to-transparent" />
-                <div className="absolute bottom-0 right-0 h-full w-px bg-gradient-to-t from-champagne/40 to-transparent" />
-              </div>
-
-              {/* Main image */}
-              <div className="relative w-full h-full overflow-hidden">
-                <Image
-                  src="/images/hero-jet.jpg"
-                  alt="Interior lujoso de jet privado"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                {/* Subtle overlay */}
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/30" />
-                <div className="absolute inset-0 bg-white/10" />
-              </div>
-            </div>
-          </div>
-
-          {/* Floating label */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-white/90 backdrop-blur-sm border border-burgundy/10 px-6 py-4 shadow-xl"
-          >
-            <div className="text-[10px] text-burgundy/40 uppercase tracking-[0.3em] mb-1">Privacidad</div>
-            <div className="text-champagne font-serif text-lg">Absoluta</div>
-          </motion.div>
-        </motion.div>
       </div>
-
-      {/* Mobile image - shown below content on mobile */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="lg:hidden relative h-[50vh] -mt-20"
-      >
-        <Image
-          src="/images/hero-jet.jpg"
-          alt="Interior lujoso de jet privado"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
-      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
