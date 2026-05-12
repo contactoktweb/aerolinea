@@ -22,7 +22,7 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
       className="group"
     >
       <Link href={`/flota/${aircraft.slug}`} className="block">
-        <div className="relative glass-card rounded-2xl overflow-hidden">
+        <div className="relative bg-white rounded-2xl overflow-hidden border border-burgundy/5 shadow-[0_20px_50px_rgba(74,14,14,0.08)] hover:shadow-[0_30px_70px_rgba(74,14,14,0.12)] transition-all duration-500">
           {/* Image Section */}
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
@@ -32,11 +32,11 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
             
             {/* Category Badge */}
             <div className="absolute top-4 left-4">
-              <span className="px-3 py-1.5 rounded-full text-xs font-medium bg-champagne/90 text-background">
+              <span className="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-champagne text-background shadow-lg">
                 {categoryLabels[aircraft.category]}
               </span>
             </div>
@@ -53,10 +53,10 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
           <div className="p-6">
             {/* Title */}
             <div className="mb-4">
-              <h3 className="font-serif text-2xl text-pearl group-hover:text-champagne transition-colors">
+              <h3 className="font-serif text-2xl text-champagne group-hover:text-champagne/80 transition-colors">
                 {aircraft.name}
               </h3>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-burgundy/60 font-medium mt-1">
                 {aircraft.tagline}
               </p>
             </div>
@@ -64,35 +64,35 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
             {/* Specs Grid */}
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
-                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-secondary flex items-center justify-center">
-                  <Icon icon="ph:users-light" className="w-4 h-4 text-champagne" />
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-burgundy/5 flex items-center justify-center">
+                  <Icon icon="ph:users-light" className="w-4 h-4 text-burgundy" />
                 </div>
-                <p className="font-mono text-lg text-pearl">{aircraft.specs.passengers}</p>
-                <p className="text-xs text-muted-foreground">Pasajeros</p>
+                <p className="font-mono text-lg text-burgundy">{aircraft.specs.passengers}</p>
+                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">Pasajeros</p>
               </div>
               <div className="text-center">
-                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-secondary flex items-center justify-center">
-                  <Icon icon="ph:navigation-arrow-light" className="w-4 h-4 text-champagne" />
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-burgundy/5 flex items-center justify-center">
+                  <Icon icon="ph:navigation-arrow-light" className="w-4 h-4 text-burgundy" />
                 </div>
-                <p className="font-mono text-lg text-pearl">{aircraft.specs.range}</p>
-                <p className="text-xs text-muted-foreground">Alcance</p>
+                <p className="font-mono text-lg text-burgundy">{aircraft.specs.range}</p>
+                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">Alcance</p>
               </div>
               <div className="text-center">
-                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-secondary flex items-center justify-center">
-                  <Icon icon="ph:gauge-light" className="w-4 h-4 text-champagne" />
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-burgundy/5 flex items-center justify-center">
+                  <Icon icon="ph:gauge-light" className="w-4 h-4 text-burgundy" />
                 </div>
-                <p className="font-mono text-lg text-pearl">{aircraft.specs.speed}</p>
-                <p className="text-xs text-muted-foreground">Velocidad</p>
+                <p className="font-mono text-lg text-burgundy">{aircraft.specs.speed}</p>
+                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">Velocidad</p>
               </div>
             </div>
 
             {/* CTA */}
-            <div className="flex items-center justify-between pt-4 border-t border-pearl/10">
-              <span className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between pt-4 border-t border-burgundy/10">
+              <span className="text-sm text-burgundy/50 font-medium">
                 Ver especificaciones completas
               </span>
-              <div className="w-10 h-10 rounded-full bg-champagne/10 flex items-center justify-center group-hover:bg-champagne transition-colors">
-                <Icon icon="ph:arrow-right-light" className="w-4 h-4 text-champagne group-hover:text-background transition-colors" />
+              <div className="w-10 h-10 rounded-full bg-burgundy/5 flex items-center justify-center group-hover:bg-burgundy transition-colors">
+                <Icon icon="ph:arrow-right-light" className="w-4 h-4 text-burgundy group-hover:text-white transition-colors" />
               </div>
             </div>
           </div>

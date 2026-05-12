@@ -38,24 +38,17 @@ export function SectionTitle({
       )}
     >
       {subtitle && (
-        <span className={cn(
-          "inline-block text-sm font-medium tracking-[0.2em] uppercase mb-4",
-          theme === 'dark' ? "text-champagne" : "text-background/80"
-        )}>
+        <span className="inline-block text-sm font-bold tracking-[0.2em] uppercase mb-4 text-champagne">
           {subtitle}
         </span>
       )}
-      <h2 className={cn(
-        "font-serif text-3xl md:text-4xl lg:text-5xl text-balance leading-[1.1] tracking-tight",
-        theme === 'dark' ? "text-pearl" : "text-background font-bold"
-      )}>
+      <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-balance leading-[1.1] tracking-tight text-champagne font-bold">
         {title}
       </h2>
       {description && (
         <p className={cn(
-          "mt-4 max-w-2xl text-pretty leading-relaxed",
-          align === 'center' ? "mx-auto" : "",
-          theme === 'dark' ? "text-muted-foreground" : "text-background/70 font-medium"
+          "mt-4 max-w-2xl text-pretty leading-relaxed text-burgundy font-medium",
+          align === 'center' ? "mx-auto" : ""
         )}>
           {description}
         </p>

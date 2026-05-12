@@ -39,9 +39,8 @@ export function Header() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-[100] transition-all duration-500',
-          isScrolled
-            ? 'bg-background/80 backdrop-blur-xl border-b border-pearl/10 py-0'
-            : 'bg-transparent py-6'
+          'bg-background border-b border-pearl/10 py-6',
+          isScrolled && 'shadow-xl'
         )}
       >
         <div className="container mx-auto px-4 lg:px-8">
@@ -50,22 +49,22 @@ export function Header() {
             <Link href="/" className="flex items-center group">
               <Image 
                 src="/logo.png" 
-                alt="Aerolíneas Santander" 
+                alt="Logo" 
                 width={350} 
                 height={100} 
-                className="h-20 md:h-28 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+                className="h-20 md:h-30 w-auto object-contain transition-all duration-500 group-hover:scale-105"
                 priority
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-12">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'relative text-sm font-medium tracking-wide transition-colors animated-underline',
+                    'relative text-base font-bold uppercase tracking-[0.15em] transition-colors animated-underline',
                     pathname === link.href
                       ? 'text-champagne'
                       : 'text-pearl/80 hover:text-pearl'
@@ -84,7 +83,7 @@ export function Header() {
             </nav>
 
             {/* Right Section */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <LanguageSelector />
 
               {/* Mobile Menu Toggle */}

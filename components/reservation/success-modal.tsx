@@ -58,17 +58,17 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
               >
                 <Icon icon="ph:check-circle-light" className="w-10 h-10 text-champagne" />
               </motion.div>
-              <h2 className="font-serif text-2xl lg:text-3xl text-pearl mb-2">
+              <h2 className="font-serif text-2xl lg:text-3xl text-champagne mb-2">
                 ¡Solicitud Recibida!
               </h2>
-              <p className="text-muted-foreground">
-                Gracias por elegir Aerolíneas Santander
+              <p className="text-burgundy font-medium">
+                Gracias por elegir nuestra aerolínea
               </p>
             </div>
 
             {/* Reservation Summary */}
             <div className="bg-muted/50 rounded-xl p-6 mb-6 space-y-4">
-              <h3 className="font-medium text-pearl text-sm uppercase tracking-wider">
+              <h3 className="font-medium text-champagne text-sm uppercase tracking-wider">
                 Resumen de su Solicitud
               </h3>
 
@@ -98,7 +98,7 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
 
             {/* Next Steps */}
             <div className="space-y-4 mb-8">
-              <h3 className="font-medium text-pearl text-sm uppercase tracking-wider">
+              <h3 className="font-medium text-champagne text-sm uppercase tracking-wider">
                 Próximos Pasos
               </h3>
 
@@ -107,8 +107,8 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                   <Icon icon="ph:clock-light" className="w-4 h-4 text-champagne" />
                 </div>
                 <div>
-                  <p className="text-pearl text-sm">Respuesta en menos de 1 hora</p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-burgundy font-bold text-sm">Respuesta en menos de 1 hora</p>
+                  <p className="text-burgundy/60 text-xs font-medium">
                     Nuestro equipo VIP revisará su solicitud
                   </p>
                 </div>
@@ -119,8 +119,8 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                   <Icon icon="ph:phone-light" className="w-4 h-4 text-champagne" />
                 </div>
                 <div>
-                  <p className="text-pearl text-sm">Llamada de confirmación</p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-burgundy font-bold text-sm">Llamada de confirmación</p>
+                  <p className="text-burgundy/60 text-xs font-medium">
                     Le contactaremos para confirmar detalles
                   </p>
                 </div>
@@ -131,8 +131,8 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                   <Icon icon="ph:envelope-light" className="w-4 h-4 text-champagne" />
                 </div>
                 <div>
-                  <p className="text-pearl text-sm">Cotización personalizada</p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-burgundy font-bold text-sm">Cotización personalizada</p>
+                  <p className="text-burgundy/60 text-xs font-medium">
                     Recibirá su propuesta por email
                   </p>
                 </div>

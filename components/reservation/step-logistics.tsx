@@ -79,10 +79,10 @@ export function StepLogistics({
         <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
           Paso 2 de 4
         </span>
-        <h1 className="font-serif text-3xl lg:text-4xl text-pearl mt-2 mb-4">
+        <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           Detalles del Vuelo
         </h1>
-        <p className="text-muted-foreground max-w-lg mx-auto">
+        <p className="text-burgundy font-medium max-w-lg mx-auto">
           Seleccione la fecha, hora y número de pasajeros para su vuelo.
         </p>
       </div>
@@ -93,23 +93,23 @@ export function StepLogistics({
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-              className="p-2 rounded-lg hover:bg-muted transition-colors"
+              className="p-2 rounded-lg hover:bg-burgundy/10 transition-colors"
             >
-              <Icon icon="ph:caret-left-light" className="w-5 h-5 text-pearl" />
+              <Icon icon="ph:caret-left-light" className="w-5 h-5 text-background" />
             </button>
-            <h3 className="font-serif text-lg text-pearl capitalize">
+            <h3 className="font-serif text-lg text-background capitalize">
               {format(currentMonth, 'MMMM yyyy', { locale: es })}
             </h3>
             <button
               onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-              className="p-2 rounded-lg hover:bg-muted transition-colors"
+              className="p-2 rounded-lg hover:bg-burgundy/10 transition-colors"
             >
-              <Icon icon="ph:caret-right-light" className="w-5 h-5 text-pearl" />
+              <Icon icon="ph:caret-right-light" className="w-5 h-5 text-background" />
             </button>
           </div>
 
           {data.tripType === 'round-trip' && (
-            <div className="mb-4 text-center text-sm text-muted-foreground">
+            <div className="mb-4 text-center text-sm text-background/50 font-bold uppercase tracking-wider">
               {selectingReturn
                 ? 'Seleccione fecha de regreso'
                 : 'Seleccione fecha de salida'}
@@ -121,7 +121,7 @@ export function StepLogistics({
             {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
               <div
                 key={day}
-                className="text-center text-xs text-muted-foreground py-2"
+                className="text-center text-xs text-background/50 font-bold uppercase tracking-wider py-2"
               >
                 {day}
               </div>
@@ -153,13 +153,13 @@ export function StepLogistics({
                   className={cn(
                     'aspect-square rounded-lg text-sm transition-all duration-300',
                     isDisabled
-                      ? 'text-muted-foreground/30 cursor-not-allowed'
-                      : 'hover:bg-muted',
-                    isToday(day) && 'ring-1 ring-champagne/50',
-                    isDeparture && 'bg-champagne text-background font-bold shadow-[0_0_10px_rgba(212,196,131,0.3)]',
-                    isReturn && 'bg-champagne text-background font-bold shadow-[0_0_10px_rgba(212,196,131,0.3)]',
-                    isInRange && 'bg-champagne/20',
-                    !isDeparture && !isReturn && !isDisabled && 'text-pearl'
+                      ? 'text-background/20 cursor-not-allowed'
+                      : 'hover:bg-burgundy/10',
+                    isToday(day) && 'ring-1 ring-burgundy/50',
+                    isDeparture && 'bg-burgundy text-white font-bold shadow-[0_0_10px_rgba(74,14,14,0.3)]',
+                    isReturn && 'bg-burgundy text-white font-bold shadow-[0_0_10px_rgba(74,14,14,0.3)]',
+                    isInRange && 'bg-burgundy/10',
+                    !isDeparture && !isReturn && !isDisabled && 'text-background'
                   )}
                 >
                   {format(day, 'd')}
@@ -169,19 +169,19 @@ export function StepLogistics({
           </div>
 
           {/* Selected Dates Display */}
-          <div className="mt-6 pt-4 border-t border-pearl/10 space-y-2">
+          <div className="mt-6 pt-4 border-t border-burgundy/10 space-y-2">
             {data.departureDate && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Salida:</span>
-                <span className="text-pearl">
+                <span className="text-background/50 font-bold uppercase tracking-wider">Salida:</span>
+                <span className="text-background font-medium">
                   {format(data.departureDate, "d 'de' MMMM, yyyy", { locale: es })}
                 </span>
               </div>
             )}
             {data.returnDate && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Regreso:</span>
-                <span className="text-pearl">
+                <span className="text-background/50 font-bold uppercase tracking-wider">Regreso:</span>
+                <span className="text-background font-medium">
                   {format(data.returnDate, "d 'de' MMMM, yyyy", { locale: es })}
                 </span>
               </div>
@@ -194,12 +194,12 @@ export function StepLogistics({
           {/* Time Selection */}
           <GlassCard hover={false} className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-champagne/10 flex items-center justify-center">
-                <Icon icon="ph:clock-light" className="w-5 h-5 text-champagne" />
+              <div className="w-10 h-10 rounded-lg bg-burgundy/10 flex items-center justify-center">
+                <Icon icon="ph:clock-light" className="w-5 h-5 text-burgundy" />
               </div>
               <div>
-                <h3 className="font-medium text-pearl">Hora de Salida</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-medium text-champagne">Hora de Salida</h3>
+                <p className="text-sm text-burgundy font-medium">
                   Seleccione su hora preferida
                 </p>
               </div>
@@ -228,12 +228,12 @@ export function StepLogistics({
           {/* Passengers */}
           <GlassCard hover={false} className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-champagne/10 flex items-center justify-center">
-                <Icon icon="ph:users-light" className="w-5 h-5 text-champagne" />
+              <div className="w-10 h-10 rounded-lg bg-burgundy/10 flex items-center justify-center">
+                <Icon icon="ph:users-light" className="w-5 h-5 text-burgundy" />
               </div>
               <div>
-                <h3 className="font-medium text-pearl">Pasajeros</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-medium text-champagne">Pasajeros</h3>
+                <p className="text-sm text-burgundy font-medium">
                   Máximo 19 pasajeros
                 </p>
               </div>
@@ -246,15 +246,15 @@ export function StepLogistics({
                 onClick={() =>
                   updateData({ passengers: Math.max(1, data.passengers - 1) })
                 }
-                className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-all"
+                className="w-12 h-12 rounded-full bg-burgundy/5 flex items-center justify-center hover:bg-burgundy/10 transition-all"
               >
-                <Icon icon="ph:minus-light" className="w-5 h-5 text-pearl" />
+                <Icon icon="ph:minus-light" className="w-5 h-5 text-background" />
               </motion.button>
               <motion.span 
                 key={data.passengers}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="font-mono text-4xl text-champagne w-16 text-center"
+                className="font-mono text-4xl text-burgundy w-16 text-center"
               >
                 {data.passengers}
               </motion.span>
@@ -264,9 +264,9 @@ export function StepLogistics({
                 onClick={() =>
                   updateData({ passengers: Math.min(19, data.passengers + 1) })
                 }
-                className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-all"
+                className="w-12 h-12 rounded-full bg-burgundy/5 flex items-center justify-center hover:bg-burgundy/10 transition-all"
               >
-                <Icon icon="ph:plus-light" className="w-5 h-5 text-pearl" />
+                <Icon icon="ph:plus-light" className="w-5 h-5 text-background" />
               </motion.button>
             </div>
           </GlassCard>

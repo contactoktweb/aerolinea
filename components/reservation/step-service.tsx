@@ -72,10 +72,10 @@ export function StepService({
         <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
           Paso 3 de 4
         </span>
-        <h1 className="font-serif text-3xl lg:text-4xl text-pearl mt-2 mb-4">
+        <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           Tipo de Servicio
         </h1>
-        <p className="text-muted-foreground max-w-lg mx-auto">
+        <p className="text-burgundy font-medium max-w-lg mx-auto">
           Seleccione el tipo de servicio que mejor se adapte a sus necesidades.
         </p>
       </div>
@@ -95,8 +95,8 @@ export function StepService({
               className={cn(
                 'h-full transition-all duration-300',
                 data.serviceType === service.id
-                  ? 'ring-2 ring-champagne bg-card/80 shadow-[0_0_20px_rgba(212,196,131,0.2)]'
-                  : 'hover:bg-card/40'
+                  ? 'ring-2 ring-burgundy bg-burgundy/10 shadow-[0_0_20px_rgba(74,14,14,0.2)]'
+                  : 'hover:bg-burgundy/5'
               )}
             >
               <div className="flex items-start gap-4">
@@ -104,8 +104,8 @@ export function StepService({
                   className={cn(
                     'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300',
                     data.serviceType === service.id
-                      ? 'bg-champagne scale-110'
-                      : 'bg-champagne/10'
+                      ? 'bg-burgundy scale-110'
+                      : 'bg-burgundy/10'
                   )}
                 >
                   <Icon
@@ -113,27 +113,27 @@ export function StepService({
                     className={cn(
                       'w-5 h-5 transition-colors',
                       data.serviceType === service.id
-                        ? 'text-background'
-                        : 'text-champagne'
+                        ? 'text-white'
+                        : 'text-burgundy'
                     )}
                   />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-serif text-lg text-pearl font-bold">
+                    <h3 className="font-serif text-lg text-champagne font-bold">
                       {service.title}
                     </h3>
                     {data.serviceType === service.id && (
                       <motion.div 
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="w-6 h-6 rounded-full bg-champagne flex items-center justify-center"
+                        className="w-6 h-6 rounded-full bg-burgundy flex items-center justify-center"
                       >
-                        <Icon icon="ph:check-light" className="w-4 h-4 text-background" />
+                        <Icon icon="ph:check-light" className="w-4 h-4 text-white" />
                       </motion.div>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                  <p className="text-sm text-burgundy/60 font-medium mb-3 leading-relaxed">
                     {service.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -143,8 +143,8 @@ export function StepService({
                         className={cn(
                           "px-2 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold transition-colors",
                           data.serviceType === service.id
-                            ? "bg-background/20 text-background"
-                            : "bg-muted text-pearl/50"
+                            ? "bg-burgundy/20 text-burgundy"
+                            : "bg-burgundy/5 text-burgundy/50"
                         )}
                       >
                         {feature}
@@ -160,7 +160,7 @@ export function StepService({
 
       {/* Aircraft Preference */}
       <GlassCard hover={false} className="p-6">
-        <h3 className="font-serif text-xl text-pearl mb-4">
+        <h3 className="font-serif text-xl text-champagne mb-4">
           Preferencia de Aeronave
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -173,16 +173,16 @@ export function StepService({
               className={cn(
                 'p-4 rounded-xl text-left transition-all duration-300 shadow-lg',
                 data.aircraftPreference === option.id
-                  ? 'bg-champagne text-background'
-                  : 'bg-muted hover:bg-muted/80'
+                  ? 'bg-burgundy text-white'
+                  : 'bg-burgundy/5 hover:bg-burgundy/10'
               )}
             >
               <p
                 className={cn(
                   'font-bold text-sm',
                   data.aircraftPreference === option.id
-                    ? 'text-background'
-                    : 'text-pearl'
+                    ? 'text-white'
+                    : 'text-background'
                 )}
               >
                 {option.name}
@@ -191,8 +191,8 @@ export function StepService({
                 className={cn(
                   'text-[11px] mt-1 leading-tight',
                   data.aircraftPreference === option.id
-                    ? 'text-background/80'
-                    : 'text-muted-foreground'
+                    ? 'text-white/80'
+                    : 'text-background/60'
                 )}
               >
                 {option.description}

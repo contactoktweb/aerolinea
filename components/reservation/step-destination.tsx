@@ -63,10 +63,10 @@ export function StepDestination({
         <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase">
           Paso 1 de 4
         </span>
-        <h1 className="font-serif text-3xl lg:text-4xl text-pearl mt-2 mb-4">
+        <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
           ¿A Dónde Desea Volar?
         </h1>
-        <p className="text-muted-foreground max-w-lg mx-auto">
+        <p className="text-burgundy font-medium max-w-lg mx-auto">
           Seleccione su ciudad de origen y destino. Operamos vuelos a más de 50
           destinos en América y Europa.
         </p>
@@ -81,8 +81,8 @@ export function StepDestination({
           className={cn(
             'px-6 py-3 rounded-full text-sm font-medium transition-all duration-300',
             data.tripType === 'one-way'
-              ? 'bg-champagne text-background shadow-[0_0_15px_rgba(212,196,131,0.3)]'
-              : 'glass-card text-pearl/70 hover:text-pearl'
+              ? 'bg-burgundy text-white shadow-[0_0_15px_rgba(74,14,14,0.3)]'
+              : 'bg-burgundy/5 text-burgundy/70 hover:text-burgundy border border-burgundy/10'
           )}
         >
           Solo Ida
@@ -94,8 +94,8 @@ export function StepDestination({
           className={cn(
             'px-6 py-3 rounded-full text-sm font-medium transition-all duration-300',
             data.tripType === 'round-trip'
-              ? 'bg-champagne text-background shadow-[0_0_15px_rgba(212,196,131,0.3)]'
-              : 'glass-card text-pearl/70 hover:text-pearl'
+              ? 'bg-burgundy text-white shadow-[0_0_15px_rgba(74,14,14,0.3)]'
+              : 'bg-burgundy/5 text-burgundy/70 hover:text-burgundy border border-burgundy/10'
           )}
         >
           Ida y Vuelta
@@ -107,11 +107,11 @@ export function StepDestination({
         <div className="flex flex-col lg:flex-row items-center gap-4">
           {/* Origin */}
           <div className="flex-1 w-full relative">
-            <label className="block text-sm text-muted-foreground mb-2">
+            <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
               Origen
             </label>
             <div className="relative">
-              <Icon icon="ph:map-pin-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-champagne" />
+              <Icon icon="ph:map-pin-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
               <input
                 type="text"
                 value={originSearch}
@@ -122,7 +122,7 @@ export function StepDestination({
                 onFocus={() => setShowOriginDropdown(true)}
                 onBlur={() => setTimeout(() => setShowOriginDropdown(false), 200)}
                 placeholder="Ciudad de origen"
-                className="w-full pl-12 pr-4 py-4 rounded-xl bg-input border border-border text-pearl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-champagne/50"
+                className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
               {showOriginDropdown && filteredOriginCities.length > 0 && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-10 overflow-hidden">
@@ -134,10 +134,10 @@ export function StepDestination({
                         setOriginSearch(`${city.name} (${city.code})`)
                         setShowOriginDropdown(false)
                       }}
-                      className="w-full px-4 py-3 text-left hover:bg-muted transition-colors flex items-center justify-between"
+                      className="w-full px-4 py-3 text-left hover:bg-burgundy/10 transition-colors flex items-center justify-between"
                     >
-                      <span className="text-pearl">{city.name}</span>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-background font-medium">{city.name}</span>
+                      <span className="text-sm text-background/50">
                         {city.code} - {city.country}
                       </span>
                     </button>
@@ -150,18 +150,18 @@ export function StepDestination({
           {/* Swap Button */}
           <button
             onClick={swapLocations}
-            className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-champagne/20 transition-colors mt-6 lg:mt-0"
+            className="w-12 h-12 rounded-full bg-burgundy/10 flex items-center justify-center hover:bg-burgundy/20 transition-colors mt-6 lg:mt-0"
           >
-            <Icon icon="ph:arrows-left-right-light" className="w-5 h-5 text-champagne" />
+            <Icon icon="ph:arrows-left-right-light" className="w-5 h-5 text-burgundy" />
           </button>
 
           {/* Destination */}
           <div className="flex-1 w-full relative">
-            <label className="block text-sm text-muted-foreground mb-2">
+            <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
               Destino
             </label>
             <div className="relative">
-              <Icon icon="ph:airplane-takeoff-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-champagne" />
+              <Icon icon="ph:airplane-takeoff-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
               <input
                 type="text"
                 value={destSearch}
@@ -172,7 +172,7 @@ export function StepDestination({
                 onFocus={() => setShowDestDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDestDropdown(false), 200)}
                 placeholder="Ciudad de destino"
-                className="w-full pl-12 pr-4 py-4 rounded-xl bg-input border border-border text-pearl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-champagne/50"
+                className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
               {showDestDropdown && filteredDestCities.length > 0 && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-10 overflow-hidden">
@@ -184,10 +184,10 @@ export function StepDestination({
                         setDestSearch(`${city.name} (${city.code})`)
                         setShowDestDropdown(false)
                       }}
-                      className="w-full px-4 py-3 text-left hover:bg-muted transition-colors flex items-center justify-between"
+                      className="w-full px-4 py-3 text-left hover:bg-burgundy/10 transition-colors flex items-center justify-between"
                     >
-                      <span className="text-pearl">{city.name}</span>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-background font-medium">{city.name}</span>
+                      <span className="text-sm text-background/50">
                         {city.code} - {city.country}
                       </span>
                     </button>

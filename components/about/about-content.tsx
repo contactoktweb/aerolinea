@@ -114,7 +114,7 @@ export function AboutContent() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 lg:py-28 border-y border-pearl/5">
+      <section className="py-20 lg:py-28 bg-white border-y border-burgundy/5">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {stats.map((stat, index) => (
@@ -131,7 +131,7 @@ export function AboutContent() {
       </section>
 
       {/* Legacy Section */}
-      <section className="py-20 lg:py-28">
+      <section className="py-20 lg:py-28 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <motion.div
@@ -143,10 +143,10 @@ export function AboutContent() {
               <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4 block">
                 Nuestro Legado
               </span>
-              <h2 className="font-serif text-3xl lg:text-4xl text-pearl mb-6">
+              <h2 className="font-serif text-3xl lg:text-4xl text-background mb-6">
                 Tradición de Excelencia en el Cielo
               </h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <div className="space-y-4 text-background/70 font-medium leading-relaxed">
                 <p>
                   Fundada por Carlos Santander Sr., piloto con más de 30 años de
                   experiencia en aviación comercial y militar, Aerolíneas
@@ -193,7 +193,7 @@ export function AboutContent() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 lg:py-28 bg-champagne text-background">
+      <section className="py-20 lg:py-28 bg-white text-background">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionTitle
             subtitle="Nuestros Valores"
@@ -211,7 +211,7 @@ export function AboutContent() {
           >
             {values.map((value) => (
               <motion.div key={value.title} variants={fadeInUp}>
-                <div className="h-full rounded-2xl p-8 bg-background/5 border border-transparent hover:border-background/20 transition-all duration-300">
+                <div className="h-full rounded-2xl p-8 bg-burgundy/5 border border-burgundy/10 hover:border-burgundy/20 transition-all duration-300">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-xl bg-background/10 flex items-center justify-center shrink-0">
                       <Icon icon={value.icon} className="w-6 h-6 text-background" />
@@ -233,12 +233,13 @@ export function AboutContent() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 lg:py-28">
+      <section className="py-20 lg:py-28 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionTitle
             subtitle="Nuestro Equipo"
             title="Profesionales de Élite"
             description="Un equipo altamente calificado y dedicado a hacer realidad cada viaje con la máxima excelencia."
+            theme="light"
           />
 
           <motion.div
@@ -259,10 +260,10 @@ export function AboutContent() {
                       className="object-cover"
                     />
                   </div>
-                  <h3 className="font-serif text-xl text-pearl mb-1">
+                  <h3 className="font-serif text-xl text-background mb-1">
                     {member.name}
                   </h3>
-                  <p className="text-champagne text-sm">{member.role}</p>
+                  <p className="text-burgundy text-sm">{member.role}</p>
                 </GlassCard>
               </motion.div>
             ))}
@@ -271,7 +272,7 @@ export function AboutContent() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-28 border-t border-pearl/5">
+      <section className="py-20 lg:py-28 bg-white border-t border-burgundy/5">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -280,10 +281,10 @@ export function AboutContent() {
             variants={fadeInUp}
             className="text-center max-w-2xl mx-auto"
           >
-            <h2 className="font-serif text-3xl lg:text-4xl text-pearl mb-6">
+            <h2 className="font-serif text-3xl lg:text-4xl text-background mb-6">
               ¿Listo para Volar con Nosotros?
             </h2>
-            <p className="text-muted-foreground mb-8">
+            <p className="text-background/70 font-medium mb-8">
               Descubra por qué las personas más exigentes de Latinoamérica
               confían en Aerolíneas Santander para sus viajes privados.
             </p>

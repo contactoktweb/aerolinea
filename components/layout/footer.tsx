@@ -131,10 +131,10 @@ export function Footer() {
             <Link href="/" className="flex items-center mb-6 group">
               <Image 
                 src="/logo.png" 
-                alt="Aerolíneas Santander" 
-                width={280} 
-                height={80} 
-                className="h-20 w-auto object-contain brightness-0 invert transition-transform duration-500 group-hover:scale-105"
+                alt="Logo" 
+                width={400} 
+                height={120} 
+                className="h-32 w-auto object-contain brightness-0 invert transition-transform duration-500 group-hover:scale-105"
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
@@ -219,8 +219,7 @@ export function Footer() {
         <div className="container mx-auto px-4 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Aerolíneas Santander. Todos los
-              derechos reservados.
+              © {new Date().getFullYear()}. Todos los derechos reservados.
             </p>
             <Link 
               href="https://www.kytcode.lat" 

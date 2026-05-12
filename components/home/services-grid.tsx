@@ -16,7 +16,7 @@ const services = [
       'Vuelos ejecutivos personalizados con total privacidad y confort. Flexibilidad horaria absoluta adaptada a sus necesidades.',
     href: '/reserva',
     features: ['Sin escalas', 'Horarios flexibles', 'Maxima privacidad'],
-    gradient: 'from-champagne/20 to-transparent',
+    gradient: 'from-burgundy/5 to-transparent',
   },
   {
     icon: <Icon icon="ph:clock-light" className="w-7 h-7" />,
@@ -25,7 +25,7 @@ const services = [
       'Disponibilidad permanente para vuelos nacionales e internacionales. Respuesta inmediata las 24 horas del dia.',
     href: '/reserva',
     features: ['Disponible siempre', 'Respuesta rapida', 'Cobertura global'],
-    gradient: 'from-pearl/10 to-transparent',
+    gradient: 'from-burgundy/5 to-transparent',
   },
   {
     icon: <Icon icon="ph:heart-light" className="w-7 h-7" />,
@@ -34,7 +34,7 @@ const services = [
       'Traslados medicos de emergencia con equipamiento especializado y personal medico certificado a bordo.',
     href: '/reserva',
     features: ['Equipo medico', 'Personal certificado', 'Respuesta urgente'],
-    gradient: 'from-red-500/10 to-transparent',
+    gradient: 'from-burgundy/5 to-transparent',
   },
   {
     icon: <Icon icon="ph:package-light" className="w-7 h-7" />,
@@ -43,7 +43,7 @@ const services = [
       'Transporte de carga sensible y valiosa con maxima seguridad. Documentos, arte, equipamiento especial.',
     href: '/reserva',
     features: ['Alta seguridad', 'Carga sensible', 'Entrega garantizada'],
-    gradient: 'from-champagne/15 to-transparent',
+    gradient: 'from-burgundy/5 to-transparent',
   },
 ]
 
@@ -66,42 +66,34 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       custom={index}
     >
       <Link href={service.href} className="block h-full">
-        <GlassCard className="h-full group relative overflow-hidden">
+        <div className="h-full group relative overflow-hidden bg-white rounded-2xl p-8 border border-burgundy/5 shadow-[0_20px_50px_rgba(74,14,14,0.08)] hover:shadow-[0_30px_70px_rgba(74,14,14,0.12)] transition-all duration-500">
           {/* Gradient Background */}
           <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
           
-          {/* Animated Border */}
+          {/* Animated Border Accent */}
           <motion.div
-            className="absolute inset-0 rounded-2xl"
-            style={{
-              background: 'linear-gradient(90deg, transparent, var(--champagne), transparent)',
-              backgroundSize: '200% 100%',
-            }}
-            initial={{ opacity: 0, backgroundPosition: '200% 0' }}
-            whileHover={{
-              opacity: 0.1,
-              backgroundPosition: '-200% 0',
-              transition: { duration: 1.5, ease: 'easeInOut' },
-            }}
+            className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-burgundy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            initial={{ scaleX: 0 }}
+            whileHover={{ scaleX: 1 }}
           />
 
           <div className="relative z-10">
             <div className="flex items-start gap-4 mb-6">
               <motion.div
                 whileHover={{ rotate: 10, scale: 1.1 }}
-                className="w-16 h-16 rounded-2xl bg-champagne/10 flex items-center justify-center shrink-0 group-hover:bg-champagne/20 transition-colors duration-300"
+                className="w-16 h-16 rounded-2xl bg-burgundy/5 flex items-center justify-center shrink-0 group-hover:bg-burgundy/10 transition-colors duration-500 shadow-sm"
               >
-                <div className="text-champagne">{service.icon}</div>
+                <div className="text-burgundy">{service.icon}</div>
               </motion.div>
               <div className="flex-1">
-                <h3 className="font-serif text-xl text-pearl mb-2 flex items-center gap-2">
+                <h3 className="font-serif text-xl text-champagne mb-2 flex items-center gap-2">
                   {service.title}
                   <Icon
                     icon="ph:arrow-up-right-light"
                     className="w-4 h-4 text-champagne"
                   />
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-burgundy/70 text-sm leading-relaxed font-medium">
                   {service.description}
                 </p>
               </div>
@@ -115,14 +107,14 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 * featureIndex }}
-                  className="px-3 py-1.5 rounded-full text-xs bg-secondary/80 text-pearl/70 border border-pearl/5 group-hover:border-champagne/20 group-hover:text-pearl transition-all duration-300"
+                  className="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-burgundy/5 text-burgundy/60 border border-burgundy/10 group-hover:bg-burgundy/10 group-hover:text-burgundy transition-all duration-300"
                 >
                   {feature}
                 </motion.span>
               ))}
             </div>
           </div>
-        </GlassCard>
+        </div>
       </Link>
     </motion.div>
   )
@@ -138,7 +130,7 @@ export function ServicesGrid() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 relative overflow-hidden">
+    <section ref={sectionRef} className="py-24 lg:py-32 relative overflow-hidden bg-white">
       {/* Animated Background */}
       <motion.div
         style={{ y: backgroundY }}
@@ -175,6 +167,7 @@ export function ServicesGrid() {
           subtitle="Servicios"
           title="Experiencias de Vuelo VIP"
           description="Soluciones integrales de aviacion privada disenadas para satisfacer las mas altas exigencias. Cada vuelo es una experiencia unica."
+          theme="light"
         />
 
         <motion.div

@@ -29,13 +29,14 @@ export function FleetGallery() {
       : aircraftData.filter((a) => a.category === activeCategory)
 
   return (
-    <section className="pt-48 lg:pt-56 pb-24 lg:pb-32">
+    <section className="pt-48 lg:pt-56 pb-24 lg:pb-32 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Header */}
         <SectionTitle
           subtitle="Nuestra Flota"
           title="Aeronaves de Clase Mundial"
           description="Cada aeronave de nuestra flota ha sido seleccionada por su excelencia en rendimiento, confort y seguridad. Descubra la perfección en aviación privada."
+          theme="light"
         />
 
         {/* Category Filter */}
@@ -52,8 +53,8 @@ export function FleetGallery() {
               className={cn(
                 'px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300',
                 activeCategory === category
-                  ? 'bg-champagne text-background'
-                  : 'glass-card text-pearl/70 hover:text-pearl hover:bg-card/60'
+                  ? 'bg-burgundy text-white shadow-lg shadow-burgundy/10'
+                  : 'bg-burgundy/5 text-burgundy/70 hover:text-burgundy hover:bg-burgundy/10 border border-burgundy/10'
               )}
             >
               {categoryLabelMap[category]}
@@ -75,7 +76,7 @@ export function FleetGallery() {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <p className="text-muted-foreground">
+            <p className="text-background/60 font-medium">
               No hay aeronaves disponibles en esta categoría.
             </p>
           </motion.div>

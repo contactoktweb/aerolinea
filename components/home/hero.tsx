@@ -21,10 +21,10 @@ const stagger = {
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen bg-background overflow-hidden">
+    <section className="relative min-h-screen bg-white overflow-hidden">
       {/* Background subtle texture */}
-      <div className="absolute inset-0 opacity-[0.02]" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, var(--champagne) 1px, transparent 0)`,
+      <div className="absolute inset-0 opacity-[0.05]" style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, var(--burgundy) 1px, transparent 0)`,
         backgroundSize: '40px 40px'
       }} />
 
@@ -36,37 +36,18 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 pt-48 pb-20 lg:pt-56 lg:pb-20"
+          className="flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 pt-48 pb-20 lg:pt-64 lg:pb-20"
         >
          
 
           {/* Main headline - Large elegant typography */}
-          <motion.h1 
-            variants={slideUp}
-            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-8xl text-pearl leading-[0.95] mb-8 drop-shadow-[0_0_15px_rgba(212,196,131,0.1)]"
-          >
-            <span className="block">Aerolíneas</span>
-            <span className="block mt-2 text-champagne relative">
-              Santander
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ delay: 1, duration: 1.5 }}
-                className="absolute -bottom-2 left-0 h-px bg-gradient-to-r from-champagne/60 via-champagne/20 to-transparent"
-              />
-            </span>
-          </motion.h1>
-
-          {/* Elegant divider */}
-          <motion.div variants={slideUp} className="flex items-center gap-6 mb-8 mt-4">
-            <div className="w-16 h-px bg-gradient-to-r from-champagne/60 to-transparent" />
-            <div className="w-1.5 h-1.5 rounded-full bg-champagne/40 animate-pulse" />
-          </motion.div>
+          {/* Logo/Brand placeholder removed as requested */}
+         
 
           {/* Description */}
           <motion.p 
             variants={slideUp}
-            className="text-pearl/80 text-lg md:text-xl max-w-lg leading-relaxed font-light mb-12 italic"
+            className="text-burgundy/80 text-lg md:text-xl max-w-lg leading-relaxed font-light mb-12 italic"
           >
             "Elevando la experiencia de vuelo a través del diseño y la distinción."
           </motion.p>
@@ -82,7 +63,7 @@ export function Hero() {
             </Link>
             <Link
               href="/flota"
-              className="group inline-flex items-center justify-center gap-3 border border-pearl/20 text-pearl px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium hover:bg-pearl/5 transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-3 border border-burgundy/20 text-burgundy px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium hover:bg-burgundy/5 transition-all duration-300"
             >
               <span>Nuestra Flota</span>
             </Link>
@@ -150,8 +131,8 @@ export function Hero() {
                   priority
                 />
                 {/* Subtle overlay */}
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/30" />
-                <div className="absolute inset-0 bg-background/10" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/30" />
+                <div className="absolute inset-0 bg-white/10" />
               </div>
             </div>
           </div>
@@ -161,9 +142,9 @@ export function Hero() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-background/90 backdrop-blur-sm border border-pearl/10 px-6 py-4"
+            className="absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-white/90 backdrop-blur-sm border border-burgundy/10 px-6 py-4 shadow-xl"
           >
-            <div className="text-[10px] text-pearl/40 uppercase tracking-[0.3em] mb-1">Privacidad</div>
+            <div className="text-[10px] text-burgundy/40 uppercase tracking-[0.3em] mb-1">Privacidad</div>
             <div className="text-champagne font-serif text-lg">Absoluta</div>
           </motion.div>
         </motion.div>
@@ -183,7 +164,7 @@ export function Hero() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
       </motion.div>
 
       {/* Scroll indicator */}
@@ -198,14 +179,14 @@ export function Hero() {
           transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
           className="flex flex-col items-center gap-3"
         >
-          <span className="text-[10px] text-pearl/30 uppercase tracking-[0.3em]">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-champagne/40 to-transparent" />
+          <span className="text-[10px] text-burgundy/30 uppercase tracking-[0.3em]">Scroll</span>
+          <div className="w-px h-12 bg-gradient-to-b from-burgundy/40 to-transparent" />
         </motion.div>
       </motion.div>
 
       {/* Decorative side text */}
       <div className="hidden xl:block absolute right-8 top-1/2 -translate-y-1/2 -rotate-90 origin-center">
-        <span className="text-[10px] text-pearl/20 uppercase tracking-[0.5em]">
+        <span className="text-[10px] text-burgundy/20 uppercase tracking-[0.5em]">
           Aviacion Ejecutiva
         </span>
       </div>

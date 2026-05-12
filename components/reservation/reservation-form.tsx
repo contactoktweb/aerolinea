@@ -90,14 +90,14 @@ export function ReservationForm() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Fixed/Sticky Navigation Layer */}
-      <div className="fixed top-[80px] md:top-[112px] left-0 right-0 z-[80]">
+      <div className="fixed top-[112px] md:top-[144px] left-0 right-0 z-[80]">
         <ProgressBar currentStep={currentStep} totalSteps={4} steps={steps} />
       </div>
 
       {/* Form Content */}
-      <div className="container mx-auto px-4 lg:px-8 pt-48 lg:pt-64 pb-20">
+      <div className="container mx-auto px-4 lg:px-8 pt-52 lg:pt-64 pb-20">
         <div className="max-w-3xl mx-auto">
           <AnimatePresence mode="wait">
             {currentStep === 1 && (
