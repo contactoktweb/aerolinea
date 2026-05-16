@@ -16,6 +16,7 @@ export interface Aircraft {
   features: string[]
   image: string
   interiorImage: string
+  gallery?: any[]
 }
 
 export const aircraftData: Aircraft[] = [

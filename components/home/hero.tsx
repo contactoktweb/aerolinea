@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
+import { urlFor } from '@/sanity/lib/image'
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -19,7 +20,11 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.15 } }
 }
 
-export function Hero() {
+export function Hero({ data }: { data?: any }) {
+  const heroImage = data?.hero?.image 
+    ? urlFor(data.hero.image).url() 
+    : "/images/aircraft/gulfstream-g650.jpg"
+
   return (
     <section className="relative min-h-screen bg-white overflow-hidden">
       {/* Background subtle texture */}
@@ -54,8 +59,8 @@ export function Hero() {
               {/* Main image */}
               <div className="relative w-full h-full overflow-hidden">
                 <Image
-                  src="/images/aircraft/gulfstream-g650.jpg"
-                  alt="Gulfstream G650 en vuelo"
+                  src={heroImage}
+                  alt={data?.hero?.description || "Gulfstream G650 en vuelo"}
                   fill
                   className="object-cover"
                   priority
@@ -91,23 +96,23 @@ export function Hero() {
             variants={slideUp}
             className="text-burgundy/80 text-lg md:text-xl max-w-lg leading-relaxed font-light mb-12 italic"
           >
-            "Elevando la experiencia de vuelo a través del diseño y la distinción."
+            "{data?.hero?.description || "Elevando la experiencia de vuelo a través del diseño y la distinción."}"
           </motion.p>
 
           {/* CTAs */}
           <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-6">
             <Link
-              href="/reserva"
+              href={data?.hero?.ctaPrimary?.link || "/reserva"}
               className="group relative inline-flex items-center justify-center gap-3 bg-burgundy text-white px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium transition-all duration-500 hover:shadow-[0_0_30px_rgba(74,14,14,0.3)] hover:-translate-y-1"
             >
-              <span>Solicitar Vuelo</span>
+              <span>{data?.hero?.ctaPrimary?.text || "Solicitar Vuelo"}</span>
               <Icon icon="ph:arrow-right-light" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href="/flota"
+              href={data?.hero?.ctaSecondary?.link || "/flota"}
               className="group inline-flex items-center justify-center gap-3 border border-burgundy/20 text-burgundy px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium hover:bg-burgundy/5 transition-all duration-300"
             >
-              <span>Nuestra Flota</span>
+              <span>{data?.hero?.ctaSecondary?.text || "Nuestra Flota"}</span>
             </Link>
           </motion.div>
 
@@ -122,9 +127,11 @@ export function Hero() {
                   <Icon icon="ph:sparkle-light" className="w-6 h-6 text-background" />
                 </div>
                 <div>
-                  <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">Nuestra Esencia</h3>
+                  <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">
+                    {data?.essence?.title || "Nuestra Esencia"}
+                  </h3>
                   <p className="text-background/80 text-sm leading-relaxed font-medium">
-                    Elevamos el estándar de la aviación privada mediante exclusividad, seguridad y eficiencia absoluta en cada misión. Diseñamos el tiempo de nuestros clientes para que su única preocupación sea el destino.
+                    {data?.essence?.description || "Elevamos el estándar de la aviación privada mediante exclusividad, seguridad y eficiencia absoluta en cada misión."}
                   </p>
                 </div>
               </div>
@@ -133,9 +140,11 @@ export function Hero() {
                   <Icon icon="ph:calendar-star-light" className="w-6 h-6 text-background" />
                 </div>
                 <div>
-                  <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">Desde 2008</h3>
+                  <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">
+                    {data?.history?.title || "Desde 2008"}
+                  </h3>
                   <p className="text-background/80 text-sm leading-relaxed font-medium">
-                    Líderes en aviación ejecutiva con presencia global. Casi dos décadas operando bajo los más altos protocolos de seguridad y puntualidad en cada despegue.
+                    {data?.history?.description || "Líderes en aviación ejecutiva con presencia global. Casi dos décadas operando bajo los más altos protocolos de seguridad."}
                   </p>
                 </div>
               </div>

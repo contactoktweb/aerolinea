@@ -11,6 +11,7 @@ interface StepContactProps {
   updateData: (updates: Partial<ReservationData>) => void
   onSubmit: () => void
   onBack: () => void
+  isSubmitting?: boolean
 }
 
 export function StepContact({
@@ -18,6 +19,7 @@ export function StepContact({
   updateData,
   onSubmit,
   onBack,
+  isSubmitting = false,
 }: StepContactProps) {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -191,11 +193,18 @@ export function StepContact({
 
       {/* Navigation */}
       <div className="flex justify-between">
-        <GoldButton onClick={onBack} variant="outline" size="lg">
+        <GoldButton onClick={onBack} variant="outline" size="lg" disabled={isSubmitting}>
           Atrás
         </GoldButton>
-        <GoldButton onClick={handleSubmit} disabled={!isValid} size="lg">
-          Enviar Solicitud
+        <GoldButton onClick={handleSubmit} disabled={!isValid || isSubmitting} size="lg">
+          {isSubmitting ? (
+            <>
+              <Icon icon="ph:circle-notch-bold" className="w-5 h-5 animate-spin mr-2" />
+              Enviando...
+            </>
+          ) : (
+            'Enviar Solicitud'
+          )}
         </GoldButton>
       </div>
     </div>

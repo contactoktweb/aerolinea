@@ -119,21 +119,24 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   )
 }
 
-export function ServicesGrid() {
+export function ServicesGrid({ data }: { data?: any[] }) {
   const sectionRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  })
-
-
+  
+  const displayServices = data && data.length > 0 ? data.map(s => ({
+    icon: <Icon icon={s.iconType || "ph:airplane-light"} className="w-7 h-7" />,
+    title: s.title,
+    description: s.description,
+    href: s.href || '/reserva',
+    features: ['VIP Service', '24/7 Support', 'Global Access'], // Default features
+    gradient: 'from-burgundy/5 to-transparent',
+  })) : services
 
   return (
     <section ref={sectionRef} className="py-24 lg:py-32 relative overflow-hidden bg-white">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" />
 
-      {/* Flying Plane Animation for Services Section */}
+      {/* Flying Plane Animation */}
       <motion.div
         className="absolute top-1/2 left-0 w-full pointer-events-none"
         initial={{ x: '-100%' }}
@@ -141,17 +144,8 @@ export function ServicesGrid() {
         viewport={{ once: true, margin: '-200px' }}
         transition={{ duration: 6, ease: 'easeInOut' }}
       >
-        <svg
-          width="60"
-          height="20"
-          viewBox="0 0 60 20"
-          fill="none"
-          className="opacity-20"
-        >
-          <path
-            d="M50 10L42.5 7.5L20 9L7.5 4L5 6L17.5 10L5 14L7.5 16L20 11L42.5 12.5L50 10Z"
-            fill="var(--champagne)"
-          />
+        <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="opacity-20">
+          <path d="M50 10L42.5 7.5L20 9L7.5 4L5 6L17.5 10L5 14L7.5 16L20 11L42.5 12.5L50 10Z" fill="var(--champagne)" />
         </svg>
       </motion.div>
 
@@ -159,7 +153,7 @@ export function ServicesGrid() {
         <SectionTitle
           subtitle="Servicios"
           title="Experiencias de Vuelo VIP"
-          description="Soluciones integrales de aviacion privada disenadas para satisfacer las mas altas exigencias. Cada vuelo es una experiencia unica."
+          description="Soluciones integrales de aviacion privada disenadas para satisfacer las mas altas exigencias."
           theme="light"
         />
 
@@ -170,7 +164,7 @@ export function ServicesGrid() {
           variants={staggerContainer}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
         >
-          {services.map((service, index) => (
+          {displayServices.map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
           ))}
         </motion.div>

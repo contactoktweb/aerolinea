@@ -63,9 +63,12 @@ const steps = [
   { id: 5, title: 'Contacto', description: 'Sus datos' },
 ]
 
-export function ReservationForm() {
+export function ReservationForm({ initialCountry }: { initialCountry?: string } = {}) {
   const [currentStep, setCurrentStep] = useState(1)
-  const [data, setData] = useState<ReservationData>(initialData)
+  const [data, setData] = useState<ReservationData>({
+    ...initialData,
+    country: initialCountry || '',
+  })
   const [showSuccess, setShowSuccess] = useState(false)
 
   const updateData = (updates: Partial<ReservationData>) => {
@@ -84,9 +87,36 @@ export function ReservationForm() {
     }
   }
 
-  const handleSubmit = () => {
-    // In a real app, this would send data to a backend
-    setShowSuccess(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/quotations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          origin: data.origin,
+          destination: data.destination,
+          date: data.departureDate ? new Date(data.departureDate).toISOString().split('T')[0] : null,
+          passengers: data.passengers,
+          tripType: data.tripType,
+          notes: `Servicio: ${data.serviceType}. Aeronave: ${data.aircraftPreference}. Empresa: ${data.company}. Solicitudes: ${data.specialRequests}`,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Error al enviar cotización')
+      
+      setShowSuccess(true)
+    } catch (error) {
+      console.error(error)
+      alert('Hubo un error al enviar tu solicitud. Por favor intenta de nuevo.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const resetForm = () => {
@@ -186,6 +216,7 @@ export function ReservationForm() {
                   updateData={updateData}
                   onSubmit={handleSubmit}
                   onBack={prevStep}
+                  isSubmitting={isSubmitting}
                 />
               </motion.div>
             )}

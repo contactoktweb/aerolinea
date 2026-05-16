@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { BlogDetail } from '@/components/blog/blog-detail'
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aerolineasantander.com'
+
 // This would normally come from a CMS or API
 const articles = [
   {
@@ -142,11 +144,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const article = articles.find((a) => a.slug === slug)
 
-  if (!article) return { title: 'Artículo no encontrado' }
+  if (!article) return { title: 'Artículo no encontrado | Aerolíneas Santander' }
+
+  const pageUrl = `${BASE_URL}/blog/${slug}`
 
   return {
-    title: article.title,
+    title: `${article.title} | Blog Aerolíneas Santander`,
     description: article.excerpt,
+    keywords: [
+      article.category,
+      'aviación privada',
+      'jets ejecutivos',
+      'vuelos privados',
+      article.title,
+    ],
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url: pageUrl,
+      type: 'article',
+      publishedTime: article.date,
+      section: article.category,
+      authors: ['Aerolíneas Santander'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt,
+    },
   }
 }
 
@@ -158,7 +186,43 @@ export default async function BlogArticlePage({ params }: Props) {
     notFound()
   }
 
-  return <BlogDetail article={article} />
+  const pageUrl = `${BASE_URL}/blog/${slug}`
+
+  return (
+    <>
+      {/* JSON-LD: BlogPosting */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: article!.title,
+            description: article!.excerpt,
+            datePublished: article!.date,
+            author: {
+              '@type': 'Organization',
+              name: 'Aerolíneas Santander',
+              url: BASE_URL,
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Aerolíneas Santander',
+              url: BASE_URL,
+            },
+            url: pageUrl,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': pageUrl,
+            },
+            articleSection: article!.category,
+            keywords: ['aviación privada', 'jets ejecutivos', article!.category],
+          }),
+        }}
+      />
+      <BlogDetail article={article!} />
+    </>
+  )
 }
 
 export async function generateStaticParams() {

@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Icon } from '@iconify/react'
-import { usePathname } from 'next/navigation'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
+import { urlFor } from '@/sanity/lib/image'
 
 const quickLinks = [
   { href: '/', label: 'Inicio' },
@@ -15,7 +16,7 @@ const quickLinks = [
   { href: '/reserva', label: 'Reservar' },
 ]
 
-const services = [
+const servicesList = [
   'Vuelos Privados',
   'Vuelos Charter',
   'Ambulancia Aerea',
@@ -23,42 +24,50 @@ const services = [
   'Eventos Especiales',
 ]
 
-const contactInfo = [
-  {
-    icon: 'ph:phone-light',
-    title: 'Telefono',
-    value: '+51 1 444 5555',
-    href: 'tel:+5114445555',
-    subtitle: 'Linea directa VIP',
-  },
-  {
-    icon: 'ph:envelope-light',
-    title: 'Email',
-    value: 'vip@aerolineasantander.com',
-    href: 'mailto:vip@aerolineasantander.com',
-    subtitle: 'Respuesta rapida',
-  },
-  {
-    icon: 'ph:map-pin-light',
-    title: 'Ubicacion',
-    value: 'Aeropuerto Jorge Chavez',
-    href: '#',
-    subtitle: 'Terminal de Aviacion Ejecutiva',
-  },
-  {
-    icon: 'ph:clock-light',
-    title: 'Horario',
-    value: '24/7',
-    href: '#',
-    subtitle: 'Disponibilidad permanente',
-  },
-]
-
-export function Footer() {
+export function Footer({ settings }: { settings?: any }) {
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
 
   if (isAdmin) return null
+
+  const contactInfo = [
+    {
+      icon: 'ph:phone-light',
+      title: 'Telefono',
+      value: settings?.phone || '+51 1 444 5555',
+      href: settings?.phone ? `tel:${settings.phone.replace(/\s/g, '')}` : 'tel:+5114445555',
+      subtitle: 'Linea directa VIP',
+    },
+    {
+      icon: 'ph:envelope-light',
+      title: 'Email',
+      value: settings?.email || 'vip@aerolineasantander.com',
+      href: settings?.email ? `mailto:${settings.email}` : 'mailto:vip@aerolineasantander.com',
+      subtitle: 'Respuesta rapida',
+    },
+    {
+      icon: 'ph:map-pin-light',
+      title: 'Ubicacion',
+      value: settings?.address || 'Aeropuerto Jorge Chavez',
+      href: '#',
+      subtitle: 'Terminal de Aviacion Ejecutiva',
+    },
+    {
+      icon: 'ph:clock-light',
+      title: 'Horario',
+      value: '24/7',
+      href: '#',
+      subtitle: 'Disponibilidad permanente',
+    },
+  ]
+
+  const socialLinks = settings?.socialLinks || [
+    { icon: 'ph:facebook-logo-light', url: 'https://facebook.com', platform: 'Facebook' },
+    { icon: 'ph:instagram-logo-light', url: 'https://instagram.com', platform: 'Instagram' },
+    { icon: 'ph:linkedin-logo-light', url: 'https://linkedin.com', platform: 'LinkedIn' },
+  ]
+
+  const logoFooterUrl = settings?.logoFooter ? urlFor(settings.logoFooter).url() : settings?.logo ? urlFor(settings.logo).url() : '/logo.png'
 
   return (
     <footer className="bg-background border-t border-pearl/5">
@@ -136,8 +145,8 @@ export function Footer() {
           >
             <Link href="/" className="flex items-center mb-6 group">
               <Image 
-                src="/logo.png" 
-                alt="Logo" 
+                src={logoFooterUrl} 
+                alt={settings?.title || "Logo"} 
                 width={400} 
                 height={120} 
                 className="h-32 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
@@ -148,20 +157,16 @@ export function Footer() {
               Experiencia premium en cada vuelo con los más altos estándares de seguridad.
             </p>
             <div className="flex items-center gap-4">
-              {[
-                { icon: 'ph:facebook-logo-light', href: 'https://facebook.com', label: 'Facebook' },
-                { icon: 'ph:instagram-logo-light', href: 'https://instagram.com', label: 'Instagram' },
-                { icon: 'ph:linkedin-logo-light', href: 'https://linkedin.com', label: 'LinkedIn' },
-              ].map((social) => (
+              {socialLinks.map((social: any) => (
                 <motion.a
-                  key={social.label}
-                  href={social.href}
+                  key={social.platform}
+                  href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -5, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className="w-12 h-12 rounded-xl bg-champagne/10 border border-champagne/20 flex items-center justify-center text-champagne hover:bg-champagne hover:text-background transition-all duration-300 shadow-lg shadow-champagne/5"
-                  aria-label={social.label}
+                  aria-label={social.platform}
                 >
                   <Icon icon={social.icon} className="w-6 h-6" />
                 </motion.a>
@@ -207,7 +212,7 @@ export function Footer() {
               Nuestros Servicios
             </h4>
             <ul className="space-y-3">
-              {services.map((service) => (
+              {servicesList.map((service) => (
                 <li key={service}>
                   <span className="flex items-center gap-2 text-muted-foreground text-sm">
                     <span className="w-1.5 h-1.5 rounded-full bg-champagne/50" />

@@ -19,22 +19,25 @@ const clients = [
 // Duplicate for seamless infinite scroll
 const allClients = [...clients, ...clients]
 
-export function ClientsCarousel() {
+import { urlFor } from '@/sanity/lib/image'
+import Image from 'next/image'
+
+export function ClientsCarousel({ data }: { data?: any[] }) {
   const sectionRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  })
+  
+  const displayClients = data && data.length > 0 ? data.map(c => ({
+    name: c.name,
+    image: c.image ? urlFor(c.image).url() : null,
+    initials: c.name.slice(0, 2).toUpperCase()
+  })) : clients
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-
+  const allClientsDisplay = [...displayClients, ...displayClients]
 
   return (
     <motion.section
       ref={sectionRef}
       className="py-20 lg:py-28 bg-white text-background relative overflow-hidden"
     >
-      {/* Background */}
       <div className="absolute inset-0 pointer-events-none" />
 
       <div className="container mx-auto px-4 lg:px-8">
@@ -54,35 +57,37 @@ export function ClientsCarousel() {
         </motion.div>
       </div>
 
-      {/* Infinite Scroll Container */}
       <div className="relative overflow-hidden">
-        {/* Gradient Masks */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
 
-        {/* Scrolling Content */}
         <div className="flex animate-scroll-left">
-          {allClients.map((client, index) => (
+          {allClientsDisplay.map((client, index) => (
             <motion.div
               key={`${client.name}-${index}`}
-              className="flex-shrink-0 mx-8 group"
-              whileHover={{ scale: 1.05, y: -5 }}
+              className="flex-shrink-0 mx-12 group flex items-center justify-center h-20"
+              whileHover={{ scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 400 }}
             >
-              <div className="w-36 h-24 rounded-2xl bg-white flex flex-col items-center justify-center gap-2 transition-all duration-300 group-hover:border-burgundy/20 border border-burgundy/5">
-                <span className="font-serif text-2xl text-burgundy/30 group-hover:text-burgundy transition-colors font-bold">
+              {client.image ? (
+                <div className="relative w-32 h-12">
+                  <Image
+                    src={client.image}
+                    alt={client.name}
+                    fill
+                    className="object-contain filter grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                  />
+                </div>
+              ) : (
+                <div className="text-burgundy/20 font-serif text-3xl font-bold tracking-tighter grayscale opacity-30 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
                   {client.initials}
-                </span>
-                <span className="text-[10px] text-background/40 group-hover:text-burgundy/80 transition-colors uppercase tracking-wider font-bold">
-                  {client.name.split(' ')[0]}
-                </span>
-              </div>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Stats Section with Scroll Animation */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

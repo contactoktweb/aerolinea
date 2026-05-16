@@ -6,12 +6,14 @@ import { aircraftData, Aircraft, categoryLabels } from '@/lib/aircraft-data'
 import { AircraftCard } from './aircraft-card'
 import { SectionTitle } from '@/components/ui/section-title'
 import { cn } from '@/lib/utils'
+import { urlFor } from '@/sanity/lib/image'
 
 const categories: Array<Aircraft['category'] | 'all'> = [
   'all',
   'light',
   'midsize',
   'super-midsize',
+  'heavy',
   'ultra-long-range',
 ]
 
@@ -20,13 +22,29 @@ const categoryLabelMap: Record<Aircraft['category'] | 'all', string> = {
   ...categoryLabels,
 }
 
-export function FleetGallery() {
+export function FleetGallery({ initialData }: { initialData?: any[] }) {
   const [activeCategory, setActiveCategory] = useState<Aircraft['category'] | 'all'>('all')
+
+  const processedData: Aircraft[] = initialData && initialData.length > 0 
+    ? initialData.map(a => ({
+        id: a._id,
+        slug: a.slug,
+        name: a.name,
+        model: a.model,
+        category: a.category,
+        tagline: a.tagline,
+        description: a.description,
+        specs: a.specs,
+        features: a.features,
+        image: a.image ? urlFor(a.image).url() : "/images/aircraft/placeholder.jpg",
+        interiorImage: a.interiorImage ? urlFor(a.interiorImage).url() : "/images/aircraft/placeholder-interior.jpg",
+      }))
+    : aircraftData
 
   const filteredAircraft =
     activeCategory === 'all'
-      ? aircraftData
-      : aircraftData.filter((a) => a.category === activeCategory)
+      ? processedData
+      : processedData.filter((a) => a.category === activeCategory)
 
   return (
     <section className="pt-48 lg:pt-56 pb-24 lg:pb-32 bg-white">

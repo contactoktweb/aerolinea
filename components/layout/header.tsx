@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { cn } from '@/lib/utils'
 import { LanguageSelector } from './language-selector'
+import { urlFor } from '@/sanity/lib/image'
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
@@ -17,7 +18,7 @@ const navLinks = [
   { href: '/reserva', label: 'Reserva' },
 ]
 
-export function Header() {
+export function Header({ settings }: { settings?: any }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
@@ -37,6 +38,8 @@ export function Header() {
 
   if (isAdmin) return null
 
+  const logoUrl = settings?.logo ? urlFor(settings.logo).url() : '/logo.png'
+
   return (
     <>
       <header
@@ -51,8 +54,8 @@ export function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center group">
               <Image 
-                src="/logo.png" 
-                alt="Logo" 
+                src={logoUrl} 
+                alt={settings?.title || "Logo"} 
                 width={350} 
                 height={100} 
                 className="h-20 md:h-30 w-auto object-contain transition-all duration-500 group-hover:scale-105"

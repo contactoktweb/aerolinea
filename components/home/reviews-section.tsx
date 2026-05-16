@@ -82,8 +82,18 @@ function StarRating({
   )
 }
 
-export function ReviewsSection() {
-  const [reviews, setReviews] = useState<Review[]>(initialReviews)
+export function ReviewsSection({ data }: { data?: any[] }) {
+  const sanityReviews: Review[] = data ? data.map(r => ({
+    id: r._id,
+    name: r.name,
+    role: r.role,
+    rating: r.rating,
+    comment: r.content,
+    date: 'Reciente',
+    avatar: r.name.slice(0, 2).toUpperCase()
+  })) : []
+
+  const [reviews, setReviews] = useState<Review[]>(sanityReviews.length > 0 ? sanityReviews : initialReviews)
   const [showForm, setShowForm] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({ name: '', role: '', rating: 0, comment: '' })
@@ -98,24 +108,45 @@ export function ReviewsSection() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
-    const newReview: Review = {
-      id: Date.now(),
-      name: form.name.trim(),
-      role: form.role.trim() || 'Pasajero Verificado',
-      rating: form.rating,
-      comment: form.comment.trim(),
-      date: new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }),
-      avatar: form.name.trim().slice(0, 2).toUpperCase(),
+    
+    setIsSubmitting(true)
+    
+    try {
+      const response = await fetch('/api/testimonials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (!response.ok) throw new Error('Error al enviar')
+
+      const newReview: Review = {
+        id: Date.now(),
+        name: form.name.trim(),
+        role: form.role.trim() || 'Pasajero Verificado',
+        rating: form.rating,
+        comment: form.comment.trim(),
+        date: new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }),
+        avatar: form.name.trim().slice(0, 2).toUpperCase(),
+      }
+      
+      setReviews((prev) => [newReview, ...prev])
+      setForm({ name: '', role: '', rating: 0, comment: '' })
+      setErrors({})
+      setSubmitted(true)
+      setShowForm(false)
+      setTimeout(() => setSubmitted(false), 4000)
+    } catch (error) {
+      console.error(error)
+      setErrors({ submit: 'Ocurrió un error al enviar tu reseña. Por favor intenta de nuevo.' })
+    } finally {
+      setIsSubmitting(false)
     }
-    setReviews((prev) => [newReview, ...prev])
-    setForm({ name: '', role: '', rating: 0, comment: '' })
-    setErrors({})
-    setSubmitted(true)
-    setShowForm(false)
-    setTimeout(() => setSubmitted(false), 4000)
   }
 
   const avgRating = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
@@ -309,14 +340,19 @@ export function ReviewsSection() {
                     )}
                   </div>
 
+                  {errors.submit && (
+                    <p className="text-red-500 text-xs font-medium">{errors.submit}</p>
+                  )}
+
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full flex items-center justify-center gap-3 bg-champagne text-background font-bold py-4 rounded-none uppercase tracking-[0.2em] text-sm hover:bg-champagne/90 transition-all duration-300 shadow-[0_8px_30px_rgba(212,196,131,0.3)]"
+                    disabled={isSubmitting}
+                    className="w-full flex items-center justify-center gap-3 bg-champagne text-background font-bold py-4 rounded-none uppercase tracking-[0.2em] text-sm hover:bg-champagne/90 transition-all duration-300 shadow-[0_8px_30px_rgba(212,196,131,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Icon icon="ph:paper-plane-right-light" className="w-5 h-5" />
-                    Publicar reseña
+                    <Icon icon={isSubmitting ? 'ph:circle-notch-bold' : 'ph:paper-plane-right-light'} className={`w-5 h-5 ${isSubmitting ? 'animate-spin' : ''}`} />
+                    {isSubmitting ? 'Enviando...' : 'Publicar reseña'}
                   </motion.button>
                 </div>
               </form>

@@ -1,80 +1,59 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { Icon } from '@iconify/react'
-import { AnimatedCounter } from './animated-counter'
-import { GlassCard } from '@/components/ui/glass-card'
+import { urlFor } from '@/sanity/lib/image'
+import { fadeInUp, staggerContainer, slideInFromLeft, slideInFromRight } from '@/lib/animations'
 import { GoldButton } from '@/components/ui/gold-button'
+import { GlassCard } from '@/components/ui/glass-card'
 import { SectionTitle } from '@/components/ui/section-title'
-import {
-  fadeInUp,
-  staggerContainer,
-  slideInFromLeft,
-  slideInFromRight,
-} from '@/lib/animations'
+import { AnimatedCounter } from '@/components/about/animated-counter'
 
+// Default fallback data
 const stats = [
-  { value: 18, suffix: '+', label: 'Años de Experiencia' },
-  { value: 15000, suffix: '+', label: 'Vuelos Realizados' },
+  { value: 15, suffix: '+', label: 'Años de Experiencia' },
   { value: 50, suffix: '+', label: 'Destinos Globales' },
-  { value: 98, suffix: '%', label: 'Satisfacción' },
+  { value: 10, suffix: 'k+', label: 'Vuelos Completados' },
+  { value: 100, suffix: '%', label: 'Compromiso VIP' },
 ]
 
 const values = [
-  {
-    icon: 'ph:shield-check-light',
-    title: 'Seguridad',
-    description:
-      'La seguridad de nuestros pasajeros es nuestra máxima prioridad. Cumplimos con los más altos estándares internacionales de aviación.',
-  },
-  {
-    icon: 'ph:medal-light',
-    title: 'Excelencia',
-    description:
-      'Cada detalle de nuestro servicio está diseñado para superar las expectativas más exigentes de nuestros clientes VIP.',
-  },
-  {
-    icon: 'ph:users-light',
-    title: 'Servicio Personal',
-    description:
-      'Un equipo dedicado de profesionales disponible 24/7 para atender cada necesidad de manera personalizada.',
-  },
-  {
-    icon: 'ph:airplane-light',
-    title: 'Flota Premium',
-    description:
-      'Aeronaves de última generación con mantenimiento riguroso y amenidades de lujo para garantizar vuelos excepcionales.',
-  },
+  { title: 'Seguridad', description: 'Nuestra prioridad absoluta con los más altos estándares internacionales.' },
+  { title: 'Excelencia', description: 'Atención al detalle en cada aspecto de su experiencia de vuelo.' },
+  { title: 'Servicio Personal', description: 'Vuelos diseñados específicamente para sus necesidades.' },
+  { title: 'Flota Premium', description: 'Aeronaves de última generación mantenidas a la perfección.' },
 ]
 
 const team = [
-  {
-    name: 'Carlos Santander',
-    role: 'Director General',
-    image: '/images/team/ceo.jpg',
-  },
-  {
-    name: 'María Elena Vásquez',
-    role: 'Directora de Operaciones',
-    image: '/images/team/operations.jpg',
-  },
-  {
-    name: 'Roberto Mendoza',
-    role: 'Jefe de Pilotos',
-    image: '/images/team/chief-pilot.jpg',
-  },
+  { name: 'Carlos Santander', role: 'Fundador & CEO', image_local: '/images/team/ceo.jpg' },
+  { name: 'Dra. Elena Ruiz', role: 'Directora de Operaciones', image_local: '/images/team/ops.jpg' },
+  { name: 'Capt. Luis Mendez', role: 'Jefe de Pilotos', image_local: '/images/team/pilot.jpg' },
 ]
 
-export function AboutContent() {
+const valueIcons: Record<string, string> = {
+  'Seguridad': 'ph:shield-check-light',
+  'Excelencia': 'ph:medal-light',
+  'Servicio Personal': 'ph:users-light',
+  'Flota Premium': 'ph:airplane-light',
+}
+
+export function AboutContent({ data }: { data?: any }) {
+  const displayStats = data?.stats || stats
+  const displayValues = data?.values || values
+  const displayTeam = data?.team || team
+
+  const heroImage = data?.hero?.image ? urlFor(data.hero.image).url() : "/images/about-hero.jpg"
+  const legacyImage = data?.legacy?.image ? urlFor(data.legacy.image).url() : "/images/about-legacy.jpg"
+
   return (
     <article>
       {/* Hero Section */}
       <section className="relative pt-48 lg:pt-56 pb-24 lg:pb-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/about-hero.jpg"
-            alt="Historia de Aerolíneas Santander"
+            src={heroImage}
+            alt={data?.hero?.title || "Historia de Aerolíneas Santander"}
             fill
             className="object-cover"
             priority
@@ -93,21 +72,19 @@ export function AboutContent() {
               variants={fadeInUp}
               className="inline-block text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4"
             >
-              Nuestra Historia
+              {data?.hero?.subtitle || "Nuestra Historia"}
             </motion.span>
             <motion.h1
               variants={fadeInUp}
               className="font-serif text-4xl md:text-5xl lg:text-6xl text-pearl mb-6"
             >
-              100% VIP
+              {data?.hero?.title || "100% VIP"}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
               className="text-lg text-pearl/80 leading-relaxed"
             >
-              Desde 2008, Aerolíneas Santander ha sido sinónimo de excelencia en
-              aviación privada. Fundada con la visión de ofrecer servicios de
-              vuelo que superen todas las expectativas.
+              {data?.hero?.description || "Desde 2008, Aerolíneas Santander ha sido sinónimo de excelencia en aviación privada."}
             </motion.p>
           </motion.div>
         </div>
@@ -117,7 +94,7 @@ export function AboutContent() {
       <section className="py-20 lg:py-28 bg-white border-y border-burgundy/5">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            {stats.map((stat, index) => (
+            {displayStats.map((stat: any, index: number) => (
               <AnimatedCounter
                 key={stat.label}
                 end={stat.value}
@@ -141,29 +118,13 @@ export function AboutContent() {
               variants={slideInFromLeft}
             >
               <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4 block">
-                Nuestro Legado
+                {data?.legacy?.subtitle || "Nuestro Legado"}
               </span>
               <h2 className="font-serif text-3xl lg:text-4xl text-background mb-6">
-                Tradición de Excelencia en el Cielo
+                {data?.legacy?.title || "Tradición de Excelencia en el Cielo"}
               </h2>
-              <div className="space-y-4 text-background/70 font-medium leading-relaxed">
-                <p>
-                  Fundada por Carlos Santander Sr., piloto con más de 30 años de
-                  experiencia en aviación comercial y militar, Aerolíneas
-                  Santander nació con el compromiso de ofrecer servicios de
-                  aviación privada sin igual en Latinoamérica.
-                </p>
-                <p>
-                  A lo largo de casi dos décadas, hemos transportado a líderes
-                  empresariales, celebridades internacionales y familias
-                  distinguidas, siempre manteniendo nuestro compromiso con la
-                  seguridad, discreción y el servicio excepcional.
-                </p>
-                <p>
-                  Hoy, bajo la dirección de la segunda generación de la familia
-                  Santander, continuamos innovando y expandiendo nuestras
-                  operaciones, siempre fieles a los valores que nos fundaron.
-                </p>
+              <div className="space-y-4 text-background/70 font-medium leading-relaxed whitespace-pre-line">
+                {data?.legacy?.description || `Fundada por Carlos Santander Sr., piloto con más de 30 años de experiencia...`}
               </div>
               <div className="mt-8">
                 <GoldButton href="/reserva">Experimente la Diferencia</GoldButton>
@@ -179,13 +140,12 @@ export function AboutContent() {
             >
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/about-legacy.jpg"
-                  alt="Legado de Aerolíneas Santander"
+                  src={legacyImage}
+                  alt={data?.legacy?.title || "Legado de Aerolíneas Santander"}
                   fill
                   className="object-cover"
                 />
               </div>
-              {/* Decorative element */}
               <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-champagne/10 rounded-2xl -z-10" />
             </motion.div>
           </div>
@@ -209,12 +169,15 @@ export function AboutContent() {
             variants={staggerContainer}
             className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
           >
-            {values.map((value) => (
+            {displayValues.map((value: any) => (
               <motion.div key={value.title} variants={fadeInUp}>
                 <div className="h-full rounded-2xl p-8 bg-burgundy/5 border border-burgundy/10 hover:border-burgundy/20 transition-all duration-300">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-xl bg-background/10 flex items-center justify-center shrink-0">
-                      <Icon icon={value.icon} className="w-6 h-6 text-background" />
+                      <Icon 
+                        icon={valueIcons[value.title] || 'ph:star-light'} 
+                        className="w-6 h-6 text-background" 
+                      />
                     </div>
                     <div>
                       <h3 className="font-serif text-xl text-background font-bold mb-2">
@@ -249,12 +212,12 @@ export function AboutContent() {
             variants={staggerContainer}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            {team.map((member) => (
+            {displayTeam.map((member: any) => (
               <motion.div key={member.name} variants={fadeInUp}>
                 <GlassCard className="text-center">
                   <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden">
                     <Image
-                      src={member.image}
+                      src={member.image ? urlFor(member.image).url() : member.image_local || "/images/team/ceo.jpg"}
                       alt={member.name}
                       fill
                       className="object-cover"
