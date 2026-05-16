@@ -21,6 +21,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const isAdmin = pathname?.startsWith('/admin')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +34,8 @@ export function Header() {
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [pathname])
+
+  if (isAdmin) return null
 
   return (
     <>

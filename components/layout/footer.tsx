@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Icon } from '@iconify/react'
+import { usePathname } from 'next/navigation'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 const quickLinks = [
@@ -54,6 +55,11 @@ const contactInfo = [
 ]
 
 export function Footer() {
+  const pathname = usePathname()
+  const isAdmin = pathname?.startsWith('/admin')
+
+  if (isAdmin) return null
+
   return (
     <footer className="bg-background border-t border-pearl/5">
       {/* VIP Contact Section */}
