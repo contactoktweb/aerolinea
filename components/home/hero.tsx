@@ -39,7 +39,7 @@ export function Hero() {
           className="relative h-[50vh] lg:h-auto lg:order-last"
         >
           {/* Image container with elegant framing (Desktop) */}
-          <div className="absolute inset-0 lg:inset-8 xl:inset-12">
+          <div className="absolute inset-0 lg:inset-y-[15%] lg:inset-x-8 xl:inset-y-[20%] xl:inset-x-12">
             <div className="relative w-full h-full">
               {/* Gold accent lines - Desktop only */}
               <div className="hidden lg:block absolute -top-4 -left-4 w-24 h-24">
@@ -54,8 +54,8 @@ export function Hero() {
               {/* Main image */}
               <div className="relative w-full h-full overflow-hidden">
                 <Image
-                  src="/images/hero-jet.jpg"
-                  alt="Interior lujoso de jet privado"
+                  src="/images/aircraft/gulfstream-g650.jpg"
+                  alt="Gulfstream G650 en vuelo"
                   fill
                   className="object-cover"
                   priority

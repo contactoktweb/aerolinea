@@ -102,7 +102,7 @@ export function Footer() {
                 variants={fadeInUp}
                 custom={index}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="group glass-card rounded-2xl p-6 text-center border border-transparent hover:border-champagne/20 transition-all duration-300"
+                className="group bg-burgundy-light/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-2xl p-6 text-center border border-white/5 hover:border-champagne/30 hover:bg-burgundy-light/60 transition-all duration-300"
               >
                 <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-champagne/10 flex items-center justify-center group-hover:bg-champagne/20 group-hover:scale-110 transition-all duration-300">
                   <Icon icon={item.icon} className="w-6 h-6 text-champagne" />

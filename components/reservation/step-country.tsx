@@ -319,14 +319,14 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
         >
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="w-16 h-16 rounded-full bg-champagne/10 flex items-center justify-center overflow-hidden">
+              <div className="w-16 h-12 rounded-lg bg-champagne/10 flex items-center justify-center">
                 <img 
                   src={`https://flagcdn.com/w80/${selectedCountry?.code.toLowerCase()}.png`} 
                   alt={data.country}
-                  className="w-full h-full object-cover scale-150"
+                  className="w-full h-full object-contain drop-shadow-sm rounded-lg"
                 />
               </div>
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center">
+              <div className="absolute -bottom-3 -right-3 w-7 h-7 rounded-full bg-white shadow-lg flex items-center justify-center">
                 <Icon icon="ph:info-fill" className="w-5 h-5 text-champagne" />
               </div>
             </div>

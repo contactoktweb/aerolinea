@@ -16,14 +16,35 @@ interface StepDestinationProps {
 }
 
 const popularCities = [
-  { code: 'LIM', name: 'Lima', country: 'Perú' },
-  { code: 'MIA', name: 'Miami', country: 'EE.UU.' },
-  { code: 'NYC', name: 'Nueva York', country: 'EE.UU.' },
   { code: 'BOG', name: 'Bogotá', country: 'Colombia' },
+  { code: 'MDE', name: 'Medellín', country: 'Colombia' },
+  { code: 'CTG', name: 'Cartagena', country: 'Colombia' },
+  { code: 'CLO', name: 'Cali', country: 'Colombia' },
+  { code: 'LIM', name: 'Lima', country: 'Perú' },
+  { code: 'CUZ', name: 'Cusco', country: 'Perú' },
+  { code: 'MIA', name: 'Miami', country: 'Estados Unidos' },
+  { code: 'NYC', name: 'Nueva York', country: 'Estados Unidos' },
+  { code: 'LAX', name: 'Los Ángeles', country: 'Estados Unidos' },
   { code: 'SCL', name: 'Santiago', country: 'Chile' },
   { code: 'MEX', name: 'Ciudad de México', country: 'México' },
+  { code: 'CUN', name: 'Cancún', country: 'México' },
   { code: 'MAD', name: 'Madrid', country: 'España' },
+  { code: 'BCN', name: 'Barcelona', country: 'España' },
   { code: 'SAO', name: 'São Paulo', country: 'Brasil' },
+  { code: 'RIO', name: 'Río de Janeiro', country: 'Brasil' },
+  { code: 'EZE', name: 'Buenos Aires', country: 'Argentina' },
+  { code: 'UIO', name: 'Quito', country: 'Ecuador' },
+  { code: 'GYE', name: 'Guayaquil', country: 'Ecuador' },
+  { code: 'PTY', name: 'Ciudad de Panamá', country: 'Panamá' },
+  { code: 'LPB', name: 'La Paz', country: 'Bolivia' },
+  { code: 'VVI', name: 'Santa Cruz', country: 'Bolivia' },
+  { code: 'CCS', name: 'Caracas', country: 'Venezuela' },
+  { code: 'SDQ', name: 'Santo Domingo', country: 'República Dominicana' },
+  { code: 'SJO', name: 'San José', country: 'Costa Rica' },
+  { code: 'GUA', name: 'Ciudad de Guatemala', country: 'Guatemala' },
+  { code: 'SAL', name: 'San Salvador', country: 'El Salvador' },
+  { code: 'MVD', name: 'Montevideo', country: 'Uruguay' },
+  { code: 'ASU', name: 'Asunción', country: 'Paraguay' },
 ]
 
 export function StepDestination({
@@ -37,17 +58,48 @@ export function StepDestination({
   const [showOriginDropdown, setShowOriginDropdown] = useState(false)
   const [showDestDropdown, setShowDestDropdown] = useState(false)
 
-  const filteredOriginCities = popularCities.filter(
-    (city) =>
-      city.name.toLowerCase().includes(originSearch.toLowerCase()) ||
-      city.code.toLowerCase().includes(originSearch.toLowerCase())
-  )
+  const getFilteredOriginCities = (searchTerm: string) => {
+    let cities = popularCities;
+    
+    // STRICT FILTER: Only show cities from selected country for Origin
+    if (data.country) {
+      cities = cities.filter(c => c.country === data.country);
+    }
 
-  const filteredDestCities = popularCities.filter(
-    (city) =>
-      city.name.toLowerCase().includes(destSearch.toLowerCase()) ||
-      city.code.toLowerCase().includes(destSearch.toLowerCase())
-  )
+    if (searchTerm) {
+      cities = cities.filter(
+        (city) =>
+          city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          city.code.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Dynamic fallback if no cities exist for this country
+    if (cities.length === 0 && data.country && !searchTerm) {
+       cities = [
+         { code: 'VIP', name: `Cualquier ciudad en ${data.country}`, country: data.country }
+       ];
+    }
+
+    return cities;
+  };
+
+  const getFilteredDestCities = (searchTerm: string) => {
+    let cities = popularCities;
+
+    if (searchTerm) {
+      cities = cities.filter(
+        (city) =>
+          city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          city.code.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    return cities;
+  };
+
+  const filteredOriginCities = getFilteredOriginCities(originSearch);
+  const filteredDestCities = getFilteredDestCities(destSearch);
 
   const isValid = data.origin && data.destination
 
@@ -119,6 +171,7 @@ export function StepDestination({
                 value={originSearch}
                 onChange={(e) => {
                   setOriginSearch(e.target.value)
+                  updateData({ origin: e.target.value })
                   setShowOriginDropdown(true)
                 }}
                 onFocus={() => setShowOriginDropdown(true)}
@@ -126,8 +179,8 @@ export function StepDestination({
                 placeholder="Ciudad de origen"
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
-              {showOriginDropdown && filteredOriginCities.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-10 overflow-hidden">
+              {showOriginDropdown && (filteredOriginCities.length > 0 || originSearch) && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-burgundy/10 rounded-xl shadow-xl z-10 overflow-hidden max-h-60 overflow-y-auto">
                   {filteredOriginCities.map((city) => (
                     <button
                       key={city.code}
@@ -136,14 +189,30 @@ export function StepDestination({
                         setOriginSearch(`${city.name} (${city.code})`)
                         setShowOriginDropdown(false)
                       }}
-                      className="w-full px-4 py-3 text-left hover:bg-burgundy/10 transition-colors flex items-center justify-between"
+                      className="w-full px-4 py-3 text-left hover:bg-burgundy/5 transition-colors flex items-center justify-between"
                     >
-                      <span className="text-background font-medium">{city.name}</span>
-                      <span className="text-sm text-background/50">
+                      <span className="text-burgundy font-medium">{city.name}</span>
+                      <span className="text-sm text-burgundy/60">
                         {city.code} - {city.country}
                       </span>
                     </button>
                   ))}
+                  {originSearch && !filteredOriginCities.some(c => `${c.name} (${c.code})` === originSearch) && (
+                    <button
+                      onClick={() => {
+                        updateData({ origin: originSearch })
+                        setOriginSearch(originSearch)
+                        setShowOriginDropdown(false)
+                      }}
+                      className="w-full px-4 py-3 text-left bg-burgundy/5 hover:bg-burgundy/10 transition-colors border-t border-burgundy/10 flex items-center gap-3"
+                    >
+                      <Icon icon="ph:map-pin-line-bold" className="w-5 h-5 text-burgundy" />
+                      <div>
+                        <span className="text-burgundy font-medium block">Usar "{originSearch}"</span>
+                        <span className="text-[10px] text-burgundy/60 uppercase font-bold">Si no está tu ubicación, déjanosla escrita</span>
+                      </div>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -169,6 +238,7 @@ export function StepDestination({
                 value={destSearch}
                 onChange={(e) => {
                   setDestSearch(e.target.value)
+                  updateData({ destination: e.target.value })
                   setShowDestDropdown(true)
                 }}
                 onFocus={() => setShowDestDropdown(true)}
@@ -176,8 +246,8 @@ export function StepDestination({
                 placeholder="Ciudad de destino"
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
-              {showDestDropdown && filteredDestCities.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-10 overflow-hidden">
+              {showDestDropdown && (filteredDestCities.length > 0 || destSearch) && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-burgundy/10 rounded-xl shadow-xl z-10 overflow-hidden max-h-60 overflow-y-auto">
                   {filteredDestCities.map((city) => (
                     <button
                       key={city.code}
@@ -186,14 +256,30 @@ export function StepDestination({
                         setDestSearch(`${city.name} (${city.code})`)
                         setShowDestDropdown(false)
                       }}
-                      className="w-full px-4 py-3 text-left hover:bg-burgundy/10 transition-colors flex items-center justify-between"
+                      className="w-full px-4 py-3 text-left hover:bg-burgundy/5 transition-colors flex items-center justify-between"
                     >
-                      <span className="text-background font-medium">{city.name}</span>
-                      <span className="text-sm text-background/50">
+                      <span className="text-burgundy font-medium">{city.name}</span>
+                      <span className="text-sm text-burgundy/60">
                         {city.code} - {city.country}
                       </span>
                     </button>
                   ))}
+                  {destSearch && !filteredDestCities.some(c => `${c.name} (${c.code})` === destSearch) && (
+                    <button
+                      onClick={() => {
+                        updateData({ destination: destSearch })
+                        setDestSearch(destSearch)
+                        setShowDestDropdown(false)
+                      }}
+                      className="w-full px-4 py-3 text-left bg-burgundy/5 hover:bg-burgundy/10 transition-colors border-t border-burgundy/10 flex items-center gap-3"
+                    >
+                      <Icon icon="ph:map-pin-line-bold" className="w-5 h-5 text-burgundy" />
+                      <div>
+                        <span className="text-burgundy font-medium block">Usar "{destSearch}"</span>
+                        <span className="text-[10px] text-burgundy/60 uppercase font-bold">Si no está tu ubicación, déjanosla escrita</span>
+                      </div>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
