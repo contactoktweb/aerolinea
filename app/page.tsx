@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import { translations } from '@/lib/translations'
+
 import { Hero } from '@/components/home/hero'
 import { ServicesGrid } from '@/components/home/services-grid'
 import { ClientsCarousel } from '@/components/home/clients-carousel'
@@ -9,40 +11,41 @@ import { urlFor } from '@/sanity/lib/image'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aerolineasantander.com'
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
   const settings = await client.fetch(SETTINGS_QUERY)
   const ogImage = settings?.favicon ? urlFor(settings.favicon).width(1200).height(630).url() : null
 
   return {
-    title: 'Aerolíneas Santander | Jets Privados y Aviación Ejecutiva de Lujo',
-    description:
-      'Aerolíneas Santander: vuelos privados, jets de lujo y aviación ejecutiva en Latinoamérica. Ambulancias aéreas, vuelos corporativos y transporte VIP con la más alta seguridad y confort. Reserve ahora.',
-    keywords: [
-      'vuelos privados Latinoamerica',
-      'jets privados de lujo',
-      'aviación ejecutiva Peru',
-      'charter aéreo',
-      'ambulancia aérea',
-      'transporte VIP aéreo',
-      'Aerolíneas Santander',
-      'vuelo privado corporativo',
-    ],
+    title: dict['home.meta.title'],
+    description: dict['home.meta.desc'],
     alternates: {
       canonical: BASE_URL,
+      languages: {
+        'es': BASE_URL,
+        'en': `${BASE_URL}?lang=en`,
+        'fr': `${BASE_URL}?lang=fr`,
+      }
     },
     openGraph: {
       type: 'website',
       url: BASE_URL,
-      title: 'Aerolíneas Santander | Jets Privados y Aviación Ejecutiva',
-      description:
-        'Vuelos privados de lujo, ambulancias aéreas y aviación ejecutiva en Latinoamérica. Flota de jets de última generación con servicio VIP inigualable.',
-      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: 'Aerolíneas Santander - Jets Privados' }] : [],
+      title: dict['home.meta.title'],
+      description: dict['home.meta.desc'],
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: 'Aerolíneas Santander' }] : [],
     },
   }
 }
 
-export default async function HomePage() {
+
+
+export default async function HomePage({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
   const homeData = await client.fetch(HOME_QUERY)
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
 
   return (
     <>
@@ -55,7 +58,7 @@ export default async function HomePage() {
             '@type': 'WebSite',
             url: BASE_URL,
             name: 'Aerolíneas Santander',
-            description: 'Vuelos privados y aviación ejecutiva de lujo en Latinoamérica',
+            description: dict['home.meta.desc'],
             potentialAction: {
               '@type': 'SearchAction',
               target: {
@@ -67,7 +70,7 @@ export default async function HomePage() {
           }),
         }}
       />
-      <Hero data={homeData?.hero} />
+      <Hero data={homeData} />
       <ClientsCarousel data={homeData?.clientLogos} />
       <ServicesGrid data={homeData?.services} />
       <ReviewsSection data={homeData?.testimonials} />

@@ -7,57 +7,63 @@ import { motion } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 import { urlFor } from '@/sanity/lib/image'
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString } from '@/lib/locale-utils'
 
-const quickLinks = [
-  { href: '/', label: 'Inicio' },
-  { href: '/nosotros', label: 'Nosotros' },
-  { href: '/flota', label: 'Nuestra Flota' },
-  { href: '/blog', label: 'Noticias' },
-  { href: '/reserva', label: 'Reservar' },
+const getQuickLinks = (t: any) => [
+  { href: '/', label: t('nav.home') },
+  { href: '/nosotros', label: t('nav.about') },
+  { href: '/flota', label: t('nav.fleet') },
+  { href: '/blog', label: t('nav.blog') },
+  { href: '/reserva', label: t('nav.reserve') },
 ]
 
-const servicesList = [
-  'Vuelos Privados',
-  'Vuelos Charter',
-  'Ambulancia Aerea',
-  'Carga Aerea',
-  'Eventos Especiales',
+const getServicesList = (t: any) => [
+  t('footer.services.private'),
+  t('footer.services.charter'),
+  t('footer.services.ambulance'),
+  t('footer.services.cargo'),
+  t('footer.services.events'),
 ]
 
 export function Footer({ settings }: { settings?: any }) {
+  const { language, t } = useLanguage()
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
 
   if (isAdmin) return null
 
+  const quickLinks = getQuickLinks(t)
+  const servicesList = getServicesList(t)
+
   const contactInfo = [
     {
       icon: 'ph:phone-light',
-      title: 'Telefono',
+      title: t('footer.contact.phone'),
       value: settings?.phone || '+51 1 444 5555',
       href: settings?.phone ? `tel:${settings.phone.replace(/\s/g, '')}` : 'tel:+5114445555',
-      subtitle: 'Linea directa VIP',
+      subtitle: t('footer.contact.phone_sub'),
     },
     {
       icon: 'ph:envelope-light',
-      title: 'Email',
+      title: t('footer.contact.email'),
       value: settings?.email || 'vip@aerolineasantander.com',
       href: settings?.email ? `mailto:${settings.email}` : 'mailto:vip@aerolineasantander.com',
-      subtitle: 'Respuesta rapida',
+      subtitle: t('footer.contact.email_sub'),
     },
     {
       icon: 'ph:map-pin-light',
-      title: 'Ubicacion',
+      title: t('footer.contact.address'),
       value: settings?.address || 'Aeropuerto Jorge Chavez',
       href: '#',
-      subtitle: 'Terminal de Aviacion Ejecutiva',
+      subtitle: t('footer.contact.address_sub'),
     },
     {
       icon: 'ph:clock-light',
-      title: 'Horario',
+      title: t('footer.contact.hours'),
       value: '24/7',
       href: '#',
-      subtitle: 'Disponibilidad permanente',
+      subtitle: t('footer.contact.hours_sub'),
     },
   ]
 
@@ -85,21 +91,19 @@ export function Footer({ settings }: { settings?: any }) {
               variants={fadeInUp}
               className="inline-block px-4 py-1.5 rounded-full bg-champagne/10 text-champagne text-xs uppercase tracking-widest mb-4"
             >
-              Atencion Premium
+              {t('footer.badge')}
             </motion.span>
             <motion.h2
               variants={fadeInUp}
               className="font-serif text-3xl lg:text-4xl text-pearl mb-3"
             >
-              Centro de Atencion VIP 24h
+              {t('footer.title')}
             </motion.h2>
             <motion.p
               variants={fadeInUp}
               className="text-muted-foreground max-w-2xl mx-auto"
             >
-              Nuestro equipo de expertos esta disponible las 24 horas del dia,
-              los 7 dias de la semana, para atender todas sus necesidades de
-              vuelo.
+              {t('footer.desc')}
             </motion.p>
           </motion.div>
 
@@ -153,8 +157,7 @@ export function Footer({ settings }: { settings?: any }) {
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-              Líderes en aviación ejecutiva desde 2008. 
-              Experiencia premium en cada vuelo con los más altos estándares de seguridad.
+              {getLocaleString(settings?.title, language) || 'Aerolíneas Santander'}: {t('footer.brand_desc')}
             </p>
             <div className="flex items-center gap-4">
               {socialLinks.map((social: any) => (
@@ -183,7 +186,7 @@ export function Footer({ settings }: { settings?: any }) {
           >
             <h4 className="font-serif text-lg text-pearl mb-6 flex items-center gap-2">
               <span className="w-8 h-px bg-champagne/50" />
-              Enlaces Rapidos
+              {t('footer.links_title')}
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -209,7 +212,7 @@ export function Footer({ settings }: { settings?: any }) {
           >
             <h4 className="font-serif text-lg text-pearl mb-6 flex items-center gap-2">
               <span className="w-8 h-px bg-champagne/50" />
-              Nuestros Servicios
+              {t('footer.services_title')}
             </h4>
             <ul className="space-y-3">
               {servicesList.map((service) => (
@@ -230,15 +233,15 @@ export function Footer({ settings }: { settings?: any }) {
         <div className="container mx-auto px-4 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()}. Todos los derechos reservados.
+              © {new Date().getFullYear()}. {t('footer.rights')}.
             </p>
             <Link 
               href="https://www.kytcode.lat" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-pearl transition-colors flex items-center gap-1"
+              className="text-sm text-muted-foreground hover:text-pearl transition-colors flex items-center gap-1.5 group"
             >
-              Desarrollado por K&T <span className="text-white">🤍</span>
+              {t('footer.branding')} <Icon icon="ph:heart-fill" className="text-white group-hover:scale-110 transition-transform duration-300 w-4 h-4" />
             </Link>
           </div>
         </div>

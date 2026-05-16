@@ -1,5 +1,6 @@
 import { InfoOutlineIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { localizedString, localizedText } from '../lib/localeFields'
 
 export const aboutType = defineType({
   name: 'about',
@@ -12,9 +13,9 @@ export const aboutType = defineType({
       title: 'Sección Hero',
       type: 'object',
       fields: [
-        { name: 'title', title: 'Título', type: 'string' },
-        { name: 'subtitle', title: 'Subtítulo', type: 'string' },
-        { name: 'description', title: 'Descripción', type: 'text', rows: 3 },
+        localizedString('title', 'Título'),
+        localizedString('subtitle', 'Subtítulo'),
+        localizedText('description', 'Descripción'),
         { name: 'image', title: 'Imagen de Fondo', type: 'image', options: { hotspot: true } },
       ],
     }),
@@ -28,7 +29,7 @@ export const aboutType = defineType({
           fields: [
             { name: 'value', title: 'Valor (Número)', type: 'number' },
             { name: 'suffix', title: 'Sufijo (ej: +)', type: 'string' },
-            { name: 'label', title: 'Etiqueta', type: 'string' },
+            localizedString('label', 'Etiqueta'),
           ],
         },
       ],
@@ -38,9 +39,9 @@ export const aboutType = defineType({
       title: 'Nuestro Legado',
       type: 'object',
       fields: [
-        { name: 'title', title: 'Título', type: 'string' },
-        { name: 'subtitle', title: 'Subtítulo', type: 'string' },
-        { name: 'description', title: 'Descripción', type: 'text', rows: 5 },
+        localizedString('title', 'Título'),
+        localizedString('subtitle', 'Subtítulo'),
+        localizedText('description', 'Descripción'),
         { name: 'image', title: 'Imagen', type: 'image', options: { hotspot: true } },
       ],
     }),
@@ -52,8 +53,8 @@ export const aboutType = defineType({
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Título', type: 'string' },
-            { name: 'description', title: 'Descripción', type: 'text', rows: 3 },
+            localizedString('title', 'Título'),
+            localizedText('description', 'Descripción'),
           ],
         },
       ],
@@ -67,7 +68,7 @@ export const aboutType = defineType({
           type: 'object',
           fields: [
             { name: 'name', title: 'Nombre', type: 'string' },
-            { name: 'role', title: 'Rol', type: 'string' },
+            localizedString('role', 'Rol'),
             { name: 'image', title: 'Imagen', type: 'image', options: { hotspot: true } },
           ],
         },

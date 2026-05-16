@@ -9,6 +9,7 @@ import { StepService } from './step-service'
 import { StepContact } from './step-contact'
 import { ProgressBar } from './progress-bar'
 import { SuccessModal } from './success-modal'
+import { useLanguage } from '@/context/language-context'
 
 export interface ReservationData {
   // Step 1: Country
@@ -55,21 +56,23 @@ const initialData: ReservationData = {
   specialRequests: '',
 }
 
-const steps = [
-  { id: 1, title: 'País', description: 'Selección de origen' },
-  { id: 2, title: 'Destino', description: 'Origen y destino' },
-  { id: 3, title: 'Logística', description: 'Fecha y pasajeros' },
-  { id: 4, title: 'Servicio', description: 'Tipo de vuelo' },
-  { id: 5, title: 'Contacto', description: 'Sus datos' },
+const getSteps = (t: any) => [
+  { id: 1, title: t('booking.steps.country.title'), description: t('booking.steps.country.desc') },
+  { id: 2, title: t('booking.steps.destination.title'), description: t('booking.steps.destination.desc') },
+  { id: 3, title: t('booking.steps.logistics.title'), description: t('booking.steps.logistics.desc') },
+  { id: 4, title: t('booking.steps.service.title'), description: t('booking.steps.service.desc') },
+  { id: 5, title: t('booking.steps.contact.title'), description: t('booking.steps.contact.desc') },
 ]
 
 export function ReservationForm({ initialCountry }: { initialCountry?: string } = {}) {
+  const { language, t } = useLanguage()
   const [currentStep, setCurrentStep] = useState(1)
   const [data, setData] = useState<ReservationData>({
     ...initialData,
     country: initialCountry || '',
   })
   const [showSuccess, setShowSuccess] = useState(false)
+  const steps = getSteps(t)
 
   const updateData = (updates: Partial<ReservationData>) => {
     setData((prev) => ({ ...prev, ...updates }))
@@ -108,12 +111,12 @@ export function ReservationForm({ initialCountry }: { initialCountry?: string } 
         }),
       })
 
-      if (!response.ok) throw new Error('Error al enviar cotización')
+      if (!response.ok) throw new Error(t('booking.errors.submit'))
       
       setShowSuccess(true)
     } catch (error) {
       console.error(error)
-      alert('Hubo un error al enviar tu solicitud. Por favor intenta de nuevo.')
+      alert(t('booking.errors.generic'))
     } finally {
       setIsSubmitting(false)
     }

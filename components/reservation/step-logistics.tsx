@@ -20,7 +20,8 @@ import {
   isBefore,
   startOfDay,
 } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { es, enUS, fr } from 'date-fns/locale'
+import { useLanguage } from '@/context/language-context'
 
 interface StepLogisticsProps {
   data: ReservationData
@@ -41,8 +42,19 @@ export function StepLogistics({
   onNext,
   onBack,
 }: StepLogisticsProps) {
+  const { language, t } = useLanguage()
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectingReturn, setSelectingReturn] = useState(false)
+
+  const getDateLocale = () => {
+    switch (language) {
+      case 'en': return enUS
+      case 'fr': return fr
+      default: return es
+    }
+  }
+
+  const dateLocale = getDateLocale()
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
@@ -77,13 +89,13 @@ export function StepLogistics({
       {/* Header */}
       <div className="text-center">
         <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
-          Paso 3 de 5
+          {t('booking.step')} 3 {t('booking.of')} 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
-          Detalles del Vuelo
+          {t('booking.steps.logistics.title')}
         </h1>
         <p className="text-burgundy font-medium max-w-lg mx-auto">
-          Seleccione la fecha, hora y número de pasajeros para su vuelo.
+          {t('booking.steps.logistics.sub')}
         </p>
       </div>
 
@@ -98,7 +110,7 @@ export function StepLogistics({
               <Icon icon="ph:caret-left-light" className="w-5 h-5 text-background" />
             </button>
             <h3 className="font-serif text-lg text-background capitalize">
-              {format(currentMonth, 'MMMM yyyy', { locale: es })}
+              {format(currentMonth, 'MMMM yyyy', { locale: dateLocale })}
             </h3>
             <button
               onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
@@ -111,14 +123,22 @@ export function StepLogistics({
           {data.tripType === 'round-trip' && (
             <div className="mb-4 text-center text-sm text-background/50 font-bold uppercase tracking-wider">
               {selectingReturn
-                ? 'Seleccione fecha de regreso'
-                : 'Seleccione fecha de salida'}
+                ? t('booking.steps.logistics.select_return')
+                : t('booking.steps.logistics.select_departure')}
             </div>
           )}
 
           {/* Day Headers */}
           <div className="grid grid-cols-7 gap-1 mb-2">
-            {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
+            {[
+              t('booking.days.sun'),
+              t('booking.days.mon'),
+              t('booking.days.tue'),
+              t('booking.days.wed'),
+              t('booking.days.thu'),
+              t('booking.days.fri'),
+              t('booking.days.sat'),
+            ].map((day) => (
               <div
                 key={day}
                 className="text-center text-xs text-background/50 font-bold uppercase tracking-wider py-2"
@@ -172,17 +192,17 @@ export function StepLogistics({
           <div className="mt-6 pt-4 border-t border-burgundy/10 space-y-2">
             {data.departureDate && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-background/50 font-bold uppercase tracking-wider">Salida:</span>
+                <span className="text-background/50 font-bold uppercase tracking-wider">{t('booking.steps.logistics.departure_label')}:</span>
                 <span className="text-background font-medium">
-                  {format(data.departureDate, "d 'de' MMMM, yyyy", { locale: es })}
+                  {format(data.departureDate, t('booking.steps.logistics.date_format'), { locale: dateLocale })}
                 </span>
               </div>
             )}
             {data.returnDate && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-background/50 font-bold uppercase tracking-wider">Regreso:</span>
+                <span className="text-background/50 font-bold uppercase tracking-wider">{t('booking.steps.logistics.return_label')}:</span>
                 <span className="text-background font-medium">
-                  {format(data.returnDate, "d 'de' MMMM, yyyy", { locale: es })}
+                  {format(data.returnDate, t('booking.steps.logistics.date_format'), { locale: dateLocale })}
                 </span>
               </div>
             )}
@@ -198,9 +218,9 @@ export function StepLogistics({
                 <Icon icon="ph:clock-light" className="w-5 h-5 text-burgundy" />
               </div>
               <div>
-                <h3 className="font-medium text-champagne">Hora de Salida</h3>
+                <h3 className="font-medium text-champagne">{t('booking.steps.logistics.time_title')}</h3>
                 <p className="text-sm text-burgundy font-medium">
-                  Seleccione su hora preferida
+                  {t('booking.steps.logistics.time_sub')}
                 </p>
               </div>
             </div>
@@ -232,9 +252,9 @@ export function StepLogistics({
                 <Icon icon="ph:users-light" className="w-5 h-5 text-burgundy" />
               </div>
               <div>
-                <h3 className="font-medium text-champagne">Pasajeros</h3>
+                <h3 className="font-medium text-champagne">{t('booking.steps.logistics.passengers_title')}</h3>
                 <p className="text-sm text-burgundy font-medium">
-                  Máximo 19 pasajeros
+                  {t('booking.steps.logistics.passengers_sub')}
                 </p>
               </div>
             </div>
@@ -276,10 +296,10 @@ export function StepLogistics({
       {/* Navigation */}
       <div className="flex justify-between">
         <GoldButton onClick={onBack} variant="outline" size="lg">
-          Atrás
+          {t('booking.back')}
         </GoldButton>
         <GoldButton onClick={onNext} disabled={!isValid} size="lg">
-          Continuar
+          {t('booking.continue')}
         </GoldButton>
       </div>
     </div>

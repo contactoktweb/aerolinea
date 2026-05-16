@@ -1,36 +1,41 @@
 import { Metadata } from 'next'
+import { translations } from '@/lib/translations'
 import { AboutContent } from '@/components/about/about-content'
 import { client } from '@/sanity/lib/client'
 import { ABOUT_QUERY } from '@/sanity/lib/queries'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aerolineasantander.com'
 
-export const metadata: Metadata = {
-  title: 'Sobre Nosotros | Historia y Valores de Aerolíneas Santander',
-  description:
-    'Casi dos décadas de excelencia en aviación ejecutiva privada. Conozca la historia, misión, valores y el equipo detrás de Aerolíneas Santander, líderes en vuelos privados de lujo en Latinoamérica.',
-  keywords: [
-    'historia Aerolíneas Santander',
-    'empresa aviación ejecutiva',
-    'quiénes somos aviación privada',
-    'trayectoria vuelos privados',
-    'misión visión aerolínea',
-    'empresa vuelos charter Latinoamerica',
-  ],
-  alternates: {
-    canonical: `${BASE_URL}/nosotros`,
-  },
-  openGraph: {
-    title: 'Sobre Nosotros | Aerolíneas Santander',
-    description:
-      'Casi dos décadas conectando Latinoamérica con el mundo a través de la aviación ejecutiva de lujo. Conoce nuestra historia.',
-    url: `${BASE_URL}/nosotros`,
-    type: 'website',
-  },
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
+
+  return {
+    title: dict['about.meta.title'],
+    description: dict['about.meta.desc'],
+    alternates: {
+      canonical: `${BASE_URL}/nosotros`,
+      languages: {
+        'es': `${BASE_URL}/nosotros`,
+        'en': `${BASE_URL}/nosotros?lang=en`,
+        'fr': `${BASE_URL}/nosotros?lang=fr`,
+      }
+    },
+    openGraph: {
+      title: dict['about.meta.title'],
+      description: dict['about.meta.desc'],
+      url: `${BASE_URL}/nosotros`,
+      type: 'website',
+    },
+  }
 }
 
-export default async function NosotrosPage() {
+export default async function NosotrosPage({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
   const aboutData = await client.fetch(ABOUT_QUERY)
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
 
   return (
     <>
@@ -42,16 +47,14 @@ export default async function NosotrosPage() {
             '@context': 'https://schema.org',
             '@type': 'AboutPage',
             url: `${BASE_URL}/nosotros`,
-            name: 'Sobre Aerolíneas Santander',
-            description:
-              'Historia, misión y valores de Aerolíneas Santander, líderes en aviación ejecutiva privada en Latinoamérica.',
+            name: dict['about.meta.title'],
+            description: dict['about.meta.desc'],
             mainEntity: {
               '@type': 'Organization',
               name: 'Aerolíneas Santander',
               url: BASE_URL,
               foundingDate: '2006',
-              description:
-                'Empresa líder en aviación ejecutiva y vuelos privados en Latinoamérica.',
+              description: dict['about.meta.desc'],
             },
           }),
         }}

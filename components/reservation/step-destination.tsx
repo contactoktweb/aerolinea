@@ -7,6 +7,7 @@ import { ReservationData } from './reservation-form'
 import { GoldButton } from '@/components/ui/gold-button'
 import { GlassCard } from '@/components/ui/glass-card'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/context/language-context'
 
 interface StepDestinationProps {
   data: ReservationData
@@ -53,6 +54,7 @@ export function StepDestination({
   onNext,
   onBack,
 }: StepDestinationProps) {
+  const { language, t } = useLanguage()
   const [originSearch, setOriginSearch] = useState(data.origin)
   const [destSearch, setDestSearch] = useState(data.destination)
   const [showOriginDropdown, setShowOriginDropdown] = useState(false)
@@ -77,7 +79,7 @@ export function StepDestination({
     // Dynamic fallback if no cities exist for this country
     if (cities.length === 0 && data.country && !searchTerm) {
        cities = [
-         { code: 'VIP', name: `Cualquier ciudad en ${data.country}`, country: data.country }
+         { code: 'VIP', name: `${t('booking.steps.destination.any_city')} ${data.country}`, country: data.country }
        ];
     }
 
@@ -115,14 +117,13 @@ export function StepDestination({
       {/* Header */}
       <div className="text-center">
         <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
-          Paso 2 de 5
+          {t('booking.step')} 2 {t('booking.of')} 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
-          ¿A Dónde Desea Volar?
+          {t('booking.steps.destination.question')}
         </h1>
         <p className="text-burgundy font-medium max-w-lg mx-auto">
-          Seleccione su ciudad de origen y destino. Operamos vuelos a más de 50
-          destinos en América y Europa.
+          {t('booking.steps.destination.sub')}
         </p>
       </div>
 
@@ -139,7 +140,7 @@ export function StepDestination({
               : 'bg-burgundy/5 text-burgundy/70 hover:text-burgundy border border-burgundy/10'
           )}
         >
-          Solo Ida
+          {t('booking.steps.destination.one_way')}
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -152,7 +153,7 @@ export function StepDestination({
               : 'bg-burgundy/5 text-burgundy/70 hover:text-burgundy border border-burgundy/10'
           )}
         >
-          Ida y Vuelta
+          {t('booking.steps.destination.round_trip')}
         </motion.button>
       </div>
 
@@ -162,7 +163,7 @@ export function StepDestination({
           {/* Origin */}
           <div className="flex-1 w-full relative">
             <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-              Origen
+              {t('booking.steps.destination.origin_label')}
             </label>
             <div className="relative">
               <Icon icon="ph:map-pin-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
@@ -176,7 +177,7 @@ export function StepDestination({
                 }}
                 onFocus={() => setShowOriginDropdown(true)}
                 onBlur={() => setTimeout(() => setShowOriginDropdown(false), 200)}
-                placeholder="Ciudad de origen"
+                placeholder={t('booking.steps.destination.origin_placeholder')}
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
               {showOriginDropdown && (filteredOriginCities.length > 0 || originSearch) && (
@@ -208,8 +209,8 @@ export function StepDestination({
                     >
                       <Icon icon="ph:map-pin-line-bold" className="w-5 h-5 text-burgundy" />
                       <div>
-                        <span className="text-burgundy font-medium block">Usar "{originSearch}"</span>
-                        <span className="text-[10px] text-burgundy/60 uppercase font-bold">Si no está tu ubicación, déjanosla escrita</span>
+                        <span className="text-burgundy font-medium block">{t('booking.steps.destination.use_prefix')} "{originSearch}"</span>
+                        <span className="text-[10px] text-burgundy/60 uppercase font-bold">{t('booking.steps.destination.custom_note')}</span>
                       </div>
                     </button>
                   )}
@@ -229,7 +230,7 @@ export function StepDestination({
           {/* Destination */}
           <div className="flex-1 w-full relative">
             <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-              Destino
+              {t('booking.steps.destination.dest_label')}
             </label>
             <div className="relative">
               <Icon icon="ph:airplane-takeoff-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
@@ -243,7 +244,7 @@ export function StepDestination({
                 }}
                 onFocus={() => setShowDestDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDestDropdown(false), 200)}
-                placeholder="Ciudad de destino"
+                placeholder={t('booking.steps.destination.dest_placeholder')}
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
               {showDestDropdown && (filteredDestCities.length > 0 || destSearch) && (
@@ -275,8 +276,8 @@ export function StepDestination({
                     >
                       <Icon icon="ph:map-pin-line-bold" className="w-5 h-5 text-burgundy" />
                       <div>
-                        <span className="text-burgundy font-medium block">Usar "{destSearch}"</span>
-                        <span className="text-[10px] text-burgundy/60 uppercase font-bold">Si no está tu ubicación, déjanosla escrita</span>
+                        <span className="text-burgundy font-medium block">{t('booking.steps.destination.use_prefix')} "{destSearch}"</span>
+                        <span className="text-[10px] text-burgundy/60 uppercase font-bold">{t('booking.steps.destination.custom_note')}</span>
                       </div>
                     </button>
                   )}
@@ -293,10 +294,10 @@ export function StepDestination({
           onClick={onBack}
           className="text-burgundy/40 hover:text-burgundy text-sm uppercase tracking-[0.2em] font-bold transition-colors"
         >
-          Volver
+          {t('booking.back')}
         </button>
         <GoldButton onClick={onNext} disabled={!isValid} size="lg">
-          Continuar
+          {t('booking.continue')}
         </GoldButton>
       </div>
     </div>

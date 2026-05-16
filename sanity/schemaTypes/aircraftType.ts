@@ -1,5 +1,6 @@
 import { StarIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { localizedString, localizedText, localizedArray } from '../lib/localeFields'
 
 export const aircraftType = defineType({
   name: 'aircraft',
@@ -43,17 +44,8 @@ export const aircraftType = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'tagline',
-      title: 'Eslogan/Frase Corta',
-      type: 'string',
-    }),
-    defineField({
-      name: 'description',
-      title: 'Descripción Detallada',
-      type: 'text',
-      rows: 5,
-    }),
+    localizedString('tagline', 'Eslogan/Frase Corta'),
+    localizedText('description', 'Descripción Detallada'),
     defineField({
       name: 'specs',
       title: 'Especificaciones Técnicas',
@@ -66,12 +58,7 @@ export const aircraftType = defineType({
         { name: 'baggage', title: 'Capacidad de Equipaje', type: 'string' },
       ],
     }),
-    defineField({
-      name: 'features',
-      title: 'Características Destacadas',
-      type: 'array',
-      of: [{ type: 'string' }],
-    }),
+    localizedArray('features', 'Características Destacadas', [{ type: 'string' }]),
     defineField({
       name: 'image',
       title: 'Imagen Exterior',
@@ -94,11 +81,7 @@ export const aircraftType = defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            {
-              name: 'alt',
-              type: 'string',
-              title: 'Texto Alternativo',
-            },
+            localizedString('alt', 'Texto Alternativo'),
           ],
         },
       ],

@@ -5,7 +5,8 @@ import { Icon } from '@iconify/react'
 import { ReservationData } from './reservation-form'
 import { GoldButton } from '@/components/ui/gold-button'
 import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { es, enUS, fr } from 'date-fns/locale'
+import { useLanguage } from '@/context/language-context'
 
 interface SuccessModalProps {
   isOpen: boolean
@@ -14,6 +15,17 @@ interface SuccessModalProps {
 }
 
 export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
+  const { language, t } = useLanguage()
+
+  const getDateLocale = () => {
+    switch (language) {
+      case 'en': return enUS
+      case 'fr': return fr
+      default: return es
+    }
+  }
+
+  const dateLocale = getDateLocale()
   return (
     <AnimatePresence>
       {isOpen && (
@@ -59,38 +71,38 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                 <Icon icon="ph:check-circle-light" className="w-10 h-10 text-champagne" />
               </motion.div>
               <h2 className="font-serif text-2xl lg:text-3xl text-champagne mb-2">
-                ¡Solicitud Recibida!
+                {t('booking.success.title')}
               </h2>
               <p className="text-burgundy font-medium">
-                Gracias por elegir nuestra aerolínea
+                {t('booking.success.sub')}
               </p>
             </div>
 
             {/* Reservation Summary */}
             <div className="bg-muted/50 rounded-xl p-6 mb-6 space-y-4">
               <h3 className="font-medium text-champagne text-sm uppercase tracking-wider">
-                Resumen de su Solicitud
+                {t('booking.success.summary_title')}
               </h3>
 
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Ruta:</span>
+                  <span className="text-muted-foreground">{t('booking.success.route_label')}:</span>
                   <span className="text-pearl">
                     {data.origin} → {data.destination}
                   </span>
                 </div>
                 {data.departureDate && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Fecha:</span>
+                    <span className="text-muted-foreground">{t('booking.success.date_label')}:</span>
                     <span className="text-pearl">
-                      {format(data.departureDate, "d 'de' MMMM, yyyy", {
-                        locale: es,
+                      {format(data.departureDate, t('booking.steps.logistics.date_format'), {
+                        locale: dateLocale,
                       })}
                     </span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Pasajeros:</span>
+                  <span className="text-muted-foreground">{t('booking.success.passengers_label')}:</span>
                   <span className="text-pearl">{data.passengers}</span>
                 </div>
               </div>
@@ -99,7 +111,7 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
             {/* Next Steps */}
             <div className="space-y-4 mb-8">
               <h3 className="font-medium text-champagne text-sm uppercase tracking-wider">
-                Próximos Pasos
+                {t('booking.success.next_steps_title')}
               </h3>
 
               <div className="flex items-start gap-3">
@@ -107,9 +119,9 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                   <Icon icon="ph:clock-light" className="w-4 h-4 text-champagne" />
                 </div>
                 <div>
-                  <p className="text-burgundy font-bold text-sm">Respuesta en menos de 1 hora</p>
+                  <p className="text-burgundy font-bold text-sm">{t('booking.success.steps.1.title')}</p>
                   <p className="text-burgundy/60 text-xs font-medium">
-                    Nuestro equipo VIP revisará su solicitud
+                    {t('booking.success.steps.1.desc')}
                   </p>
                 </div>
               </div>
@@ -119,9 +131,9 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                   <Icon icon="ph:phone-light" className="w-4 h-4 text-champagne" />
                 </div>
                 <div>
-                  <p className="text-burgundy font-bold text-sm">Llamada de confirmación</p>
+                  <p className="text-burgundy font-bold text-sm">{t('booking.success.steps.2.title')}</p>
                   <p className="text-burgundy/60 text-xs font-medium">
-                    Le contactaremos para confirmar detalles
+                    {t('booking.success.steps.2.desc')}
                   </p>
                 </div>
               </div>
@@ -131,9 +143,9 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
                   <Icon icon="ph:envelope-light" className="w-4 h-4 text-champagne" />
                 </div>
                 <div>
-                  <p className="text-burgundy font-bold text-sm">Cotización personalizada</p>
+                  <p className="text-burgundy font-bold text-sm">{t('booking.success.steps.3.title')}</p>
                   <p className="text-burgundy/60 text-xs font-medium">
-                    Recibirá su propuesta por email
+                    {t('booking.success.steps.3.desc')}
                   </p>
                 </div>
               </div>
@@ -142,10 +154,10 @@ export function SuccessModal({ isOpen, onClose, data }: SuccessModalProps) {
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-3">
               <GoldButton onClick={onClose} className="flex-1">
-                Entendido
+                {t('booking.success.cta_close')}
               </GoldButton>
               <GoldButton href="/" variant="outline" className="flex-1">
-                Volver al Inicio
+                {t('booking.success.cta_home')}
               </GoldButton>
             </div>
           </motion.div>

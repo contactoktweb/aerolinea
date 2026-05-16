@@ -1,35 +1,40 @@
 import { Metadata } from 'next'
+import { translations } from '@/lib/translations'
+
 import { ReservationForm } from '@/components/reservation/reservation-form'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aerolineasantander.com'
 
-export const metadata: Metadata = {
-  title: 'Reservar Vuelo Privado | Cotización Inmediata | Aerolíneas Santander',
-  description:
-    'Reserve su vuelo privado con Aerolíneas Santander. Complete nuestro formulario en 5 pasos y reciba cotización personalizada en menos de 1 hora. Disponible para cualquier país del mundo.',
-  keywords: [
-    'reservar vuelo privado',
-    'cotizar jet privado',
-    'cotización vuelo charter',
-    'reserva aviación ejecutiva',
-    'contratar vuelo privado',
-    'precio jet privado',
-    'vuelo privado internacional',
-    'charter aéreo cotización',
-  ],
-  alternates: {
-    canonical: `${BASE_URL}/reserva`,
-  },
-  openGraph: {
-    title: 'Reserve su Vuelo Privado | Cotización en 5 Pasos',
-    description:
-      'Reserve su jet privado en 5 pasos. Atención VIP garantizada y respuesta en menos de 1 hora. Vuelos a cualquier destino del mundo.',
-    url: `${BASE_URL}/reserva`,
-    type: 'website',
-  },
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
+
+  return {
+    title: dict['reserva.meta.title'],
+    description: dict['reserva.meta.desc'],
+    alternates: {
+      canonical: `${BASE_URL}/reserva`,
+      languages: {
+        'es': `${BASE_URL}/reserva`,
+        'en': `${BASE_URL}/reserva?lang=en`,
+        'fr': `${BASE_URL}/reserva?lang=fr`,
+      }
+    },
+    openGraph: {
+      title: dict['reserva.meta.title'],
+      description: dict['reserva.meta.desc'],
+      url: `${BASE_URL}/reserva`,
+      type: 'website',
+    },
+  }
 }
 
-export default function ReservaPage() {
+
+export default async function ReservaPage({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
   return (
     <>
       {/* JSON-LD: Service */}
@@ -39,14 +44,13 @@ export default function ReservaPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Service',
-            name: 'Reserva de Vuelo Privado',
+            name: dict['reserva.meta.title'],
             provider: {
               '@type': 'Organization',
               name: 'Aerolíneas Santander',
               url: BASE_URL,
             },
-            description:
-              'Servicio de reserva de vuelos privados ejecutivos. Cotización personalizada para cualquier destino del mundo.',
+            description: dict['reserva.meta.desc'],
             areaServed: {
               '@type': 'GeoCircle',
               name: 'Mundial',

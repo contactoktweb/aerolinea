@@ -1,5 +1,6 @@
 import { UserIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { localizedString, localizedText } from '../lib/localeFields'
 
 export const testimonialType = defineType({
   name: 'testimonial',
@@ -8,8 +9,8 @@ export const testimonialType = defineType({
   icon: UserIcon,
   fields: [
     defineField({ name: 'name', title: 'Nombre del Cliente', type: 'string' }),
-    defineField({ name: 'role', title: 'Cargo/Empresa', type: 'string' }),
-    defineField({ name: 'content', title: 'Testimonio', type: 'text', rows: 4 }),
+    localizedString('role', 'Cargo/Empresa'),
+    localizedText('content', 'Testimonio'),
     defineField({ name: 'rating', title: 'Calificación (1-5)', type: 'number', validation: (Rule) => Rule.min(1).max(5) }),
     defineField({ name: 'image', title: 'Foto del Cliente', type: 'image', options: { hotspot: true } }),
     defineField({

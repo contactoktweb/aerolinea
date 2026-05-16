@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { ReservationData } from './reservation-form'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
+import { useLanguage } from '@/context/language-context'
+import { useRouter } from 'next/navigation'
 
 const countries = [
   { name: 'Afganistán', code: 'AF' },
@@ -210,6 +212,8 @@ interface StepCountryProps {
 }
 
 export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
+  const { language, t } = useLanguage()
+  const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
@@ -229,8 +233,8 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
       .replace(/ /g, '-')
       .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     
-    const newPath = `/reserva/${slug}-reserva-de-vuelo`
-    window.history.pushState({ path: newPath }, '', newPath)
+    const newPath = `/reserva/${slug}-reserva-de-vuelo-privado`
+    router.push(newPath, { scroll: false })
   }
 
   const selectedCountry = countries.find(c => c.name === data.country)
@@ -244,13 +248,13 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
     >
       <div className="text-center">
         <span className="text-sm font-bold text-champagne uppercase tracking-[0.2em] mb-2 block">
-          Paso 1 de 5
+          {t('booking.step')} 1 {t('booking.of')} 5
         </span>
         <h2 className="font-serif text-3xl md:text-4xl text-champagne mb-4 font-bold">
-          ¿Desde qué país viaja?
+          {t('booking.steps.country.question')}
         </h2>
         <p className="text-burgundy/60 max-w-lg mx-auto font-medium">
-          Seleccione su país de residencia o ubicación actual para personalizar su experiencia de vuelo privado.
+          {t('booking.steps.country.sub')}
         </p>
       </div>
 
@@ -269,7 +273,7 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
           </div>
           <input
             type="text"
-            placeholder="Buscar país..."
+            placeholder={t('booking.steps.country.placeholder')}
             value={searchTerm}
             onFocus={() => setIsOpen(true)}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -305,7 +309,7 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
                 </button>
               ))
             ) : (
-              <div className="px-6 py-4 text-burgundy/40 text-sm">No se encontraron resultados</div>
+              <div className="px-6 py-4 text-burgundy/40 text-sm">{t('booking.steps.country.no_results')}</div>
             )}
           </motion.div>
         )}
@@ -331,12 +335,10 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
               </div>
             </div>
           </div>
-          <h4 className="font-serif text-xl text-champagne mb-3">Vuelos Privados en {data.country}</h4>
+          <h4 className="font-serif text-xl text-champagne mb-3">{t('booking.steps.country.info_title_prefix')} {data.country}</h4>
           <p className="text-sm text-burgundy/70 leading-relaxed font-medium">
-            Ofrecemos servicios de aviación ejecutiva de primer nivel en todo {data.country}. 
-            Nuestra flota está lista para conectar {data.country} con cualquier destino global, 
-            garantizando privacidad, seguridad y un servicio inigualable. Reserve su vuelo hoy mismo 
-            y experimente la excelencia de Aerolíneas Santander.
+            {t('booking.steps.country.info_desc_1')} {data.country}. 
+            {t('booking.steps.country.info_desc_2')} {data.country} {t('booking.steps.country.info_desc_3')}
           </p>
         </motion.div>
       )}
@@ -347,7 +349,7 @@ export function StepCountry({ data, updateData, onNext }: StepCountryProps) {
           disabled={!data.country}
           className="group flex items-center gap-3 bg-burgundy text-white px-12 py-4 rounded-none text-sm uppercase tracking-[0.2em] font-bold hover:bg-burgundy/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>Continuar</span>
+          <span>{t('booking.continue')}</span>
           <Icon icon="ph:arrow-right-light" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>

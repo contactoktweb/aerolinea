@@ -1,40 +1,43 @@
 import { Metadata } from 'next'
+import { translations } from '@/lib/translations'
+
 import { FleetGallery } from '@/components/fleet/fleet-gallery'
 import { client } from '@/sanity/lib/client'
 import { FLEET_QUERY } from '@/sanity/lib/queries'
 
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aerolineasantander.com'
 
-export const metadata: Metadata = {
-  title: 'Nuestra Flota de Jets Privados | Aerolíneas Santander',
-  description:
-    'Conozca nuestra flota de jets privados de lujo: ligeros, medianos, super medianos y ultra largo alcance. Cessna Citation X, Gulfstream G650, Bombardier Challenger 350 y más. Reserve su aeronave ideal.',
-  keywords: [
-    'flota de jets privados',
-    'Cessna Citation X',
-    'Gulfstream G650',
-    'Bombardier Challenger 350',
-    'Embraer Phenom 300E',
-    'Dassault Falcon 8X',
-    'jets de lujo Latinoamerica',
-    'aeronaves ejecutivas charter',
-    'jet ligero privado',
-    'ultra largo alcance aviación',
-  ],
-  alternates: {
-    canonical: `${BASE_URL}/flota`,
-  },
-  openGraph: {
-    title: 'Nuestra Flota de Jets Privados | Aerolíneas Santander',
-    description:
-      'Explore nuestra exclusiva flota de aeronaves privadas. Desde jets ligeros hasta ultra largo alcance, la aeronave perfecta para cada destino.',
-    url: `${BASE_URL}/flota`,
-    type: 'website',
-  },
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
+
+  return {
+    title: dict['fleet.meta.title'],
+    description: dict['fleet.meta.desc'],
+    alternates: {
+      canonical: `${BASE_URL}/flota`,
+      languages: {
+        'es': `${BASE_URL}/flota`,
+        'en': `${BASE_URL}/flota?lang=en`,
+        'fr': `${BASE_URL}/flota?lang=fr`,
+      }
+    },
+    openGraph: {
+      title: dict['fleet.meta.title'],
+      description: dict['fleet.meta.desc'],
+      url: `${BASE_URL}/flota`,
+      type: 'website',
+    },
+  }
 }
 
-export default async function FlotaPage() {
+export default async function FlotaPage({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
   const fleetData = await client.fetch(FLEET_QUERY)
+  const { lang: langParam } = await searchParams
+  const lang = (langParam || 'es') as 'es' | 'en' | 'fr'
+  const dict = translations[lang] || translations.es
 
   return (
     <>
@@ -45,8 +48,8 @@ export default async function FlotaPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'ItemList',
-            name: 'Flota de Jets Privados - Aerolíneas Santander',
-            description: 'Flota completa de aeronaves ejecutivas privadas disponibles para charter',
+            name: dict['fleet.meta.title'],
+            description: dict['fleet.meta.desc'],
             url: `${BASE_URL}/flota`,
             numberOfItems: fleetData?.length || 7,
           }),

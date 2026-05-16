@@ -9,20 +9,50 @@ import { GoldButton } from '@/components/ui/gold-button'
 import { GlassCard } from '@/components/ui/glass-card'
 import { SectionTitle } from '@/components/ui/section-title'
 import { AnimatedCounter } from '@/components/about/animated-counter'
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString } from '@/lib/locale-utils'
 
 // Default fallback data
 const stats = [
-  { value: 15, suffix: '+', label: 'Años de Experiencia' },
-  { value: 50, suffix: '+', label: 'Destinos Globales' },
-  { value: 10, suffix: 'k+', label: 'Vuelos Completados' },
-  { value: 100, suffix: '%', label: 'Compromiso VIP' },
+  { value: 15, suffix: '+', label: { es: 'Años de Experiencia', en: 'Years of Experience', fr: 'Années d\'Expérience' } },
+  { value: 50, suffix: '+', label: { es: 'Destinos Globales', en: 'Global Destinations', fr: 'Destinations Mondiales' } },
+  { value: 10, suffix: 'k+', label: { es: 'Vuelos Completados', en: 'Completed Flights', fr: 'Vols Terminé' } },
+  { value: 100, suffix: '%', label: { es: 'Compromiso VIP', en: 'VIP Commitment', fr: 'Engagement VIP' } },
 ]
 
 const values = [
-  { title: 'Seguridad', description: 'Nuestra prioridad absoluta con los más altos estándares internacionales.' },
-  { title: 'Excelencia', description: 'Atención al detalle en cada aspecto de su experiencia de vuelo.' },
-  { title: 'Servicio Personal', description: 'Vuelos diseñados específicamente para sus necesidades.' },
-  { title: 'Flota Premium', description: 'Aeronaves de última generación mantenidas a la perfección.' },
+  { 
+    title: { es: 'Seguridad', en: 'Safety', fr: 'Sécurité' }, 
+    description: { 
+      es: 'Nuestra prioridad absoluta con los más altos estándares internacionales.',
+      en: 'Our absolute priority with the highest international standards.',
+      fr: 'Notre priorité absolue avec les normes internationales les plus élevées.'
+    } 
+  },
+  { 
+    title: { es: 'Excelencia', en: 'Excellence', fr: 'Excellence' }, 
+    description: { 
+      es: 'Atención al detalle en cada aspecto de su experiencia de vuelo.',
+      en: 'Attention to detail in every aspect of your flight experience.',
+      fr: 'Attention portée aux détails dans chaque aspect de votre expérience de vol.'
+    } 
+  },
+  { 
+    title: { es: 'Servicio Personal', en: 'Personal Service', fr: 'Service Personnel' }, 
+    description: { 
+      es: 'Vuelos diseñados específicamente para sus necesidades.',
+      en: 'Flights designed specifically for your needs.',
+      fr: 'Des vols conçus spécifiquement pour vos besoins.'
+    } 
+  },
+  { 
+    title: { es: 'Flota Premium', en: 'Premium Fleet', fr: 'Flotte Premium' }, 
+    description: { 
+      es: 'Aeronaves de última generación mantenidas a la perfección.',
+      en: 'State-of-the-art aircraft maintained to perfection.',
+      fr: 'Des avions à la pointe de la technologie, entretenus à la perfection.'
+    } 
+  },
 ]
 
 const team = [
@@ -33,12 +63,20 @@ const team = [
 
 const valueIcons: Record<string, string> = {
   'Seguridad': 'ph:shield-check-light',
+  'Safety': 'ph:shield-check-light',
+  'Sécurité': 'ph:shield-check-light',
   'Excelencia': 'ph:medal-light',
+  'Excellence': 'ph:medal-light',
   'Servicio Personal': 'ph:users-light',
+  'Personal Service': 'ph:users-light',
+  'Service Personnel': 'ph:users-light',
   'Flota Premium': 'ph:airplane-light',
+  'Premium Fleet': 'ph:airplane-light',
+  'Flotte Premium': 'ph:airplane-light',
 }
 
 export function AboutContent({ data }: { data?: any }) {
+  const { language, t } = useLanguage()
   const displayStats = data?.stats || stats
   const displayValues = data?.values || values
   const displayTeam = data?.team || team
@@ -53,7 +91,7 @@ export function AboutContent({ data }: { data?: any }) {
         <div className="absolute inset-0">
           <Image
             src={heroImage}
-            alt={data?.hero?.title || "Historia de Aerolíneas Santander"}
+            alt={getLocaleString(data?.hero?.title, language) || "Historia de Aerolíneas Santander"}
             fill
             className="object-cover"
             priority
@@ -72,19 +110,19 @@ export function AboutContent({ data }: { data?: any }) {
               variants={fadeInUp}
               className="inline-block text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4"
             >
-              {data?.hero?.subtitle || "Nuestra Historia"}
+              {getLocaleString(data?.hero?.subtitle, language) || t('about.hero.fallback_subtitle')}
             </motion.span>
             <motion.h1
               variants={fadeInUp}
               className="font-serif text-4xl md:text-5xl lg:text-6xl text-pearl mb-6"
             >
-              {data?.hero?.title || "100% VIP"}
+              {getLocaleString(data?.hero?.title, language) || t('about.hero.fallback_title')}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
               className="text-lg text-pearl/80 leading-relaxed"
             >
-              {data?.hero?.description || "Desde 2008, Aerolíneas Santander ha sido sinónimo de excelencia en aviación privada."}
+              {getLocaleString(data?.hero?.description, language) || t('about.hero.fallback_desc')}
             </motion.p>
           </motion.div>
         </div>
@@ -99,7 +137,7 @@ export function AboutContent({ data }: { data?: any }) {
                 key={stat.label}
                 end={stat.value}
                 suffix={stat.suffix}
-                label={stat.label}
+                label={getLocaleString(stat.label, language)}
                 duration={2 + index * 0.3}
               />
             ))}
@@ -118,16 +156,16 @@ export function AboutContent({ data }: { data?: any }) {
               variants={slideInFromLeft}
             >
               <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4 block">
-                {data?.legacy?.subtitle || "Nuestro Legado"}
+                {getLocaleString(data?.legacy?.subtitle, language) || t('about.legacy.subtitle')}
               </span>
               <h2 className="font-serif text-3xl lg:text-4xl text-background mb-6">
-                {data?.legacy?.title || "Tradición de Excelencia en el Cielo"}
+                {getLocaleString(data?.legacy?.title, language) || t('about.legacy.title')}
               </h2>
               <div className="space-y-4 text-background/70 font-medium leading-relaxed whitespace-pre-line">
-                {data?.legacy?.description || `Fundada por Carlos Santander Sr., piloto con más de 30 años de experiencia...`}
+                {getLocaleString(data?.legacy?.description, language) || t('hero.desc')}
               </div>
               <div className="mt-8">
-                <GoldButton href="/reserva">Experimente la Diferencia</GoldButton>
+                <GoldButton href="/reserva">{t('hero.cta')}</GoldButton>
               </div>
             </motion.div>
 
@@ -141,7 +179,7 @@ export function AboutContent({ data }: { data?: any }) {
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
                 <Image
                   src={legacyImage}
-                  alt={data?.legacy?.title || "Legado de Aerolíneas Santander"}
+                  alt={getLocaleString(data?.legacy?.title, language) || "Legado de Aerolíneas Santander"}
                   fill
                   className="object-cover"
                 />
@@ -156,9 +194,9 @@ export function AboutContent({ data }: { data?: any }) {
       <section className="py-20 lg:py-28 bg-white text-background">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionTitle
-            subtitle="Nuestros Valores"
-            title="Lo Que Nos Define"
-            description="Cada vuelo es una oportunidad de demostrar nuestro compromiso con la excelencia y el servicio personalizado."
+            subtitle={t('about.values.subtitle')}
+            title={t('about.values.title')}
+            description={t('about.values.description')}
             theme="light"
           />
 
@@ -181,10 +219,10 @@ export function AboutContent({ data }: { data?: any }) {
                     </div>
                     <div>
                       <h3 className="font-serif text-xl text-background font-bold mb-2">
-                        {value.title}
+                        {getLocaleString(value.title, language)}
                       </h3>
                       <p className="text-background/80 font-medium leading-relaxed">
-                        {value.description}
+                        {getLocaleString(value.description, language)}
                       </p>
                     </div>
                   </div>
@@ -199,9 +237,9 @@ export function AboutContent({ data }: { data?: any }) {
       <section className="py-20 lg:py-28 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionTitle
-            subtitle="Nuestro Equipo"
-            title="Profesionales de Élite"
-            description="Un equipo altamente calificado y dedicado a hacer realidad cada viaje con la máxima excelencia."
+            subtitle={t('about.team.subtitle')}
+            title={t('about.team.title')}
+            description={t('about.team.description')}
             theme="light"
           />
 
@@ -226,7 +264,7 @@ export function AboutContent({ data }: { data?: any }) {
                   <h3 className="font-serif text-xl text-background mb-1">
                     {member.name}
                   </h3>
-                  <p className="text-burgundy text-sm">{member.role}</p>
+                  <p className="text-burgundy text-sm">{getLocaleString(member.role, language)}</p>
                 </GlassCard>
               </motion.div>
             ))}
@@ -245,14 +283,13 @@ export function AboutContent({ data }: { data?: any }) {
             className="text-center max-w-2xl mx-auto"
           >
             <h2 className="font-serif text-3xl lg:text-4xl text-background mb-6">
-              ¿Listo para Volar con Nosotros?
+              {t('about.cta.title')}
             </h2>
             <p className="text-background/70 font-medium mb-8">
-              Descubra por qué las personas más exigentes de Latinoamérica
-              confían en Aerolíneas Santander para sus viajes privados.
+              {t('about.cta.description')}
             </p>
             <GoldButton href="/reserva" size="lg">
-              Solicitar Cotización
+              {t('about.cta.button')}
             </GoldButton>
           </motion.div>
         </div>

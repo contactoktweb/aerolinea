@@ -7,6 +7,8 @@ import { AircraftCard } from './aircraft-card'
 import { SectionTitle } from '@/components/ui/section-title'
 import { cn } from '@/lib/utils'
 import { urlFor } from '@/sanity/lib/image'
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString } from '@/lib/locale-utils'
 
 const categories: Array<Aircraft['category'] | 'all'> = [
   'all',
@@ -17,15 +19,22 @@ const categories: Array<Aircraft['category'] | 'all'> = [
   'ultra-long-range',
 ]
 
-const categoryLabelMap: Record<Aircraft['category'] | 'all', string> = {
-  all: 'Todos',
-  ...categoryLabels,
-}
+const getCategoryLabelMap = (t: any) => ({
+  all: t('fleet.all'),
+  light: t('fleet.light'),
+  midsize: t('fleet.midsize'),
+  'super-midsize': t('fleet.super_midsize'),
+  heavy: t('fleet.heavy'),
+  'ultra-long-range': t('fleet.ultra_long_range'),
+})
 
 export function FleetGallery({ initialData }: { initialData?: any[] }) {
+  const { language, t } = useLanguage()
   const [activeCategory, setActiveCategory] = useState<Aircraft['category'] | 'all'>('all')
 
-  const processedData: Aircraft[] = initialData && initialData.length > 0 
+  const categoryLabelMap = getCategoryLabelMap(t)
+
+  const processedData: any[] = initialData && initialData.length > 0 
     ? initialData.map(a => ({
         id: a._id,
         slug: a.slug,
@@ -36,8 +45,8 @@ export function FleetGallery({ initialData }: { initialData?: any[] }) {
         description: a.description,
         specs: a.specs,
         features: a.features,
-        image: a.image ? urlFor(a.image).url() : "/images/aircraft/placeholder.jpg",
-        interiorImage: a.interiorImage ? urlFor(a.interiorImage).url() : "/images/aircraft/placeholder-interior.jpg",
+        image: a.image ? (typeof a.image === 'string' ? a.image : urlFor(a.image).url()) : "/images/aircraft/placeholder.jpg",
+        interiorImage: a.interiorImage ? (typeof a.interiorImage === 'string' ? a.interiorImage : urlFor(a.interiorImage).url()) : "/images/aircraft/placeholder-interior.jpg",
       }))
     : aircraftData
 
@@ -51,9 +60,9 @@ export function FleetGallery({ initialData }: { initialData?: any[] }) {
       <div className="container mx-auto px-4 lg:px-8">
         {/* Header */}
         <SectionTitle
-          subtitle="Nuestra Flota"
-          title="Aeronaves de Clase Mundial"
-          description="Cada aeronave de nuestra flota ha sido seleccionada por su excelencia en rendimiento, confort y seguridad. Descubra la perfección en aviación privada."
+          subtitle={t('fleet.subtitle')}
+          title={t('fleet.title')}
+          description={t('fleet.description')}
           theme="light"
         />
 
@@ -75,7 +84,7 @@ export function FleetGallery({ initialData }: { initialData?: any[] }) {
                   : 'bg-burgundy/5 text-burgundy/70 hover:text-burgundy hover:bg-burgundy/10 border border-burgundy/10'
               )}
             >
-              {categoryLabelMap[category]}
+              {(categoryLabelMap as any)[category]}
             </button>
           ))}
         </motion.div>
@@ -95,7 +104,7 @@ export function FleetGallery({ initialData }: { initialData?: any[] }) {
             className="text-center py-20"
           >
             <p className="text-background/60 font-medium">
-              No hay aeronaves disponibles en esta categoría.
+              {t('fleet.empty')}
             </p>
           </motion.div>
         )}

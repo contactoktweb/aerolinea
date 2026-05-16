@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import { Aircraft, categoryLabels } from '@/lib/aircraft-data'
 import { GoldButton } from '@/components/ui/gold-button'
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString } from '@/lib/locale-utils'
 
 interface AircraftCardProps {
   aircraft: Aircraft
@@ -13,6 +15,15 @@ interface AircraftCardProps {
 }
 
 export function AircraftCard({ aircraft, index }: AircraftCardProps) {
+  const { language, t } = useLanguage()
+
+  const categoryLabelMap = {
+    light: t('fleet.light'),
+    midsize: t('fleet.midsize'),
+    'super-midsize': t('fleet.super_midsize'),
+    heavy: t('fleet.heavy'),
+    'ultra-long-range': t('fleet.ultra_long_range'),
+  }
   return (
     <motion.article
       initial={{ opacity: 0, y: 50, rotateX: 10 }}
@@ -37,7 +48,7 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
             {/* Category Badge */}
             <div className="absolute top-4 left-4">
               <span className="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-champagne text-background shadow-lg">
-                {categoryLabels[aircraft.category]}
+                {(categoryLabelMap as any)[aircraft.category] || categoryLabels[aircraft.category]}
               </span>
             </div>
 
@@ -54,10 +65,10 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
             {/* Title */}
             <div className="mb-4">
               <h3 className="font-serif text-2xl text-champagne group-hover:text-champagne/80 transition-colors">
-                {aircraft.name}
+                {getLocaleString(aircraft.name, language)}
               </h3>
               <p className="text-sm text-burgundy/60 font-medium mt-1">
-                {aircraft.tagline}
+                {getLocaleString(aircraft.tagline, language)}
               </p>
             </div>
 
@@ -68,28 +79,28 @@ export function AircraftCard({ aircraft, index }: AircraftCardProps) {
                   <Icon icon="ph:users-light" className="w-4 h-4 text-burgundy" />
                 </div>
                 <p className="font-mono text-lg text-burgundy">{aircraft.specs.passengers}</p>
-                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">Pasajeros</p>
+                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">{t('fleet.specs.passengers')}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-burgundy/5 flex items-center justify-center">
                   <Icon icon="ph:navigation-arrow-light" className="w-4 h-4 text-burgundy" />
                 </div>
                 <p className="font-mono text-lg text-burgundy">{aircraft.specs.range}</p>
-                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">Alcance</p>
+                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">{t('fleet.specs.range')}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-burgundy/5 flex items-center justify-center">
                   <Icon icon="ph:gauge-light" className="w-4 h-4 text-burgundy" />
                 </div>
                 <p className="font-mono text-lg text-burgundy">{aircraft.specs.speed}</p>
-                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">Velocidad</p>
+                <p className="text-xs text-burgundy/50 font-bold uppercase tracking-wider">{t('fleet.specs.speed')}</p>
               </div>
             </div>
 
             {/* CTA */}
             <div className="flex items-center justify-between pt-4 border-t border-burgundy/10">
               <span className="text-sm text-burgundy/50 font-medium">
-                Ver especificaciones completas
+                {t('fleet.view_specs')}
               </span>
               <div className="w-10 h-10 rounded-full bg-burgundy/5 flex items-center justify-center group-hover:bg-burgundy transition-colors">
                 <Icon icon="ph:arrow-right-light" className="w-4 h-4 text-burgundy group-hover:text-white transition-colors" />

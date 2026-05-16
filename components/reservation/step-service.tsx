@@ -6,6 +6,7 @@ import { ReservationData } from './reservation-form'
 import { GoldButton } from '@/components/ui/gold-button'
 import { GlassCard } from '@/components/ui/glass-card'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/context/language-context'
 
 interface StepServiceProps {
   data: ReservationData
@@ -14,47 +15,59 @@ interface StepServiceProps {
   onBack: () => void
 }
 
-const services = [
+const getServices = (t: any) => [
   {
     id: 'private',
     icon: 'ph:airplane-light',
-    title: 'Vuelo Privado',
-    description:
-      'Vuelo ejecutivo con total privacidad y flexibilidad. Ideal para viajes de negocios o placer.',
-    features: ['Máxima privacidad', 'Horarios flexibles', 'Servicio personalizado'],
+    title: t('booking.steps.service.types.private.title'),
+    description: t('booking.steps.service.types.private.desc'),
+    features: [
+      t('booking.steps.service.types.private.features.1'),
+      t('booking.steps.service.types.private.features.2'),
+      t('booking.steps.service.types.private.features.3'),
+    ],
   },
   {
     id: 'charter',
     icon: 'ph:clock-light',
-    title: 'Vuelo Chárter',
-    description:
-      'Disponibilidad inmediata 24/7 para vuelos bajo demanda. Perfectos para viajes de última hora.',
-    features: ['Disponible 24/7', 'Respuesta rápida', 'Sin reserva previa'],
+    title: t('booking.steps.service.types.charter.title'),
+    description: t('booking.steps.service.types.charter.desc'),
+    features: [
+      t('booking.steps.service.types.charter.features.1'),
+      t('booking.steps.service.types.charter.features.2'),
+      t('booking.steps.service.types.charter.features.3'),
+    ],
   },
   {
     id: 'ambulance',
     icon: 'ph:heart-light',
-    title: 'Ambulancia Aérea',
-    description:
-      'Traslados médicos de emergencia con equipamiento especializado y personal médico certificado.',
-    features: ['Equipo médico a bordo', 'Personal certificado', 'Respuesta urgente'],
+    title: t('booking.steps.service.types.ambulance.title'),
+    description: t('booking.steps.service.types.ambulance.desc'),
+    features: [
+      t('booking.steps.service.types.ambulance.features.1'),
+      t('booking.steps.service.types.ambulance.features.2'),
+      t('booking.steps.service.types.ambulance.features.3'),
+    ],
   },
   {
     id: 'cargo',
     icon: 'ph:package-light',
-    title: 'Carga Aérea',
-    description:
-      'Transporte de carga sensible y valiosa con máxima seguridad y seguimiento en tiempo real.',
-    features: ['Alta seguridad', 'Seguimiento GPS', 'Entrega garantizada'],
+    title: t('booking.steps.service.types.cargo.title'),
+    description: t('booking.steps.service.types.cargo.desc'),
+    features: [
+      t('booking.steps.service.types.cargo.features.1'),
+      t('booking.steps.service.types.cargo.features.2'),
+      t('booking.steps.service.types.cargo.features.3'),
+    ],
   },
 ]
 
-const aircraftOptions = [
-  { id: 'any', name: 'Sin preferencia', description: 'Le recomendaremos el mejor' },
-  { id: 'light', name: 'Jet Ligero', description: 'Phenom 300E, Learjet 75' },
-  { id: 'midsize', name: 'Jet Mediano', description: 'Hawker 800XP' },
-  { id: 'super-midsize', name: 'Jet Super Mediano', description: 'Citation X, Challenger 350' },
-  { id: 'ultra-long-range', name: 'Ultra Largo Alcance', description: 'G650, Falcon 8X' },
+const getAircraftOptions = (t: any) => [
+  { id: 'any', name: t('booking.steps.service.aircraft.any.name'), description: t('booking.steps.service.aircraft.any.desc') },
+  { id: 'light', name: t('booking.steps.service.aircraft.light.name'), description: 'Phenom 300E, Learjet 75' },
+  { id: 'midsize', name: t('booking.steps.service.aircraft.midsize.name'), description: 'Hawker 800XP' },
+  { id: 'super-midsize', name: t('booking.steps.service.aircraft.super_midsize.name'), description: 'Citation X, Challenger 350' },
+  { id: 'ultra-long-range', name: t('booking.steps.service.aircraft.ultra_long_range.name'), description: 'G650, Falcon 8X' },
 ]
 
 export function StepService({
@@ -63,20 +76,24 @@ export function StepService({
   onNext,
   onBack,
 }: StepServiceProps) {
+  const { language, t } = useLanguage()
   const isValid = data.serviceType && data.aircraftPreference
+
+  const services = getServices(t)
+  const aircraftOptions = getAircraftOptions(t)
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
         <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
-          Paso 4 de 5
+          {t('booking.step')} 4 {t('booking.of')} 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
-          Tipo de Servicio
+          {t('booking.steps.service.title')}
         </h1>
         <p className="text-burgundy font-medium max-w-lg mx-auto">
-          Seleccione el tipo de servicio que mejor se adapte a sus necesidades.
+          {t('booking.steps.service.sub')}
         </p>
       </div>
 
@@ -162,7 +179,7 @@ export function StepService({
       {/* Aircraft Preference */}
       <GlassCard variant="light" hover={false} className="p-6">
         <h3 className="font-serif text-xl text-champagne mb-4">
-          Preferencia de Aeronave
+          {t('booking.steps.service.aircraft_label')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {aircraftOptions.map((option) => (
@@ -206,10 +223,10 @@ export function StepService({
       {/* Navigation */}
       <div className="flex justify-between">
         <GoldButton onClick={onBack} variant="outline" size="lg">
-          Atrás
+          {t('booking.back')}
         </GoldButton>
         <GoldButton onClick={onNext} disabled={!isValid} size="lg">
-          Continuar
+          {t('booking.continue')}
         </GoldButton>
       </div>
     </div>

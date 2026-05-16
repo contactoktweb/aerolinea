@@ -6,21 +6,22 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import { GlassCard } from '@/components/ui/glass-card'
 import { fadeInUp } from '@/lib/animations'
-
-interface Article {
-  title: string
-  category: string
-  date: string
-  readTime: string
-  image: string
-  content: string
-}
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString, getLocaleArray } from '@/lib/locale-utils'
+import { PortableText } from '@portabletext/react'
+import { urlFor } from '@/sanity/lib/image'
 
 interface BlogDetailProps {
-  article: Article
+  article: any
 }
 
 export function BlogDetail({ article }: BlogDetailProps) {
+  const { language, t } = useLanguage()
+
+  const title = getLocaleString(article.title, language)
+  const excerpt = getLocaleString(article.excerpt, language)
+  const body = getLocaleArray(article.body, language)
+
   return (
     <article className="pt-32 pb-24 lg:pb-32 bg-burgundy-black min-h-screen">
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
@@ -35,7 +36,7 @@ export function BlogDetail({ article }: BlogDetailProps) {
             className="inline-flex items-center gap-2 text-pearl/50 hover:text-champagne transition-colors group"
           >
             <Icon icon="ph:arrow-left-light" className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-medium tracking-wide">Volver al Blog</span>
+            <span className="text-sm font-medium tracking-wide">{t('blog.back')}</span>
           </Link>
         </motion.div>
 
@@ -51,7 +52,7 @@ export function BlogDetail({ article }: BlogDetailProps) {
               {article.category}
             </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-pearl leading-tight">
-              {article.title}
+              {title}
             </h1>
             <div className="flex items-center gap-8 text-pearl/40 border-t border-pearl/10 pt-6">
               <div className="flex items-center gap-2">
@@ -60,7 +61,7 @@ export function BlogDetail({ article }: BlogDetailProps) {
               </div>
               <div className="flex items-center gap-2">
                 <Icon icon="ph:clock-light" className="w-5 h-5 text-champagne" />
-                <span className="text-sm">Lectura de {article.readTime}</span>
+                <span className="text-sm">{t('blog.read_prefix')} {article.readTime}</span>
               </div>
             </div>
           </motion.div>
@@ -74,8 +75,8 @@ export function BlogDetail({ article }: BlogDetailProps) {
           className="relative aspect-[21/9] rounded-2xl overflow-hidden mb-16 shadow-2xl"
         >
           <Image
-            src={article.image}
-            alt={article.title}
+            src={article.image ? urlFor(article.image).url() : '/images/placeholder.jpg'}
+            alt={title}
             fill
             className="object-cover"
             priority
@@ -99,8 +100,13 @@ export function BlogDetail({ article }: BlogDetailProps) {
                 prose-blockquote:border-champagne prose-blockquote:bg-champagne/5 prose-blockquote:p-8 prose-blockquote:rounded-r-xl prose-blockquote:italic
                 prose-strong:text-champagne
                 "
-              dangerouslySetInnerHTML={{ __html: article.content }}
-            />
+            >
+              {body && body.length > 0 ? (
+                <PortableText value={body} />
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: article.content }} />
+              )}
+            </div>
           </motion.div>
 
           {/* Sidebar / Recommendations */}

@@ -9,7 +9,8 @@ import { Aircraft, categoryLabels } from '@/lib/aircraft-data'
 import { GoldButton } from '@/components/ui/gold-button'
 import { GlassCard } from '@/components/ui/glass-card'
 import { fadeInUp, staggerContainer, slideInFromLeft, slideInFromRight } from '@/lib/animations'
-
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString, getLocaleArray } from '@/lib/locale-utils'
 import { urlFor } from '@/sanity/lib/image'
 
 interface AircraftDetailProps {
@@ -24,16 +25,27 @@ const specIcons = {
   baggage: 'ph:briefcase-light',
 }
 
-const specLabels: Record<string, string> = {
-  passengers: 'Pasajeros',
-  range: 'Alcance',
-  speed: 'Velocidad Máx.',
-  altitude: 'Altitud Máx.',
-  baggage: 'Equipaje',
-}
+const getSpecLabels = (t: any) => ({
+  passengers: t('fleet.specs.passengers'),
+  range: t('fleet.specs.range'),
+  speed: t('fleet.specs.speed'),
+  altitude: t('fleet.specs.altitude'),
+  baggage: t('fleet.specs.baggage'),
+})
 
 export function AircraftDetail({ aircraft }: AircraftDetailProps) {
+  const { language, t } = useLanguage()
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  const specLabels = getSpecLabels(t)
+
+  const categoryLabelMap = {
+    light: t('fleet.light'),
+    midsize: t('fleet.midsize'),
+    'super-midsize': t('fleet.super_midsize'),
+    heavy: t('fleet.heavy'),
+    'ultra-long-range': t('fleet.ultra_long_range'),
+  }
 
   const openLightbox = useCallback((url: string) => {
     setSelectedImage(url)
@@ -72,7 +84,7 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
               className="inline-flex items-center gap-2 text-pearl/80 hover:text-champagne transition-colors"
             >
               <Icon icon="ph:arrow-left-light" className="w-4 h-4" />
-              <span className="text-sm">Volver a la Flota</span>
+              <span className="text-sm">{t('fleet.back_link')}</span>
             </Link>
           </div>
         </div>
@@ -89,19 +101,19 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
                 variants={fadeInUp}
                 className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-champagne/90 text-background mb-4"
               >
-                {categoryLabels[aircraft.category]}
+                {(categoryLabelMap as any)[aircraft.category] || categoryLabels[aircraft.category]}
               </motion.span>
               <motion.h1
                 variants={fadeInUp}
                 className="font-serif text-4xl md:text-5xl lg:text-6xl text-pearl mb-4"
               >
-                {aircraft.name}
+                {getLocaleString(aircraft.name, language)}
               </motion.h1>
               <motion.p
                 variants={fadeInUp}
                 className="text-xl text-champagne font-light"
               >
-                {aircraft.tagline}
+                {getLocaleString(aircraft.tagline, language)}
               </motion.p>
             </motion.div>
           </div>
@@ -126,9 +138,9 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
                     <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-champagne/10 flex items-center justify-center">
                       <Icon icon={iconName} className="w-5 h-5 text-champagne" />
                     </div>
-                    <p className="font-mono text-2xl text-pearl mb-1">{value}</p>
+                    <p className="font-mono text-2xl text-pearl mb-1">{value as any}</p>
                     <p className="text-sm text-muted-foreground">
-                      {specLabels[key]}
+                      {(specLabels as any)[key]}
                     </p>
                   </GlassCard>
                 </motion.div>
@@ -149,16 +161,16 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
               variants={slideInFromLeft}
             >
               <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4 block">
-                Acerca de
+                {t('fleet.about_label')}
               </span>
               <h2 className="font-serif text-3xl lg:text-4xl text-pearl mb-6">
-                Excelencia en Cada Detalle
+                {t('fleet.about_title')}
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                {aircraft.description}
+                {getLocaleString(aircraft.description, language)}
               </p>
               <GoldButton href="/reserva" size="lg">
-                Reservar Este Jet
+                {t('fleet.book_now')}
               </GoldButton>
             </motion.div>
 
@@ -191,10 +203,10 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
             className="text-center mb-12"
           >
             <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4 block">
-              Características
+              {t('fleet.features_label')}
             </span>
             <h2 className="font-serif text-3xl lg:text-4xl text-pearl">
-              Equipamiento Premium
+              {t('fleet.features_title')}
             </h2>
           </motion.div>
 
@@ -205,8 +217,8 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
             variants={staggerContainer}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {aircraft.features.map((feature, index) => (
-              <motion.div key={feature} variants={fadeInUp}>
+            {getLocaleArray(aircraft.features, language).map((feature, index) => (
+              <motion.div key={index} variants={fadeInUp}>
                 <GlassCard hover={false} className="flex items-start gap-4">
                   <div className="w-8 h-8 rounded-lg bg-champagne/10 flex items-center justify-center shrink-0">
                     <Icon icon="ph:check-light" className="w-4 h-4 text-champagne" />
@@ -231,10 +243,10 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
               className="text-center mb-12"
             >
               <span className="text-champagne text-sm font-medium tracking-[0.2em] uppercase mb-4 block">
-                Galería
+                {t('fleet.gallery_label')}
               </span>
               <h2 className="font-serif text-3xl lg:text-4xl text-pearl">
-                Detalles de la Aeronave
+                {t('fleet.gallery_title')}
               </h2>
             </motion.div>
 
@@ -252,12 +264,12 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
                   className="relative aspect-[4/3] rounded-2xl overflow-hidden group cursor-pointer"
                   onClick={() => openLightbox(urlFor(img).url())}
                 >
-                  <Image
-                    src={urlFor(img).url()}
-                    alt={img.alt || `Imagen ${index + 1} de ${aircraft.name}`}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                    <Image
+                      src={urlFor(img).url()}
+                      alt={img.alt || `${t('fleet.gallery_alt_prefix')} ${index + 1} ${t('fleet.gallery_alt_of')} ${getLocaleString(aircraft.name, language)}`}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                   <div className="absolute inset-0 bg-background/20 group-hover:bg-transparent transition-colors duration-500" />
                 </motion.div>
               ))}
@@ -277,18 +289,17 @@ export function AircraftDetail({ aircraft }: AircraftDetailProps) {
             className="text-center"
           >
             <h2 className="font-serif text-3xl lg:text-4xl text-pearl mb-6">
-              ¿Listo para Volar?
+              {t('fleet.cta_title')}
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-              Contáctenos para reservar el {aircraft.name} o solicitar una
-              cotización personalizada para su próximo viaje.
+              {t('fleet.cta_desc_prefix')} {getLocaleString(aircraft.name, language)} {t('fleet.cta_desc_suffix')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <GoldButton href="/reserva" size="lg">
-                Solicitar Reserva
+                {t('fleet.cta_book')}
               </GoldButton>
               <GoldButton href="/flota" variant="outline" size="lg">
-                Ver Más Aeronaves
+                {t('fleet.cta_more')}
               </GoldButton>
             </div>
           </motion.div>

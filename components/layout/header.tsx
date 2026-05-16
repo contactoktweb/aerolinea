@@ -10,18 +10,22 @@ import { cn } from '@/lib/utils'
 import { LanguageSelector } from './language-selector'
 import { urlFor } from '@/sanity/lib/image'
 
-const navLinks = [
-  { href: '/', label: 'Inicio' },
-  { href: '/nosotros', label: 'Nosotros' },
-  { href: '/flota', label: 'Flota' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/reserva', label: 'Reserva' },
+import { useLanguage } from '@/context/language-context'
+
+const getNavLinks = (t: any) => [
+  { href: '/', label: t('nav.home') },
+  { href: '/nosotros', label: t('nav.about') },
+  { href: '/flota', label: t('nav.fleet') },
+  { href: '/blog', label: t('nav.blog') },
+  { href: '/reserva', label: t('nav.reserve') },
 ]
 
 export function Header({ settings }: { settings?: any }) {
+  const { t } = useLanguage()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const navLinks = getNavLinks(t)
   const isAdmin = pathname?.startsWith('/admin')
 
   useEffect(() => {
@@ -90,7 +94,9 @@ export function Header({ settings }: { settings?: any }) {
 
             {/* Right Section */}
             <div className="flex items-center gap-6">
-              <LanguageSelector />
+              <div className="hidden sm:block">
+                <LanguageSelector />
+              </div>
 
               {/* Mobile Menu Toggle */}
               <button
@@ -152,6 +158,19 @@ export function Header({ settings }: { settings?: any }) {
                 ))}
               </div>
 
+              {/* Mobile Language Selector */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="mt-8"
+              >
+                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-3">
+                  Idioma / Language
+                </p>
+                <LanguageSelector />
+              </motion.div>
+
               {/* Mobile CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -159,12 +178,12 @@ export function Header({ settings }: { settings?: any }) {
                 transition={{ delay: 0.5 }}
                 className="mt-12"
               >
-                <Link
-                  href="/reserva"
-                  className="block w-full py-4 text-center bg-champagne text-background font-medium rounded-lg hover:bg-champagne-light transition-colors"
-                >
-                  Reservar Ahora
-                </Link>
+                  <Link
+                    href="/reserva"
+                    className="block w-full py-4 text-center bg-champagne text-background font-medium rounded-lg hover:bg-champagne-light transition-colors"
+                  >
+                    {t('hero.cta')}
+                  </Link>
               </motion.div>
 
               {/* Contact Info */}

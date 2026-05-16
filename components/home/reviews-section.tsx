@@ -1,16 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { SectionTitle } from '@/components/ui/section-title'
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString } from '@/lib/utils/locale'
 
 interface Review {
-  id: number
+  id: string | number
   name: string
-  role: string
+  role: any // Localized string object or string
   rating: number
-  comment: string
+  comment: any // Localized string object or string
   date: string
   avatar: string
 }
@@ -19,32 +21,36 @@ const initialReviews: Review[] = [
   {
     id: 1,
     name: 'Carlos Mendoza',
-    role: 'CEO, TechCorp Latam',
+    role: {
+      es: 'CEO, TechCorp Latam',
+      en: 'CEO, TechCorp Latam',
+      fr: 'PDG, TechCorp Latam'
+    },
     rating: 5,
-    comment:
-      'Una experiencia absolutamente excepcional. El nivel de detalle y atención al cliente superó todas mis expectativas. Sin duda, la mejor aerolínea privada con la que he volado.',
+    comment: {
+      es: 'Una experiencia absolutamente excepcional. El nivel de detalle y atención al cliente superó todas mis expectativas. Sin duda, la mejor aerolínea privada con la que he volado.',
+      en: 'An absolutely exceptional experience. The level of detail and customer service exceeded all my expectations. Undoubtedly the best private airline I have flown with.',
+      fr: 'Une expérience absolument exceptionnelle. Le niveau de détail et le service client ont dépassé toutes mes attentes. Sans aucun doute la meilleure compagnie aérienne privée avec laquelle j\'ai voyagé.'
+    },
     date: 'Marzo 2025',
     avatar: 'CM',
   },
   {
     id: 2,
     name: 'Valentina Ríos',
-    role: 'Directora de Operaciones',
+    role: {
+      es: 'Directora de Operaciones',
+      en: 'Operations Director',
+      fr: 'Directrice des Opérations'
+    },
     rating: 5,
-    comment:
-      'Puntualidad impecable y un servicio de primer nivel. El vuelo fue completamente silencioso y el personal a bordo anticipó cada necesidad. Recomiendo totalmente.',
+    comment: {
+      es: 'Puntualidad impecable y un servicio de primer nivel. El vuelo fue completamente silencioso y el personal a bordo anticipó cada necesidad. Recomiendo totalmente.',
+      en: 'Impeccable punctuality and first-class service. The flight was completely quiet and the on-board staff anticipated every need. Totally recommend.',
+      fr: 'Une ponctualité impeccable et un service de premier ordre. Le vol était totalement calme et le personnel de bord a anticipé chaque besoin. Je recommande totalmente.'
+    },
     date: 'Febrero 2025',
     avatar: 'VR',
-  },
-  {
-    id: 3,
-    name: 'Andrés Castellanos',
-    role: 'Empresario',
-    rating: 4,
-    comment:
-      'Muy buena experiencia general. El proceso de reserva fue ágil y la aeronave estaba en perfectas condiciones. Volveré a utilizar sus servicios sin dudarlo.',
-    date: 'Enero 2025',
-    avatar: 'AC',
   },
 ]
 
@@ -83,13 +89,15 @@ function StarRating({
 }
 
 export function ReviewsSection({ data }: { data?: any[] }) {
+  const { language, t } = useLanguage()
+  
   const sanityReviews: Review[] = data ? data.map(r => ({
     id: r._id,
     name: r.name,
     role: r.role,
     rating: r.rating,
     comment: r.content,
-    date: 'Reciente',
+    date: t('reviews.recent'),
     avatar: r.name.slice(0, 2).toUpperCase()
   })) : []
 
@@ -101,9 +109,9 @@ export function ReviewsSection({ data }: { data?: any[] }) {
 
   const validate = () => {
     const e: Record<string, string> = {}
-    if (!form.name.trim()) e.name = 'El nombre es requerido'
-    if (form.rating === 0) e.rating = 'Selecciona una calificación'
-    if (!form.comment.trim()) e.comment = 'Escribe tu reseña'
+    if (!form.name.trim()) e.name = t('reviews.errors.name')
+    if (form.rating === 0) e.rating = t('reviews.errors.rating')
+    if (!form.comment.trim()) e.comment = t('reviews.errors.comment')
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -128,11 +136,11 @@ export function ReviewsSection({ data }: { data?: any[] }) {
       const newReview: Review = {
         id: Date.now(),
         name: form.name.trim(),
-        role: form.role.trim() || 'Pasajero Verificado',
+        role: form.role.trim() || t('reviews.verified'),
         rating: form.rating,
         comment: form.comment.trim(),
-        date: new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }),
-        avatar: form.name.trim().slice(0, 2).toUpperCase(),
+        date: new Date().toLocaleDateString(language === 'es' ? 'es-ES' : language === 'fr' ? 'fr-FR' : 'en-US', { month: 'long', year: 'numeric' }),
+        avatar: form.name.trim().slice(0, 2).toUpperCase() || 'AV',
       }
       
       setReviews((prev) => [newReview, ...prev])
@@ -143,7 +151,7 @@ export function ReviewsSection({ data }: { data?: any[] }) {
       setTimeout(() => setSubmitted(false), 4000)
     } catch (error) {
       console.error(error)
-      setErrors({ submit: 'Ocurrió un error al enviar tu reseña. Por favor intenta de nuevo.' })
+      setErrors({ submit: t('reviews.errors.submit') })
     } finally {
       setIsSubmitting(false)
     }
@@ -155,9 +163,9 @@ export function ReviewsSection({ data }: { data?: any[] }) {
     <section className="bg-white py-24 lg:py-32" aria-labelledby="reviews-heading">
       <div className="container mx-auto px-4 lg:px-8">
         <SectionTitle
-          tag="Testimonios"
-          title="Lo que dicen nuestros pasajeros"
-          description="Cada vuelo es una historia de excelencia. Descubra las experiencias de quienes han confiado en nosotros."
+          subtitle={t('reviews.subtitle')}
+          title={t('reviews.title')}
+          description={t('reviews.description')}
           centered
         />
 
@@ -175,17 +183,17 @@ export function ReviewsSection({ data }: { data?: any[] }) {
             <div className="flex justify-center mt-2 mb-1">
               <StarRating value={Math.round(avgRating)} readOnly />
             </div>
-            <p className="text-sm text-burgundy/60 font-medium">Calificación promedio</p>
+            <p className="text-sm text-burgundy/60 font-medium">{t('reviews.stats.avg')}</p>
           </div>
           <div className="hidden sm:block w-px h-16 bg-burgundy/10" />
           <div className="text-center">
             <p className="font-mono text-5xl font-bold text-champagne leading-none">{reviews.length}</p>
-            <p className="text-sm text-burgundy/60 font-medium mt-3">Reseñas verificadas</p>
+            <p className="text-sm text-burgundy/60 font-medium mt-3">{t('reviews.stats.total')}</p>
           </div>
           <div className="hidden sm:block w-px h-16 bg-burgundy/10" />
           <div className="text-center">
             <p className="font-mono text-5xl font-bold text-champagne leading-none">98%</p>
-            <p className="text-sm text-burgundy/60 font-medium mt-3">Pasajeros satisfechos</p>
+            <p className="text-sm text-burgundy/60 font-medium mt-3">{t('reviews.stats.satisfied')}</p>
           </div>
         </motion.div>
 
@@ -212,7 +220,7 @@ export function ReviewsSection({ data }: { data?: any[] }) {
 
                 {/* Comment */}
                 <blockquote className="text-burgundy/70 text-sm leading-relaxed flex-1 font-medium italic">
-                  &ldquo;{review.comment}&rdquo;
+                  &ldquo;{getLocaleString(review.comment, language)}&rdquo;
                 </blockquote>
 
                 {/* Author */}
@@ -222,7 +230,7 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                   </div>
                   <div>
                     <p className="font-serif text-champagne font-bold text-sm">{review.name}</p>
-                    <p className="text-xs text-burgundy/50 font-medium">{review.role}</p>
+                    <p className="text-xs text-burgundy/50 font-medium">{getLocaleString(review.role, language)}</p>
                   </div>
                 </div>
               </motion.article>
@@ -241,7 +249,7 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                 className="flex items-center gap-3 px-6 py-3 rounded-full bg-champagne/10 border border-champagne/30 text-champagne font-bold text-sm"
               >
                 <Icon icon="ph:check-circle-fill" className="w-5 h-5" />
-                ¡Gracias! Tu reseña fue publicada exitosamente.
+                ¡Gracias! {t('reviews.form.success')}
               </motion.div>
             )}
           </AnimatePresence>
@@ -253,7 +261,7 @@ export function ReviewsSection({ data }: { data?: any[] }) {
             className="flex items-center gap-3 bg-burgundy text-white px-10 py-4 rounded-none text-sm uppercase tracking-[0.2em] font-bold hover:bg-burgundy/90 transition-all duration-300 shadow-[0_8px_30px_rgba(74,14,14,0.25)]"
           >
             <Icon icon={showForm ? 'ph:x-light' : 'ph:pencil-simple-line-light'} className="w-5 h-5" />
-            {showForm ? 'Cancelar' : 'Dejar mi reseña'}
+            {showForm ? t('reviews.form.cancel') : t('reviews.form.trigger')}
           </motion.button>
         </div>
 
@@ -272,23 +280,23 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                 className="max-w-2xl mx-auto bg-white rounded-2xl p-8 lg:p-12 shadow-[0_20px_60px_rgba(74,14,14,0.1)] border border-burgundy/10"
                 aria-label="Formulario de reseña"
               >
-                <h3 className="font-serif text-2xl text-champagne mb-1">Tu experiencia importa</h3>
+                <h3 className="font-serif text-2xl text-champagne mb-1">{t('reviews.form.title')}</h3>
                 <p className="text-burgundy/60 text-sm font-medium mb-8">
-                  Comparte cómo fue tu vuelo con nosotros.
+                  {t('reviews.form.description')}
                 </p>
 
                 <div className="space-y-6">
                   {/* Nombre */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-burgundy/60 mb-2">
-                      Nombre completo *
+                      {t('reviews.form.labels.name')}
                     </label>
                     <input
                       type="text"
                       id="review-name"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Tu nombre"
+                      placeholder={t('reviews.form.placeholders.name')}
                       className="w-full px-4 py-3.5 rounded-xl bg-burgundy/5 border border-burgundy/10 text-burgundy placeholder:text-burgundy/30 focus:outline-none focus:ring-2 focus:ring-burgundy/30 transition"
                     />
                     {errors.name && (
@@ -299,14 +307,14 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                   {/* Cargo / Empresa */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-burgundy/60 mb-2">
-                      Cargo o empresa <span className="font-normal normal-case text-burgundy/40">(opcional)</span>
+                      {t('reviews.form.labels.role')}
                     </label>
                     <input
                       type="text"
                       id="review-role"
                       value={form.role}
                       onChange={(e) => setForm({ ...form, role: e.target.value })}
-                      placeholder="Ej. CEO, Empresario…"
+                      placeholder={t('reviews.form.placeholders.role')}
                       className="w-full px-4 py-3.5 rounded-xl bg-burgundy/5 border border-burgundy/10 text-burgundy placeholder:text-burgundy/30 focus:outline-none focus:ring-2 focus:ring-burgundy/30 transition"
                     />
                   </div>
@@ -314,7 +322,7 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                   {/* Calificación */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-burgundy/60 mb-3">
-                      Calificación *
+                      {t('reviews.form.labels.rating')}
                     </label>
                     <StarRating value={form.rating} onChange={(v) => setForm({ ...form, rating: v })} />
                     {errors.rating && (
@@ -325,13 +333,13 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                   {/* Comentario */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-burgundy/60 mb-2">
-                      Tu reseña *
+                      {t('reviews.form.labels.comment')}
                     </label>
                     <textarea
                       id="review-comment"
                       value={form.comment}
                       onChange={(e) => setForm({ ...form, comment: e.target.value })}
-                      placeholder="Cuéntanos sobre tu experiencia de vuelo…"
+                      placeholder={t('reviews.form.placeholders.comment')}
                       rows={4}
                       className="w-full px-4 py-3.5 rounded-xl bg-burgundy/5 border border-burgundy/10 text-burgundy placeholder:text-burgundy/30 focus:outline-none focus:ring-2 focus:ring-burgundy/30 transition resize-none"
                     />
@@ -344,16 +352,16 @@ export function ReviewsSection({ data }: { data?: any[] }) {
                     <p className="text-red-500 text-xs font-medium">{errors.submit}</p>
                   )}
 
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-3 bg-champagne text-background font-bold py-4 rounded-none uppercase tracking-[0.2em] text-sm hover:bg-champagne/90 transition-all duration-300 shadow-[0_8px_30px_rgba(212,196,131,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Icon icon={isSubmitting ? 'ph:circle-notch-bold' : 'ph:paper-plane-right-light'} className={`w-5 h-5 ${isSubmitting ? 'animate-spin' : ''}`} />
-                    {isSubmitting ? 'Enviando...' : 'Publicar reseña'}
-                  </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full flex items-center justify-center gap-3 bg-champagne text-background font-bold py-4 rounded-none uppercase tracking-[0.2em] text-sm hover:bg-champagne/90 transition-all duration-300 shadow-[0_8px_30px_rgba(212,196,131,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Icon icon={isSubmitting ? 'ph:circle-notch-bold' : 'ph:paper-plane-right-light'} className={`w-5 h-5 ${isSubmitting ? 'animate-spin' : ''}`} />
+                      {isSubmitting ? t('reviews.form.submitting') : t('reviews.form.submit')}
+                    </motion.button>
                 </div>
               </form>
             </motion.div>

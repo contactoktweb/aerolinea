@@ -1,5 +1,6 @@
 import { HomeIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { localizedString, localizedText } from '../lib/localeFields'
 
 export const homeType = defineType({
   name: 'home',
@@ -12,12 +13,7 @@ export const homeType = defineType({
       title: 'Sección Hero',
       type: 'object',
       fields: [
-        defineField({
-          name: 'description',
-          title: 'Descripción',
-          type: 'text',
-          rows: 3,
-        }),
+        localizedText('description', 'Descripción'),
         defineField({
           name: 'image',
           title: 'Imagen de Fondo',
@@ -29,7 +25,7 @@ export const homeType = defineType({
           title: 'Botón Primario',
           type: 'object',
           fields: [
-            { name: 'text', title: 'Texto', type: 'string' },
+            localizedString('text', 'Texto'),
             { name: 'link', title: 'Enlace', type: 'string' },
           ],
         }),
@@ -38,7 +34,7 @@ export const homeType = defineType({
           title: 'Botón Secundario',
           type: 'object',
           fields: [
-            { name: 'text', title: 'Texto', type: 'string' },
+            localizedString('text', 'Texto'),
             { name: 'link', title: 'Enlace', type: 'string' },
           ],
         }),
@@ -49,8 +45,8 @@ export const homeType = defineType({
       title: 'Nuestra Esencia',
       type: 'object',
       fields: [
-        defineField({ name: 'title', title: 'Título', type: 'string' }),
-        defineField({ name: 'description', title: 'Descripción', type: 'text', rows: 3 }),
+        localizedString('title', 'Título'),
+        localizedText('description', 'Descripción'),
       ],
     }),
     defineField({
@@ -58,8 +54,8 @@ export const homeType = defineType({
       title: 'Desde 2008',
       type: 'object',
       fields: [
-        defineField({ name: 'title', title: 'Título', type: 'string' }),
-        defineField({ name: 'description', title: 'Descripción', type: 'text', rows: 3 }),
+        localizedString('title', 'Título'),
+        localizedText('description', 'Descripción'),
       ],
     }),
   ],

@@ -1,5 +1,6 @@
 import { StarIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { localizedString, localizedText } from '../lib/localeFields'
 
 export const serviceType = defineType({
   name: 'service',
@@ -7,8 +8,8 @@ export const serviceType = defineType({
   type: 'document',
   icon: StarIcon,
   fields: [
-    defineField({ name: 'title', title: 'Título', type: 'string' }),
-    defineField({ name: 'description', title: 'Descripción', type: 'text', rows: 3 }),
+    localizedString('title', 'Título'),
+    localizedText('description', 'Descripción'),
     defineField({
       name: 'iconType',
       title: 'Icono',

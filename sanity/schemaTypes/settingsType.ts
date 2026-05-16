@@ -1,5 +1,6 @@
 import { CogIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { localizedString } from '../lib/localeFields'
 
 export const settingsType = defineType({
   name: 'settings',
@@ -7,11 +8,7 @@ export const settingsType = defineType({
   type: 'document',
   icon: CogIcon,
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Título del Sitio',
-      type: 'string',
-    }),
+    localizedString('title', 'Título del Sitio'),
     defineField({
       name: 'logo',
       title: 'Logo Principal',
@@ -53,11 +50,7 @@ export const settingsType = defineType({
       title: 'Teléfono de Contacto',
       type: 'string',
     }),
-    defineField({
-      name: 'address',
-      title: 'Dirección',
-      type: 'string',
-    }),
+    localizedString('address', 'Dirección'),
     defineField({
       name: 'notificationEmail',
       title: 'Email de Notificaciones',

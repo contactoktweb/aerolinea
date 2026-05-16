@@ -3,6 +3,7 @@ import { Cinzel, Montserrat } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
+import { LanguageProvider } from '@/context/language-context'
 import './globals.css'
 
 import { client } from '@/sanity/lib/client'
@@ -55,8 +56,11 @@ const SITE_KEYWORDS = [
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await client.fetch(SETTINGS_QUERY)
+  const siteTitleEs = settings?.title?.es || settings?.title || 'Aerolíneas Santander'
+  const siteTitleEn = settings?.title?.en || siteTitleEs
+  const siteTitleFr = settings?.title?.fr || siteTitleEs
 
-  const siteTitle = settings?.title || 'Aerolíneas Santander'
+  const siteTitle = siteTitleEs
   const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(512).height(512).url() : null
   const appleIconUrl = settings?.appleIcon
     ? urlFor(settings.appleIcon).width(180).height(180).url()
@@ -93,6 +97,8 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: BASE_URL,
       languages: {
         'es': BASE_URL,
+        'en': `${BASE_URL}?lang=en`,
+        'fr': `${BASE_URL}?lang=fr`,
         'es-PE': `${BASE_URL}`,
         'es-CO': `${BASE_URL}`,
         'es-MX': `${BASE_URL}`,
@@ -207,9 +213,11 @@ export default async function RootLayout({
         />
       </head>
       <body className="font-sans antialiased min-h-screen flex flex-col">
-        <Header settings={settings} />
-        <main className="flex-1">{children}</main>
-        <Footer settings={settings} />
+        <LanguageProvider>
+          <Header settings={settings} />
+          <main className="flex-1">{children}</main>
+          <Footer settings={settings} />
+        </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

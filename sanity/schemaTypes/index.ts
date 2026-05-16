@@ -7,6 +7,7 @@ import { testimonialType } from './testimonialType'
 import { clientLogoType } from './clientLogoType'
 import { quotationType } from './quotationType'
 import { aircraftType } from './aircraftType'
+import { postType } from './postType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -18,5 +19,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     clientLogoType,
     quotationType,
     aircraftType,
+    postType,
   ],
 }

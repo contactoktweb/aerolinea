@@ -1,8 +1,9 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { fadeInUp } from '@/lib/animations'
+import { useLanguage } from '@/context/language-context'
 
 // Mock client logos - representing luxury brands and corporations
 const clients = [
@@ -23,6 +24,7 @@ import { urlFor } from '@/sanity/lib/image'
 import Image from 'next/image'
 
 export function ClientsCarousel({ data }: { data?: any[] }) {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
   
   const displayClients = data && data.length > 0 ? data.map(c => ({
@@ -49,10 +51,10 @@ export function ClientsCarousel({ data }: { data?: any[] }) {
           className="text-center mb-12"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-champagne/5 text-champagne font-bold text-[10px] uppercase tracking-widest mb-4 border border-champagne/10">
-            Confían en Nosotros
+            {t('clients.badge')}
           </span>
           <h3 className="font-serif text-2xl lg:text-3xl text-champagne mt-3 font-bold">
-            Empresas Líderes de Latinoamérica
+            {t('clients.title')}
           </h3>
         </motion.div>
       </div>
@@ -97,10 +99,10 @@ export function ClientsCarousel({ data }: { data?: any[] }) {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { value: '500+', label: 'Clientes Corporativos' },
-            { value: '50+', label: 'Destinos Globales' },
-            { value: '99.9%', label: 'Puntualidad' },
-            { value: '24/7', label: 'Soporte Premium' },
+            { value: '500+', label: t('clients.stats.customers') },
+            { value: '50+', label: t('clients.stats.destinations') },
+            { value: '99.9%', label: t('clients.stats.punctuality') },
+            { value: '24/7', label: t('clients.stats.support') },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

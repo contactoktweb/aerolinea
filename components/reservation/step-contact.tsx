@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react'
 import { ReservationData } from './reservation-form'
 import { GoldButton } from '@/components/ui/gold-button'
 import { GlassCard } from '@/components/ui/glass-card'
+import { useLanguage } from '@/context/language-context'
 
 interface StepContactProps {
   data: ReservationData
@@ -21,6 +22,7 @@ export function StepContact({
   onBack,
   isSubmitting = false,
 }: StepContactProps) {
+  const { language, t } = useLanguage()
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const validateEmail = (email: string) => {
@@ -35,19 +37,19 @@ export function StepContact({
     const newErrors: Record<string, string> = {}
 
     if (!data.fullName.trim()) {
-      newErrors.fullName = 'El nombre es requerido'
+      newErrors.fullName = t('booking.steps.contact.errors.name_required')
     }
 
     if (!data.email.trim()) {
-      newErrors.email = 'El email es requerido'
+      newErrors.email = t('booking.steps.contact.errors.email_required')
     } else if (!validateEmail(data.email)) {
-      newErrors.email = 'Email inválido'
+      newErrors.email = t('booking.steps.contact.errors.email_invalid')
     }
 
     if (!data.phone.trim()) {
-      newErrors.phone = 'El teléfono es requerido'
+      newErrors.phone = t('booking.steps.contact.errors.phone_required')
     } else if (!validatePhone(data.phone)) {
-      newErrors.phone = 'Teléfono inválido'
+      newErrors.phone = t('booking.steps.contact.errors.phone_invalid')
     }
 
     setErrors(newErrors)
@@ -67,14 +69,13 @@ export function StepContact({
       {/* Header */}
       <div className="text-center">
         <span className="text-champagne text-sm font-bold tracking-[0.2em] uppercase">
-          Paso 5 de 5
+          {t('booking.step')} 5 {t('booking.of')} 5
         </span>
         <h1 className="font-serif text-3xl lg:text-4xl text-champagne mt-2 mb-4">
-          Información de Contacto
+          {t('booking.steps.contact.title')}
         </h1>
         <p className="text-burgundy font-medium max-w-lg mx-auto">
-          Complete sus datos para que nuestro equipo VIP pueda contactarle con
-          su cotización personalizada.
+          {t('booking.steps.contact.sub')}
         </p>
       </div>
 
@@ -84,7 +85,7 @@ export function StepContact({
           {/* Full Name */}
           <div>
             <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-              Nombre Completo *
+              {t('booking.steps.contact.labels.name')} *
             </label>
             <div className="relative">
               <Icon icon="ph:user-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
@@ -92,7 +93,7 @@ export function StepContact({
                 type="text"
                 value={data.fullName}
                 onChange={(e) => updateData({ fullName: e.target.value })}
-                placeholder="Ingrese su nombre completo"
+                placeholder={t('booking.steps.contact.placeholders.name')}
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
             </div>
@@ -105,7 +106,7 @@ export function StepContact({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-                Email *
+                {t('booking.steps.contact.labels.email')} *
               </label>
               <div className="relative">
                 <Icon icon="ph:envelope-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
@@ -124,7 +125,7 @@ export function StepContact({
 
             <div>
               <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-                Teléfono *
+                {t('booking.steps.contact.labels.phone')} *
               </label>
               <div className="relative">
                 <Icon icon="ph:phone-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
@@ -145,7 +146,7 @@ export function StepContact({
           {/* Company */}
           <div>
             <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-              Empresa (Opcional)
+              {t('booking.steps.contact.labels.company')}
             </label>
             <div className="relative">
               <Icon icon="ph:buildings-light" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-burgundy" />
@@ -153,7 +154,7 @@ export function StepContact({
                 type="text"
                 value={data.company}
                 onChange={(e) => updateData({ company: e.target.value })}
-                placeholder="Nombre de su empresa"
+                placeholder={t('booking.steps.contact.placeholders.company')}
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50"
               />
             </div>
@@ -162,14 +163,14 @@ export function StepContact({
           {/* Special Requests */}
           <div>
             <label className="block text-sm text-background/70 font-bold uppercase tracking-wider mb-2">
-              Solicitudes Especiales (Opcional)
+              {t('booking.steps.contact.labels.requests')}
             </label>
             <div className="relative">
               <Icon icon="ph:chat-teardrop-dots-light" className="absolute left-4 top-4 w-5 h-5 text-burgundy" />
               <textarea
                 value={data.specialRequests}
                 onChange={(e) => updateData({ specialRequests: e.target.value })}
-                placeholder="¿Tiene alguna solicitud especial? Catering, transporte terrestre, etc."
+                placeholder={t('booking.steps.contact.placeholders.requests')}
                 rows={4}
                 className="w-full pl-12 pr-4 py-4 rounded-xl bg-burgundy/5 border border-burgundy/10 text-background placeholder:text-background/40 focus:outline-none focus:ring-2 focus:ring-burgundy/50 resize-none"
               />
@@ -180,13 +181,13 @@ export function StepContact({
 
       {/* Privacy Notice */}
       <p className="text-sm text-background/50 font-medium text-center">
-        Al enviar este formulario, acepta nuestra{' '}
+        {t('booking.steps.contact.privacy.text')}{' '}
         <a href="#" className="text-burgundy hover:underline font-bold">
-          Política de Privacidad
+          {t('booking.steps.contact.privacy.link_1')}
         </a>{' '}
-        y{' '}
+        {t('booking.steps.contact.privacy.and')}{' '}
         <a href="#" className="text-burgundy hover:underline font-bold">
-          Términos de Servicio
+          {t('booking.steps.contact.privacy.link_2')}
         </a>
         .
       </p>
@@ -194,16 +195,16 @@ export function StepContact({
       {/* Navigation */}
       <div className="flex justify-between">
         <GoldButton onClick={onBack} variant="outline" size="lg" disabled={isSubmitting}>
-          Atrás
+          {t('booking.back')}
         </GoldButton>
         <GoldButton onClick={handleSubmit} disabled={!isValid || isSubmitting} size="lg">
           {isSubmitting ? (
             <>
               <Icon icon="ph:circle-notch-bold" className="w-5 h-5 animate-spin mr-2" />
-              Enviando...
+              {t('booking.steps.contact.submitting')}
             </>
           ) : (
-            'Enviar Solicitud'
+            t('booking.steps.contact.submit')
           )}
         </GoldButton>
       </div>

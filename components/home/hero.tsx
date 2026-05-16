@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { urlFor } from '@/sanity/lib/image'
+import { useLanguage } from '@/context/language-context'
+import { getLocaleString } from '@/lib/utils/locale'
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -21,8 +23,13 @@ const stagger = {
 }
 
 export function Hero({ data }: { data?: any }) {
-  const heroImage = data?.hero?.image 
-    ? urlFor(data.hero.image).url() 
+  const { language, t } = useLanguage()
+  const heroData = data?.hero
+  const essenceData = data?.essence
+  const historyData = data?.history
+
+  const heroImage = heroData?.image 
+    ? urlFor(heroData.image).url() 
     : "/images/aircraft/gulfstream-g650.jpg"
 
   return (
@@ -60,7 +67,7 @@ export function Hero({ data }: { data?: any }) {
               <div className="relative w-full h-full overflow-hidden">
                 <Image
                   src={heroImage}
-                  alt={data?.hero?.description || "Gulfstream G650 en vuelo"}
+                  alt={getLocaleString(heroData?.description, language) || "Gulfstream G650 en vuelo"}
                   fill
                   className="object-cover"
                   priority
@@ -79,8 +86,8 @@ export function Hero({ data }: { data?: any }) {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="hidden lg:block absolute bottom-20 xl:bottom-28 left-0 -translate-x-1/2 bg-white/90 backdrop-blur-sm border border-burgundy/10 px-6 py-4 shadow-xl"
           >
-            <div className="text-[10px] text-burgundy/40 uppercase tracking-[0.3em] mb-1">Privacidad</div>
-            <div className="text-champagne font-serif text-lg">Absoluta</div>
+            <div className="text-[10px] text-burgundy/40 uppercase tracking-[0.3em] mb-1">{t('hero.privacy')}</div>
+            <div className="text-champagne font-serif text-lg">{t('hero.absolute')}</div>
           </motion.div>
         </motion.div>
 
@@ -96,23 +103,23 @@ export function Hero({ data }: { data?: any }) {
             variants={slideUp}
             className="text-burgundy/80 text-lg md:text-xl max-w-lg leading-relaxed font-light mb-12 italic"
           >
-            "{data?.hero?.description || "Elevando la experiencia de vuelo a través del diseño y la distinción."}"
+            "{getLocaleString(heroData?.description, language) || "Elevando la experiencia de vuelo a través del diseño y la distinción."}"
           </motion.p>
 
           {/* CTAs */}
           <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-6">
             <Link
-              href={data?.hero?.ctaPrimary?.link || "/reserva"}
+              href={heroData?.ctaPrimary?.link || "/reserva"}
               className="group relative inline-flex items-center justify-center gap-3 bg-burgundy text-white px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium transition-all duration-500 hover:shadow-[0_0_30px_rgba(74,14,14,0.3)] hover:-translate-y-1"
             >
-              <span>{data?.hero?.ctaPrimary?.text || "Solicitar Vuelo"}</span>
+              <span>{getLocaleString(heroData?.ctaPrimary?.text, language) || t('hero.cta')}</span>
               <Icon icon="ph:arrow-right-light" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href={data?.hero?.ctaSecondary?.link || "/flota"}
+              href={heroData?.ctaSecondary?.link || "/flota"}
               className="group inline-flex items-center justify-center gap-3 border border-burgundy/20 text-burgundy px-10 py-4 text-sm uppercase tracking-[0.2em] font-medium hover:bg-burgundy/5 transition-all duration-300"
             >
-              <span>{data?.hero?.ctaSecondary?.text || "Nuestra Flota"}</span>
+              <span>{getLocaleString(heroData?.ctaSecondary?.text, language) || t('nav.fleet')}</span>
             </Link>
           </motion.div>
 
@@ -128,10 +135,10 @@ export function Hero({ data }: { data?: any }) {
                 </div>
                 <div>
                   <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">
-                    {data?.essence?.title || "Nuestra Esencia"}
+                    {getLocaleString(essenceData?.title, language) || "Nuestra Esencia"}
                   </h3>
                   <p className="text-background/80 text-sm leading-relaxed font-medium">
-                    {data?.essence?.description || "Elevamos el estándar de la aviación privada mediante exclusividad, seguridad y eficiencia absoluta en cada misión."}
+                    {getLocaleString(essenceData?.description, language) || "Elevamos el estándar de la aviación privada mediante exclusividad, seguridad y eficiencia absoluta en cada misión."}
                   </p>
                 </div>
               </div>
@@ -141,10 +148,10 @@ export function Hero({ data }: { data?: any }) {
                 </div>
                 <div>
                   <h3 className="text-background font-serif text-2xl mb-4 tracking-wide font-bold">
-                    {data?.history?.title || "Desde 2008"}
+                    {getLocaleString(historyData?.title, language) || "Desde 2008"}
                   </h3>
                   <p className="text-background/80 text-sm leading-relaxed font-medium">
-                    {data?.history?.description || "Líderes en aviación ejecutiva con presencia global. Casi dos décadas operando bajo los más altos protocolos de seguridad."}
+                    {getLocaleString(historyData?.description, language) || "Líderes en aviación ejecutiva con presencia global. Casi dos décadas operando bajo los más altos protocolos de seguridad."}
                   </p>
                 </div>
               </div>
@@ -165,7 +172,7 @@ export function Hero({ data }: { data?: any }) {
           transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
           className="flex flex-col items-center gap-3"
         >
-          <span className="text-[10px] text-burgundy/30 uppercase tracking-[0.3em]">Scroll</span>
+          <span className="text-[10px] text-burgundy/30 uppercase tracking-[0.3em]">{t('hero.scroll')}</span>
           <div className="w-px h-12 bg-gradient-to-b from-burgundy/40 to-transparent" />
         </motion.div>
       </motion.div>
@@ -173,7 +180,7 @@ export function Hero({ data }: { data?: any }) {
       {/* Decorative side text */}
       <div className="hidden xl:block absolute right-8 top-1/2 -translate-y-1/2 -rotate-90 origin-center">
         <span className="text-[10px] text-burgundy/20 uppercase tracking-[0.5em]">
-          Aviacion Ejecutiva
+          {t('hero.side_text')}
         </span>
       </div>
     </section>
